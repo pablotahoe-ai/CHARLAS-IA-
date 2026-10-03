@@ -1,0 +1,2202 @@
+<!doctype html>
+<html lang="es" data-theme="night">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inteligencia artificial para la hotelería y la gastronomía — AEHG Mar del Plata</title>
+<!--
+  CHARLA IA · AEHG Mar del Plata — presentación por pantallas (glassmorphism).
+  Convención compartida (Claude + Codex):
+    · Portada (#hero): Codex. HTML intacto + hero-header.css / hero-header.js. No tocar desde otras secciones.
+    · Resto: <section id="..." class="screen" data-block="Bloque N" data-point="07 · Pregunta"> dentro de <main>.
+      Cada pantalla = 100svh con scroll-snap. Estructura: .wrap > header.hd (tag, h2, sub) + div.bd (contenido).
+    · Tema: <html data-theme="day|night">. Tokens --g-* en :root y en html[data-theme="day"]. Botón #themeBtn.
+    · Barra lateral #rail: lee data-block / data-point de cada sección. Contador #counter. Fondo #bgfx.
+    · Componentes: .g (panel vidrio) · .tile · .ls / .ls.no (listas) · .tbl · .note / .warn · .bx · .stat · .grid.c2/.c3/.c4/.c5
+    · Diagramas en HTML/CSS/SVG. Sin imágenes.
+    · Navegación: ← → / PageUp PageDown / Espacio / Home / End.
+  Orden: hero · tesis · argentina · presentacion · propuesta · equipo · programa ·
+    bloque-1 · q2 · q2b · q3 · bloque-2 · q4 · q4b · q4c · q5 · q6 · q6b ·
+    bloque-3 · q7 · q7b · q8 · q9 · q10 · q10b ·
+    bloque-4 · q11 · q12 · q12b · q13 · q13b · q14 · q14b · q14c · q15 · q15b · q15c · q16 · q17 ·
+    bloque-5 · q18 · q18b · q19 · q19b · q20 · q20b · q20c · taller-gastronomicos · taller-hoteleros · cierre
+-->
+<script>(function(){var t=null;try{t=localStorage.getItem('charla-theme')}catch(e){}if(t!=='day'&&t!=='night'){t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches)?'day':'night'}document.documentElement.setAttribute('data-theme',t)})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* =====================================================================
+     1) TOKENS
+     ===================================================================== */
+  :root{
+    /* portada (Codex) — no cambiar nombres ni valores */
+    --bg:#0a0f1e; --bg-2:#111a33; --ink:#f4f1ea; --muted:#9aa4b8;
+    --accent:#f2b24c; --accent-2:#7cc7ff;
+    --line:rgba(244,241,234,.14); --card:rgba(255,255,255,.04);
+    --font-display:"Fraunces",Georgia,"Times New Roman",serif;
+    --font-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --max:1240px; --pad:clamp(22px,4vw,56px);
+
+    /* glass · noche (por defecto) */
+    --g-bg0:#0b1020; --g-bg1:#171d30;
+    --g-blob1:rgba(72,98,160,.55); --g-blob2:rgba(10,14,28,.95); --g-blob3:rgba(130,160,220,.22);
+    --g-text:#eef1f7; --g-muted:#a4acbe; --g-dim:#6f7890;
+    --g-fill:rgba(255,255,255,.055); --g-fill2:rgba(255,255,255,.075); --g-stroke:rgba(255,255,255,.12); --g-hi:rgba(255,255,255,.16);
+    --g-accent:#86b7ff; --g-ink:#ffffff; --g-on-ink:#0b1020;
+    --g-ok:#7fd6ab; --g-no:#ff8f8f; --g-amber:#f3c67f;
+    --g-shadow:0 10px 28px rgba(0,0,0,.38), 0 2px 6px rgba(0,0,0,.25);
+    --g-mark:#cfd6e3; --g-mark-glow:rgba(207,214,227,.45);
+    --g-blur:blur(22px) saturate(140%);
+    --r:24px; --r2:16px;
+    --rail:clamp(84px,7.5vw,120px);
+  }
+  html[data-theme="day"]{
+    --g-bg0:#e8edf3; --g-bg1:#c3cedb;
+    --g-blob1:rgba(255,255,255,.95); --g-blob2:rgba(140,168,200,.6); --g-blob3:rgba(255,255,255,.7);
+    --g-text:#1a2130; --g-muted:#55607a; --g-dim:#8591a8;
+    --g-fill:rgba(255,255,255,.36); --g-fill2:rgba(255,255,255,.5); --g-stroke:rgba(255,255,255,.7); --g-hi:rgba(255,255,255,.95);
+    --g-accent:#3b6fd9; --g-ink:#1a2130; --g-on-ink:#ffffff;
+    --g-ok:#2c9a68; --g-no:#cf4848; --g-amber:#c48a1c;
+    --g-shadow:0 10px 28px rgba(40,60,90,.16), 0 2px 6px rgba(40,60,90,.10);
+    --g-mark:#d4a94a; --g-mark-glow:rgba(212,169,74,.45);
+  }
+  /* portadas de bloque: tema invertido (y el cromo cuando estamos sobre una) */
+  html[data-theme="night"] .divider, html[data-theme="night"].inv #rail, html[data-theme="night"].inv #topbar, html[data-theme="night"].inv #mobilelbl{
+    --g-bg0:#e8edf3; --g-bg1:#c3cedb;
+    --g-blob1:rgba(255,255,255,.95); --g-blob2:rgba(140,168,200,.6); --g-blob3:rgba(255,255,255,.7);
+    --g-text:#1a2130; --g-muted:#55607a; --g-dim:#8591a8;
+    --g-fill:rgba(255,255,255,.36); --g-fill2:rgba(255,255,255,.5); --g-stroke:rgba(255,255,255,.7); --g-hi:rgba(255,255,255,.95);
+    --g-accent:#3b6fd9; --g-ink:#1a2130; --g-on-ink:#ffffff;
+    --g-shadow:0 10px 28px rgba(40,60,90,.16), 0 2px 6px rgba(40,60,90,.10);
+    --g-mark:#d4a94a; --g-mark-glow:rgba(212,169,74,.45);
+  }
+  html[data-theme="day"] .divider, html[data-theme="day"].inv #rail, html[data-theme="day"].inv #topbar, html[data-theme="day"].inv #mobilelbl{
+    --g-bg0:#0b1020; --g-bg1:#171d30;
+    --g-blob1:rgba(72,98,160,.55); --g-blob2:rgba(10,14,28,.95); --g-blob3:rgba(130,160,220,.22);
+    --g-text:#eef1f7; --g-muted:#a4acbe; --g-dim:#6f7890;
+    --g-fill:rgba(255,255,255,.055); --g-fill2:rgba(255,255,255,.075); --g-stroke:rgba(255,255,255,.12); --g-hi:rgba(255,255,255,.16);
+    --g-accent:#86b7ff; --g-ink:#ffffff; --g-on-ink:#0b1020;
+    --g-shadow:0 10px 28px rgba(0,0,0,.38), 0 2px 6px rgba(0,0,0,.25);
+    --g-mark:#cfd6e3; --g-mark-glow:rgba(207,214,227,.45);
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+  html,body{margin:0;font-family:var(--font-body);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{background:var(--g-bg0);color:var(--g-text);overflow-x:hidden}
+  main{display:block}
+  main > section{scroll-snap-align:start;scroll-snap-stop:always}
+  b,strong{font-weight:500}
+  ::selection{background:var(--g-accent);color:#fff}
+
+  /* fondo difuminado global */
+  #bgfx{position:fixed;inset:0;z-index:-1;overflow:hidden;background:linear-gradient(160deg,var(--g-bg0) 0%,var(--g-bg1) 100%);transition:background .6s ease}
+  #bgfx i{position:absolute;display:block;border-radius:50%;filter:blur(70px);transition:background .6s ease}
+  #bgfx .b1{width:62vw;height:62vw;left:-18vw;top:-14vw;background:var(--g-blob1)}
+  #bgfx .b2{width:54vw;height:54vw;right:-16vw;top:14vh;background:var(--g-blob2)}
+  #bgfx .b3{width:44vw;height:44vw;left:28vw;bottom:-18vw;background:var(--g-blob3)}
+  #bgfx .b4{width:26vw;height:26vw;right:18vw;bottom:6vh;background:var(--g-blob1);opacity:.5}
+
+  /* =====================================================================
+     2) PORTADA (Codex) — reglas base intactas
+     ===================================================================== */
+  .sec{position:relative;min-height:100vh;min-height:100svh;padding:var(--pad);display:flex;flex-direction:column}
+  .sec>.inner{width:100%;max-width:var(--max);margin:0 auto;display:flex;flex-direction:column;flex:1}
+  #hero{isolation:isolate;overflow:hidden;background:var(--bg);color:var(--ink)}
+  #hero .bg{position:absolute;inset:0;z-index:-2;
+    background:
+      radial-gradient(1100px 700px at 78% 18%,rgba(124,199,255,.16),transparent 60%),
+      radial-gradient(900px 600px at 12% 88%,rgba(242,178,76,.14),transparent 60%),
+      linear-gradient(180deg,var(--bg-2),var(--bg) 70%)}
+  #hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.85}
+  #hero .vignette{position:absolute;inset:0;z-index:-1;pointer-events:none;
+    background:radial-gradient(120% 90% at 50% 50%,transparent 55%,rgba(10,15,30,.75) 100%)}
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .topbar .brand{display:flex;align-items:center;gap:12px;color:var(--ink)}
+  .topbar .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(242,178,76,.18)}
+  .topbar .date{white-space:nowrap}
+  .hero-main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:clamp(24px,4vh,56px) 0}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-2);margin-bottom:18px}
+  .eyebrow::before{content:"";width:28px;height:1px;background:var(--accent-2)}
+  h1{font-family:var(--font-display);font-weight:400;font-size:clamp(36px,min(6.2vw,10.5vh),92px);line-height:.98;letter-spacing:-.02em;margin:0 0 22px;max-width:20ch}
+  h1 em{font-style:italic;font-weight:300;color:var(--accent)}
+  .lead{font-size:clamp(16px,min(1.5vw,2.4vh),21px);line-height:1.5;color:var(--muted);max-width:60ch;margin:0 0 28px}
+  .lead strong{color:var(--ink);font-weight:500}
+  .chips{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:14px;color:var(--ink);backdrop-filter:blur(6px)}
+  .chip .n{font-family:var(--font-display);font-size:18px;color:var(--accent);line-height:1}
+  .hero-foot{display:grid;grid-template-columns:1fr 1fr auto;gap:18px;align-items:end;padding-top:28px;border-top:1px solid var(--line)}
+  .speaker{display:flex;gap:14px;align-items:flex-start;min-width:0}
+  .speaker .ini{flex:0 0 46px;width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-family:var(--font-display);font-size:18px;color:var(--bg);background:linear-gradient(135deg,var(--accent),#ffd79a)}
+  .speaker.alt .ini{background:linear-gradient(135deg,var(--accent-2),#cfeaff)}
+  .speaker .name{font-weight:600;font-size:16px;margin:0 0 3px}
+  .speaker .role{font-size:13.5px;color:var(--muted);line-height:1.45;margin:0}
+  .speaker .focus{font-size:12.5px;color:var(--accent-2);margin:6px 0 0;letter-spacing:.02em}
+  .speaker.alt .focus{color:var(--accent)}
+  .scroll{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;justify-self:end}
+  .scroll .arrow{width:1px;height:38px;background:linear-gradient(var(--muted),transparent);position:relative;overflow:hidden}
+  .scroll .arrow::after{content:"";position:absolute;left:0;top:-40%;width:100%;height:40%;background:var(--accent);animation:drop 1.8s ease-in-out infinite}
+  @keyframes drop{to{top:110%}}
+  .rise{opacity:0;transform:translateY(18px);animation:rise .9s cubic-bezier(.2,.7,.2,1) forwards}
+  .rise.d1{animation-delay:.1s}.rise.d2{animation-delay:.25s}.rise.d3{animation-delay:.4s}.rise.d4{animation-delay:.55s}.rise.d5{animation-delay:.75s}
+  @keyframes rise{to{opacity:1;transform:none}}
+  @media (max-width:820px){
+    .hero-foot{grid-template-columns:1fr;gap:22px}
+    .scroll{display:none}
+    .topbar{font-size:11.5px}
+    .topbar .date span{display:none}
+  }
+
+  /* =====================================================================
+     3) CHROME: rail lateral · barra superior · contador
+     ===================================================================== */
+  .glass{background:var(--g-fill);border:1px solid var(--g-stroke);backdrop-filter:var(--g-blur);-webkit-backdrop-filter:var(--g-blur);box-shadow:var(--g-shadow),inset 0 1px 0 var(--g-hi)}
+  #rail{position:fixed;left:clamp(18px,2vw,34px);top:50%;transform:translateY(-50%);z-index:60;display:flex;align-items:center;gap:18px;color:var(--g-text)}
+  #rail .track{position:relative;width:2px;height:64vh;background:#000;border-radius:2px}
+  html[data-theme="night"] #rail .track, html[data-theme="day"].inv #rail .track{box-shadow:0 0 0 1px rgba(255,255,255,.22)}
+  html[data-theme="night"].inv #rail .track{box-shadow:none}
+  #rail .track i{position:absolute;left:-12px;width:26px;display:block;cursor:pointer}
+  #rail .track i.blk::before{content:"";position:absolute;left:8px;top:0;width:10px;height:1px;background:var(--g-mark);opacity:.7}
+  #rail .mk{position:absolute;left:-4px;width:10px;border-radius:6px;background:var(--g-mark);box-shadow:0 0 0 3px var(--g-mark-glow),0 0 14px var(--g-mark-glow);transition:top .35s cubic-bezier(.2,.7,.2,1),height .35s;pointer-events:none}
+  #rail .lbl{writing-mode:vertical-rl;transform:rotate(180deg);font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--g-muted);white-space:nowrap;max-height:64vh;overflow:hidden;line-height:1}
+  #rail .lbl b{color:var(--g-text);font-weight:500}
+  #rail .lbl .sep{opacity:.5;margin:0 .6em}
+  #railtip{position:absolute;left:calc(100% + 14px);top:0;transform:translateY(-50%);white-space:nowrap;padding:9px 14px;border-radius:999px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--g-text);opacity:0;pointer-events:none;transition:opacity .15s,top .12s}
+  #railtip.show{opacity:1}
+  #railtip b{font-weight:500}
+  #railtip .sep{opacity:.5;margin:0 .5em}
+  #topbar{position:fixed;top:14px;right:14px;z-index:60;display:flex;gap:8px;align-items:center}
+  #counter{font-size:11.5px;letter-spacing:.14em;padding:9px 13px;border-radius:999px;color:var(--g-text);font-variant-numeric:tabular-nums}
+  #themeBtn{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:var(--g-text);padding:0;font:inherit}
+  #themeBtn svg{width:18px;height:18px;display:block}
+  #themeBtn .sun{display:none}#themeBtn .moon{display:block}
+  html[data-theme="day"] #themeBtn .sun{display:block}html[data-theme="day"] #themeBtn .moon{display:none}
+  #mobilelbl{display:none}
+
+  /* =====================================================================
+     4) PANTALLAS (glass)
+     ===================================================================== */
+  .screen{position:relative;height:100vh;height:100svh;padding:clamp(16px,3vh,40px) clamp(18px,3.5vw,60px) clamp(16px,3vh,40px) calc(var(--rail) + clamp(8px,1vw,18px));display:flex;flex-direction:column;justify-content:center;overflow:hidden;color:var(--g-text)}
+  .wrap{width:100%;max-width:1640px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(14px,3vh,34px);max-height:100%;min-height:0}
+  .hd{flex:0 0 auto}
+  .tag{display:inline-block;font-size:clamp(10.5px,1.3vh,13px);letter-spacing:.22em;text-transform:uppercase;color:var(--g-accent);font-weight:500}
+  .hd h2{font-weight:300;font-size:clamp(24px,4.8vh,54px);letter-spacing:.005em;line-height:1.1;margin:8px 0 0;max-width:30ch;text-wrap:balance}
+  .hd .sub{font-weight:300;font-size:clamp(14px,2.05vh,21px);line-height:1.5;color:var(--g-muted);max-width:80ch;margin:10px 0 0}
+  .hd .sub strong{color:var(--g-text);font-weight:500}
+  .bd{flex:0 1 auto;min-height:0;overflow:visible;display:flex;flex-direction:column;gap:clamp(12px,2.6vh,28px);padding:4px}
+
+  /* panel de vidrio */
+  .g{background:var(--g-fill);border:1px solid var(--g-stroke);border-radius:var(--r);backdrop-filter:var(--g-blur);-webkit-backdrop-filter:var(--g-blur);box-shadow:var(--g-shadow),inset 0 1px 0 var(--g-hi);padding:clamp(14px,2.4vh,28px) clamp(16px,2.6vh,30px);min-width:0}
+  .g .ft{font-size:clamp(10.5px,1.25vh,12.5px);letter-spacing:.2em;text-transform:uppercase;color:var(--g-dim);margin:0 0 clamp(10px,1.6vh,16px);font-weight:500}
+  .cap{font-size:clamp(12.5px,1.5vh,14.5px);line-height:1.5;color:var(--g-muted);margin:clamp(10px,1.4vh,14px) 0 0;font-weight:300}
+  .cap b{color:var(--g-text)}
+
+  .grid{display:grid;gap:clamp(12px,2.4vh,26px)}
+  .c2{grid-template-columns:repeat(2,1fr)}.c3{grid-template-columns:repeat(3,1fr)}.c4{grid-template-columns:repeat(4,1fr)}.c5{grid-template-columns:repeat(5,1fr)}
+  .grid.tight{gap:clamp(10px,1.8vh,18px)}
+
+  /* tile = tarjeta de vidrio con etiqueta */
+  .tile{background:var(--g-fill);border:1px solid var(--g-stroke);border-radius:var(--r);backdrop-filter:var(--g-blur);-webkit-backdrop-filter:var(--g-blur);box-shadow:var(--g-shadow),inset 0 1px 0 var(--g-hi);padding:clamp(12px,2vh,22px) clamp(14px,2.2vh,24px);display:flex;flex-direction:column;gap:clamp(5px,.9vh,9px);min-width:0}
+  .tile .k{font-size:clamp(10.5px,1.2vh,12px);letter-spacing:.18em;text-transform:uppercase;color:var(--g-accent);font-weight:500}
+  .tile h3{margin:0;font-size:clamp(14px,1.85vh,18.5px);font-weight:500;line-height:1.3}
+  .tile p{margin:0;font-size:clamp(12.5px,1.55vh,15.5px);line-height:1.5;color:var(--g-muted);font-weight:300}
+  .tile ul{margin:2px 0 0;padding-left:16px;font-size:clamp(12.5px,1.5vh,15px);line-height:1.5;color:var(--g-muted);font-weight:300}
+  .tile li{margin:2px 0}
+  .tile.hl{border-color:color-mix(in srgb,var(--g-accent) 55%,transparent);box-shadow:var(--g-shadow),inset 0 1px 0 var(--g-hi),inset 0 0 0 1px color-mix(in srgb,var(--g-accent) 25%,transparent)}
+  .tile.ok{border-color:color-mix(in srgb,var(--g-ok) 55%,transparent)}
+  .tile.amber{border-color:color-mix(in srgb,var(--g-amber) 60%,transparent)}
+  .tile.no{border-color:color-mix(in srgb,var(--g-no) 55%,transparent)}
+  .tile .k.ok{color:var(--g-ok)}.tile .k.amber{color:var(--g-amber)}.tile .k.no{color:var(--g-no)}
+  /* dentro de un .g, las tarjetas no desenfocan (evita vidrio sobre vidrio) */
+  .g .tile{backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none;background:var(--g-fill2);border-radius:var(--r2)}
+
+  /* filas / listas */
+  .ls{list-style:none;margin:0;padding:0;display:grid;gap:clamp(7px,1.1vh,11px)}
+  .ls li{position:relative;padding:clamp(9px,1.3vh,13px) 14px clamp(9px,1.3vh,13px) 42px;background:var(--g-fill2);border:1px solid var(--g-stroke);border-radius:var(--r2);font-size:clamp(12.5px,1.55vh,15.5px);line-height:1.45;color:var(--g-text);font-weight:300}
+  .ls li b{font-weight:500}
+  .ls li::before{content:"✓";position:absolute;left:13px;top:clamp(8px,1.2vh,12px);width:18px;height:18px;border-radius:50%;border:1px solid var(--g-ok);color:var(--g-ok);font-size:10px;display:grid;place-items:center}
+  .ls.no li::before{content:"✕";border-color:var(--g-no);color:var(--g-no)}
+  .ls.n li::before{content:attr(data-n);border-color:var(--g-accent);color:var(--g-accent);font-size:10px}
+  .colhead{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--g-dim);margin:0 0 8px 2px;font-weight:500}
+  .colhead.ok{color:var(--g-ok)}.colhead.no{color:var(--g-no)}
+
+  /* tabla */
+  .tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:clamp(12.5px,1.55vh,15.5px)}
+  .tbl th{text-align:left;font-weight:500;font-size:clamp(10.5px,1.2vh,12px);letter-spacing:.18em;text-transform:uppercase;color:var(--g-dim);padding:6px 12px 10px;border-bottom:1px solid var(--g-stroke)}
+  .tbl td{padding:clamp(9px,1.3vh,13px) 12px;border-bottom:1px solid var(--g-stroke);vertical-align:top;line-height:1.4;font-weight:300;color:var(--g-text)}
+  .tbl tr:last-child td{border-bottom:0}
+  .tbl td.hi{color:var(--g-accent);font-weight:400}
+  .tbl td.dim{color:var(--g-muted)}
+  .tbl td.lb{font-weight:500}
+
+  /* notas */
+  .note{border-left:2px solid var(--g-accent);background:var(--g-fill2);border-radius:0 var(--r2) var(--r2) 0;padding:clamp(11px,1.6vh,16px) 18px;font-size:clamp(13px,1.65vh,16.5px);line-height:1.5;color:var(--g-text);font-weight:300}
+  .note b{color:var(--g-accent);font-weight:500}
+  .warn{border-left:2px solid var(--g-amber);background:var(--g-fill2);border-radius:0 var(--r2) var(--r2) 0;padding:clamp(11px,1.6vh,16px) 18px;font-size:clamp(12.5px,1.5vh,15px);line-height:1.5;color:var(--g-text);font-weight:300}
+  .warn b{color:var(--g-amber);font-weight:500}
+
+  /* cajas */
+  .bx{background:var(--g-fill2);border:1px solid var(--g-stroke);border-radius:var(--r2);padding:clamp(10px,1.4vh,14px) 16px;font-size:clamp(12.5px,1.55vh,15.5px);line-height:1.45;font-weight:300;color:var(--g-text);min-width:0}
+  .bx b{font-weight:500}
+  .bx.solid{background:var(--g-accent);color:#fff;border-color:transparent}
+  .bx.ink{background:var(--g-ink);color:var(--g-on-ink);border-color:transparent}
+  .bx.amber{background:var(--g-amber);color:#1a2130;border-color:transparent}
+  .bx.ghost{background:transparent;border-style:dashed;color:var(--g-muted)}
+  .bx.center{text-align:center}
+  .pills{display:flex;flex-wrap:wrap;gap:8px}
+  .pill{display:inline-flex;align-items:center;padding:8px 14px;border-radius:999px;background:var(--g-fill2);border:1px solid var(--g-stroke);font-size:13px;font-weight:300}
+  .pill.amber{border-color:color-mix(in srgb,var(--g-amber) 60%,transparent)}
+  .arrow{font-size:22px;color:var(--g-dim);align-self:center;text-align:center;font-weight:300}
+  .plus{font-size:24px;color:var(--g-dim);align-self:center;text-align:center;font-weight:300}
+
+  /* stats / barras */
+  .stat{padding:clamp(12px,1.4vw,18px) clamp(14px,1.5vw,20px)}
+  .stat .v{font-weight:300;font-size:clamp(28px,3vw,44px);line-height:1;letter-spacing:-.01em}
+  .stat .l{font-size:12.5px;line-height:1.4;color:var(--g-muted);margin-top:8px;font-weight:300}
+  .bars{display:grid;gap:9px}
+  .bars .b{display:grid;grid-template-columns:minmax(90px,130px) 1fr 52px;gap:10px;align-items:center;font-size:13px;font-weight:300}
+  .bars .b .t{height:7px;border-radius:99px;background:var(--g-stroke);position:relative;overflow:hidden}
+  .bars .b .t i{position:absolute;inset:0 auto 0 0;background:var(--g-accent);border-radius:99px}
+  .bars .b .n{text-align:right;color:var(--g-accent);font-variant-numeric:tabular-nums}
+  .src{font-size:11px;color:var(--g-dim);line-height:1.5;font-weight:300}
+
+  /* divisores de bloque: tema invertido, fondo propio, sin vidrio */
+  .divider{background:linear-gradient(160deg,var(--g-bg0) 0%,var(--g-bg1) 100%);color:var(--g-text);isolation:isolate}
+  .divider::before,.divider::after{content:"";position:absolute;z-index:-1;border-radius:50%;filter:blur(70px);pointer-events:none}
+  .divider::before{width:60vw;height:60vw;left:-20vw;top:-20vw;background:var(--g-blob1)}
+  .divider::after{width:50vw;height:50vw;right:-15vw;bottom:-20vw;background:var(--g-blob2)}
+  .divider .wrap{justify-content:center}
+  .divider .big{display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,6vw,90px);align-items:center}
+  .divider .num{font-weight:200;font-size:clamp(120px,30vh,300px);line-height:.85;color:var(--g-text);letter-spacing:-.04em}
+  .divider .kicker{font-size:clamp(11px,1.4vh,13px);letter-spacing:.24em;text-transform:uppercase;color:var(--g-accent);font-weight:500;margin-bottom:12px}
+  .divider h2{font-weight:300;font-size:clamp(32px,7vh,78px);margin:0 0 clamp(16px,3vh,30px);line-height:1.04;letter-spacing:-.01em}
+  .divider ol{list-style:none;padding:0;margin:0;display:grid;gap:clamp(8px,1.6vh,16px);max-width:900px}
+  .divider li{display:flex;gap:16px;align-items:flex-start;padding:0;font-size:clamp(15px,2.3vh,23px);font-weight:300;line-height:1.4;color:var(--g-text)}
+  .divider li span{color:var(--g-accent);font-size:clamp(11px,1.4vh,13px);letter-spacing:.14em;padding-top:.45em;min-width:26px;font-weight:500}
+
+  /* ---------- Diagramas ---------- */
+  .myth{position:relative;padding:18px 20px;background:var(--g-fill2);border:1px solid var(--g-stroke);border-radius:var(--r2);overflow:hidden}
+  .myth ul{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:15px;font-weight:300}
+  .myth::before,.myth::after{content:"";position:absolute;left:50%;top:50%;width:112%;height:1.5px;background:var(--g-no);opacity:.8;transform:translate(-50%,-50%) rotate(22deg)}
+  .myth::after{transform:translate(-50%,-50%) rotate(-22deg)}
+  .chain{display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap}
+  .tok{border:1px solid var(--g-stroke);background:var(--g-fill2);border-radius:12px;min-width:66px;text-align:center;overflow:hidden}
+  .tok .h{background:var(--g-accent);color:#fff;font-size:9.5px;padding:3px 4px;letter-spacing:.14em}
+  .tok .v{font-size:18px;font-weight:400;padding:8px 6px}
+  .chain .ar{align-self:center;color:var(--g-accent);font-size:16px}
+  .chain .tok:nth-child(3){margin-top:16px}.chain .tok:nth-child(5){margin-top:32px}.chain .tok:nth-child(7){margin-top:48px}.chain .tok:nth-child(9){margin-top:64px}
+  .chain .ar:nth-child(2){margin-top:12px}.chain .ar:nth-child(4){margin-top:28px}.chain .ar:nth-child(6){margin-top:44px}.chain .ar:nth-child(8){margin-top:60px}
+
+  .stairs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;align-items:end}
+  .step{border:1px solid var(--g-stroke);background:var(--g-fill2);border-radius:var(--r2);padding:12px;min-height:calc(112px + var(--i) * 34px);display:flex;flex-direction:column;gap:3px}
+  .step .yr{font-size:10.5px;color:var(--g-accent);letter-spacing:.16em;font-weight:500}
+  .step b{font-size:14px;line-height:1.2;font-weight:500}
+  .step small{font-size:12px;color:var(--g-muted);line-height:1.4;font-weight:300}
+  .step.s4,.step.s5{background:color-mix(in srgb,var(--g-accent) 18%,var(--g-fill2))}
+  .step.s6{background:var(--g-accent);color:#fff;border-color:transparent}.step.s6 .yr,.step.s6 small{color:rgba(255,255,255,.85)}
+
+  .tokens3{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:12px;align-items:center}
+  .glyph{border:1px solid var(--g-stroke);background:var(--g-fill2);border-radius:var(--r2);height:clamp(110px,16vh,160px);display:grid;place-items:center;font-weight:200;font-size:clamp(40px,4.5vw,60px);letter-spacing:.12em;line-height:1}
+  .glyph.cjk{font-family:"Noto Serif CJK SC","Noto Sans CJK SC","Microsoft YaHei","PingFang SC",serif;font-weight:300}
+  .glyph .tk{display:flex;gap:8px;font-size:18px;font-weight:400;letter-spacing:0;align-items:center}
+  .glyph .tk span{border:1px solid var(--g-stroke);border-radius:10px;padding:6px 10px;background:var(--g-fill)}
+  .glyph .tk i{font-style:normal;color:var(--g-accent)}
+  .tokens3 .lbl{text-align:center;margin-top:10px}
+  .tokens3 .lbl b{display:block;font-size:14px;font-weight:500}
+  .tokens3 .lbl small{font-size:12px;color:var(--g-muted);font-weight:300}
+
+  .tree{display:grid;grid-template-columns:auto 80px 1fr;gap:0;align-items:stretch}
+  .tree .root{display:flex;align-items:center}
+  .tree .root .bx{max-width:220px}
+  .tree svg{width:100%;height:100%;display:block}
+  .tree .opts{display:grid;grid-template-rows:repeat(3,1fr);gap:8px}
+  .opt{display:flex;align-items:center;gap:12px}
+  .opt .bx{flex:1}
+  .opt .pct{font-size:24px;font-weight:300;color:var(--g-accent);min-width:60px;font-variant-numeric:tabular-nums}
+  .opt.w .pct{color:var(--g-dim)}.opt.w .bx{border-style:dashed;color:var(--g-muted)}
+  .messi{display:grid;grid-template-columns:auto auto auto 1fr;gap:14px;align-items:center;margin-top:14px;padding-top:14px;border-top:1px dashed var(--g-stroke)}
+  .messi .big{font-size:22px;padding:8px 18px;font-weight:400}
+  .messi .nt{font-size:12.5px;line-height:1.45;color:var(--g-muted);font-weight:300;margin:0}
+  .messi .nt b{color:var(--g-text)}
+
+  .attn .row{display:grid;grid-template-columns:repeat(5,1fr)}
+  .attn .row .bx{margin:0 8px;text-align:center;white-space:nowrap;font-size:13px;padding:10px 4px}
+  .attn svg{width:100%;height:auto;display:block}
+  .attn .legend{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
+  .attn .legend b{display:block;font-size:13px;font-weight:500}
+  .attn .legend p{margin:2px 0 0;font-size:12.5px;color:var(--g-muted);line-height:1.45;font-weight:300}
+
+  .bell svg{width:100%;height:auto;display:block}
+  .principles{border:1px solid var(--g-stroke);background:var(--g-fill2);border-radius:var(--r2);padding:10px 14px;font-size:12.5px;line-height:1.6;font-weight:300}
+  .principles b{display:block;letter-spacing:.16em;font-size:10.5px;text-transform:uppercase;color:var(--g-dim);margin-bottom:4px;font-weight:500}
+  .towers{display:flex;align-items:flex-end;gap:4px;height:clamp(110px,16vh,150px);padding:0 4px;border-bottom:1px solid var(--g-stroke)}
+  .towers i{flex:1;background:var(--g-stroke);display:block;border-radius:3px 3px 0 0}
+  .towers i.t{background:var(--g-accent)}
+  .tw-legend{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+  .tw-legend b{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500}
+  .tw-legend b::before{content:"";width:9px;height:9px;background:var(--g-accent);border-radius:50%}
+  .tw-legend .lo b::before{background:var(--g-stroke)}
+  .tw-legend p{margin:4px 0 0;font-size:12px;color:var(--g-muted);line-height:1.4;font-weight:300}
+
+  .ctx{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+  .ctx .word{font-size:22px;padding:14px 20px;border:1px solid var(--g-stroke);background:var(--g-fill2);border-radius:var(--r2);font-weight:300;letter-spacing:.12em}
+  .ctx .rows{display:grid;gap:8px}
+  .ctx .r{display:grid;grid-template-columns:1fr 1.3fr;gap:10px;align-items:center;position:relative}
+  .ctx .r::before{content:"";position:absolute;left:-20px;top:50%;width:20px;height:1px;background:var(--g-stroke)}
+
+  .pillars{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:10px;align-items:start}
+  .pillar .bx{text-align:center;font-weight:500;letter-spacing:.08em;font-size:12.5px}
+  .pillar p{font-size:12.5px;line-height:1.45;color:var(--g-muted);margin:8px 4px 0;text-align:center;font-weight:300}
+  .prompt{font-size:13px;line-height:1.75;background:var(--g-fill2);border:1px solid var(--g-stroke);border-radius:var(--r2);padding:14px 16px;white-space:pre-wrap;font-weight:300}
+  .prompt .p1{background:var(--g-ink);color:var(--g-on-ink);padding:1px 6px;border-radius:5px}
+  .prompt .p2{background:var(--g-stroke);padding:1px 6px;border-radius:5px}
+  .prompt .p3{background:var(--g-amber);color:#1a2130;padding:1px 6px;border-radius:5px}
+  .prompt .p4{border:1px solid var(--g-accent);padding:0 6px;border-radius:5px}
+
+  .gauge svg{width:100%;max-width:260px;height:auto;display:block;margin:0 auto}
+  .gl{display:flex;justify-content:space-between;font-size:11px;color:var(--g-muted);max-width:260px;margin:-4px auto 0;letter-spacing:.1em;text-transform:uppercase}
+  .funnel{display:grid;gap:4px;max-width:260px;margin:10px auto 0}
+  .funnel i{display:block;height:22px;margin:0 auto;background:color-mix(in srgb,var(--g-accent) 30%,transparent);border:1px solid var(--g-accent);border-radius:6px}
+  .funnel .fl{display:flex;justify-content:space-between;font-size:11px;color:var(--g-muted);letter-spacing:.1em;text-transform:uppercase}
+
+  .loop{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:center}
+  .loop .node{border:1px solid var(--g-stroke);background:var(--g-fill2);border-radius:var(--r2);padding:14px 16px;min-height:120px}
+  .loop .node.ia{background:var(--g-ink);color:var(--g-on-ink);border-color:transparent}
+  .loop .node .k{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--g-accent);display:block;margin-bottom:6px;font-weight:500}
+  .loop .node.ia .k{color:var(--g-on-ink);opacity:.75}
+  .loop .node ul{margin:0;padding-left:16px;font-size:13px;line-height:1.5;font-weight:300}
+  .loop .back{grid-column:1/-1;display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--g-muted)}
+  .loop .back::before{content:"";flex:1;height:0;border-top:1px dashed var(--g-stroke)}
+  .loop .back::after{content:"↺";font-size:18px;color:var(--g-accent);letter-spacing:0}
+
+  .curve{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-items:end}
+  .lvl{border:1px solid var(--g-stroke);border-radius:var(--r2);padding:12px;min-height:calc(130px + var(--i) * 38px);display:flex;flex-direction:column;gap:5px;background:var(--g-fill2)}
+  .lvl .n{font-size:10.5px;letter-spacing:.16em;color:var(--g-accent);font-weight:500}
+  .lvl b{font-size:14px;line-height:1.2;font-weight:500}
+  .lvl p{margin:0;font-size:12.5px;line-height:1.45;color:var(--g-muted);font-weight:300}
+  .lvl.l2{background:color-mix(in srgb,var(--g-accent) 14%,var(--g-fill2))}
+  .lvl.l3{background:color-mix(in srgb,var(--g-accent) 32%,var(--g-fill2))}
+  .lvl.l4{background:var(--g-accent);border-color:transparent;color:#fff}.lvl.l4 .n{color:rgba(255,255,255,.8)}.lvl.l4 p{color:rgba(255,255,255,.85)}
+
+  .hexes{display:grid;grid-template-columns:auto auto;gap:0 10px;align-items:center;justify-content:center;margin:4px 0 10px}
+  .hex{clip-path:polygon(25% 3%,75% 3%,100% 50%,75% 97%,25% 97%,0 50%);display:grid;place-items:center;text-align:center;font-weight:500;font-size:13px;line-height:1.25;padding:16px 24px}
+  .hex.main{background:var(--g-accent);color:#fff;width:180px;height:180px;font-size:16px}
+  .hexw{clip-path:polygon(25% 3%,75% 3%,100% 50%,75% 97%,25% 97%,0 50%);background:var(--g-amber);padding:2px;width:148px;height:128px}
+  .hexw .hex.sub{clip-path:polygon(25.5% 4.5%,74.5% 4.5%,99% 50%,74.5% 95.5%,25.5% 95.5%,1% 50%);background:var(--g-bg0);color:var(--g-text);width:100%;height:100%}
+  .subs{display:grid;gap:10px;justify-items:start}
+  .subs .s{display:flex;align-items:center}
+  .subs .s::before{content:"";width:50px;height:0;border-top:1px dashed var(--g-stroke)}
+  .hexes-txt{font-size:13.5px;line-height:1.55;color:var(--g-muted);margin:0 0 6px;font-weight:300}
+  .hexes-txt b{color:var(--g-text)}
+
+  .flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:center}
+  .flow .bx{min-height:80px;display:grid;align-content:center}
+
+  .kpi{padding:12px 16px}
+  .kpi .k{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--g-dim);font-weight:500}
+  .kpi .v{font-size:22px;font-weight:300;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+  .kpi .v span{color:var(--g-accent)}
+  .kpi p{margin:0;font-size:12px;color:var(--g-muted);line-height:1.4;font-weight:300}
+
+  .prog{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+  .prog .bl{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px}
+  .prog .bl .n{font-size:30px;line-height:1;color:var(--g-accent);font-weight:200}
+  .prog .bl h3{margin:0 0 4px;font-size:13.5px;line-height:1.25;font-weight:500}
+  .prog .bl ol{margin:0;padding:0;list-style:none;display:grid;gap:5px}
+  .prog .bl li{display:flex;gap:8px;font-size:12px;line-height:1.35;color:var(--g-muted);font-weight:300}
+  .prog .bl li span{color:var(--g-accent);font-size:10px;padding-top:2px;min-width:16px;font-weight:500;letter-spacing:.06em}
+
+  .person{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
+  .person .ini{width:60px;height:60px;border-radius:16px;display:grid;place-items:center;font-size:20px;font-weight:300;color:#1a2130;background:linear-gradient(135deg,var(--g-amber),#ffe3b0)}
+  .person.alt .ini{background:linear-gradient(135deg,var(--g-accent),#d6e8ff)}
+  .person h3{margin:0 0 4px;font-size:19px;font-weight:500}
+  .person .role{font-size:12px;color:var(--g-accent);margin:0 0 8px;line-height:1.45;letter-spacing:.04em}
+  .person p{margin:0;font-size:13.5px;line-height:1.55;color:var(--g-muted);font-weight:300}
+
+  .loopA{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+  .loopA svg{width:100%;max-width:400px;height:auto;display:block;margin:0 auto}
+  .loopA .claims{display:grid;gap:10px}
+  .loopA .claims .bx{font-size:14.5px;padding:12px 16px}
+
+  .m2{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:stretch}
+  .m2 .ylab{writing-mode:vertical-rl;transform:rotate(180deg);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--g-dim);text-align:center;font-weight:500}
+  .m2 .cells{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:6px}
+  .m2 .c{border:1px solid var(--g-stroke);border-radius:var(--r2);padding:14px;background:var(--g-fill2);min-height:100px}
+  .m2 .c b{display:block;font-size:15px;margin-bottom:5px;font-weight:500}
+  .m2 .c p{margin:0;font-size:12.5px;color:var(--g-muted);line-height:1.45;font-weight:300}
+  .m2 .c.go{background:var(--g-accent);color:#fff;border-color:transparent}.m2 .c.go p{color:rgba(255,255,255,.85)}
+  .m2 .c.no{opacity:.6}
+  .m2 .xlab{grid-column:2;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--g-dim);text-align:center;padding-top:4px;font-weight:500}
+
+  .anat{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:stretch}
+  .anat .st{border:1px solid var(--g-stroke);background:var(--g-fill2);border-radius:var(--r2);display:flex;flex-direction:column;overflow:hidden}
+  .anat .st .h{background:color-mix(in srgb,var(--g-accent) 22%,transparent);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;padding:8px 12px;color:var(--g-accent);font-weight:500}
+  .anat .st .b{padding:14px;display:flex;flex-direction:column;gap:5px}
+  .anat .st .b b{font-size:15px;font-weight:500}
+  .anat .st .b p{margin:0;font-size:12.5px;color:var(--g-muted);line-height:1.45;font-weight:300}
+  .anat .lnk{display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--g-muted);text-align:center;gap:4px;min-width:84px}
+  .anat .lnk span{font-size:20px;color:var(--g-dim);letter-spacing:0}
+
+  .bubble{background:color-mix(in srgb,var(--g-accent) 16%,var(--g-fill2));border:1px solid color-mix(in srgb,var(--g-accent) 50%,transparent);border-radius:20px;padding:16px 20px;font-size:clamp(16px,1.6vw,21px);position:relative;max-width:640px;font-weight:300}
+  .bubble::after{content:"";position:absolute;left:24px;bottom:-11px;border:11px solid transparent;border-top-color:color-mix(in srgb,var(--g-accent) 50%,transparent);border-bottom:0}
+  .bubble .in{border-bottom:2px solid var(--g-accent);padding-bottom:2px}
+  .bubble .sl{border-bottom:2px solid var(--g-ok);color:var(--g-ok);padding-bottom:2px}
+  .legend2{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;font-weight:300}
+  .legend2 span::before{content:"";display:inline-block;width:20px;height:2px;margin-right:8px;vertical-align:middle;background:var(--g-accent)}
+  .legend2 span.s::before{background:var(--g-ok)}
+
+  .pillbox{display:flex;flex-wrap:wrap;gap:8px}
+  .pillbox span{border:1px solid color-mix(in srgb,var(--g-no) 60%,transparent);border-radius:999px;padding:8px 16px;font-size:13px;background:var(--g-fill2);font-weight:400}
+  .pillbox span small{display:block;font-size:11.5px;color:var(--g-muted);font-weight:300}
+
+  #cierre .wrap{justify-content:center}
+  #cierre .big{font-weight:200;font-size:clamp(60px,11vw,150px);line-height:.95;letter-spacing:-.02em;margin:0 0 16px}
+  #cierre .big em{font-style:normal;color:var(--g-accent)}
+  #cierre .sub{font-weight:300;font-size:clamp(15px,1.4vw,20px);color:var(--g-muted);max-width:60ch;margin:0}
+  #cierre .names{display:flex;flex-wrap:wrap;gap:16px;margin-top:28px}
+  #cierre .names .g{padding:14px 20px}
+  #cierre .names b{display:block;font-size:16px;font-weight:500}
+  #cierre .names span{font-size:12.5px;color:var(--g-muted);font-weight:300}
+
+  /* ---------- Responsive ---------- */
+  @media (max-height:820px) and (min-width:821px){
+    .hd h2{font-size:clamp(22px,2.6vw,34px)}
+    .hd .sub{font-size:clamp(13px,1.05vw,15.5px);margin-top:5px}
+    .g,.tile{padding:11px 15px}
+    .tile p,.ls li,.tbl,.bx,.note,.warn{font-size:12.5px}
+    .ls{gap:5px}.ls li{padding:7px 12px 7px 38px}.ls li::before{top:6px}
+    .wrap{gap:10px}.bd{gap:9px}.grid{gap:10px}
+    .step{min-height:calc(96px + var(--i) * 26px)}
+    .lvl{min-height:calc(110px + var(--i) * 30px)}
+    .bd{overflow:auto;scrollbar-width:thin}
+  }
+  @media (max-width:1100px){
+    .c5,.prog{grid-template-columns:repeat(3,1fr)}
+    .c4{grid-template-columns:repeat(2,1fr)}
+    .stairs{grid-template-columns:repeat(3,1fr)}
+    .pillars{grid-template-columns:1fr 1fr}.pillars .plus{display:none}
+    .curve{grid-template-columns:repeat(2,1fr)}
+    .messi{grid-template-columns:auto auto auto}.messi .nt{grid-column:1/-1}
+  }
+  @media (max-width:820px){
+    html{scroll-snap-type:y proximity}
+    .screen{height:auto;min-height:100svh;padding:72px 18px 28px 18px;overflow:visible}
+    .wrap{max-height:none}
+    .bd{overflow:visible}
+    #rail{display:none}
+    #mobilelbl{display:block;position:fixed;top:14px;left:14px;z-index:60;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--g-muted);padding:9px 12px;border-radius:999px;max-width:60vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    #mobilelbl b{color:var(--g-text);font-weight:500}
+    .c2,.c3,.c4,.c5,.prog{grid-template-columns:1fr}
+    .divider .big{grid-template-columns:1fr}
+    .tokens3{grid-template-columns:1fr}.tokens3 .arrow{transform:rotate(90deg)}
+    .tree{grid-template-columns:1fr}.tree svg{display:none}
+    .loop,.flow,.anat{grid-template-columns:1fr}.loop .arrow,.flow .arrow{transform:rotate(90deg)}.anat .lnk span{transform:rotate(90deg)}
+    .ctx{grid-template-columns:1fr}.ctx .r{grid-template-columns:1fr}.ctx .r::before{display:none}
+    .stairs{grid-template-columns:repeat(2,1fr)}
+    .curve{grid-template-columns:1fr}
+    .attn .legend{grid-template-columns:1fr}.attn .row .bx{margin:0 3px;font-size:11px;padding:8px 2px}
+    .person{grid-template-columns:1fr}
+    .loopA{grid-template-columns:1fr}
+    .hexes{grid-template-columns:1fr;justify-items:center}.hexes .subs{grid-template-columns:repeat(3,1fr);justify-items:center}.subs .s::before{display:none}
+    .m2 .cells{grid-template-columns:1fr}
+    .bars .b{grid-template-columns:80px 1fr 48px}
+    .hd h2{max-width:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .rise{animation:none;opacity:1;transform:none}
+    .scroll .arrow::after{animation:none}
+    html{scroll-behavior:auto}
+  }
+  @media print{
+    .screen{height:auto;page-break-after:always;overflow:visible}
+    #rail,#topbar,#mobilelbl,#bgfx{display:none}
+  }
+</style>
+<link rel="stylesheet" href="hero-header.css">
+</head>
+<body>
+<div id="bgfx" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i></div>
+
+<nav id="rail" aria-label="Progreso de la charla">
+  <div class="track" id="track"><b class="mk" id="railmk"></b></div>
+  <div class="lbl" id="raillbl"><b>Portada</b></div>
+  <div id="railtip" class="glass"></div>
+</nav>
+<div id="mobilelbl" class="glass"><b>Portada</b></div>
+<div id="topbar">
+  <div id="counter" class="glass">1 / 1</div>
+  <button id="themeBtn" class="glass" type="button" aria-label="Cambiar tema">
+    <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+  </button>
+</div>
+
+<main>
+  <!-- ============ PORTADA ============ -->
+  <section id="hero" class="sec" aria-label="Portada">
+    <div class="bg"></div>
+    <canvas id="net" aria-hidden="true"></canvas>
+    <div class="vignette"></div>
+
+    <div class="inner">
+      <header class="topbar rise d1">
+        <div class="brand"><span class="dot"></span><span>Ciclo de formación · AEHG Mar del Plata</span></div>
+        <div class="date">13 de octubre <span>· Mar del Plata</span></div>
+      </header>
+
+      <div class="hero-main">
+        <div class="eyebrow rise d2">Jornada general + talleres aplicados</div>
+        <h1 class="rise d3">Inteligencia <em>artificial</em> para la hotelería y la gastronomía</h1>
+        <p class="lead rise d4">Qué es, cómo funciona y <strong>cómo aplicarla hoy</strong> en la gestión diaria de tu establecimiento: reseñas, WhatsApp, cartas, huéspedes, promociones y automatización.</p>
+        <div class="chips rise d4">
+          <span class="chip"><span class="n">1</span> Jornada de conceptos generales</span>
+          <span class="chip"><span class="n">2</span> Taller aplicado · Gastronómicos</span>
+          <span class="chip"><span class="n">3</span> Taller aplicado · Hoteleros</span>
+        </div>
+      </div>
+
+      <footer class="hero-foot rise d5">
+        <div class="speaker">
+          <div class="ini">ME</div>
+          <div>
+            <p class="name">María Eugenia Dicándilo</p>
+            <p class="role">Fundadora y directora de Modo Comunicación · Cofundadora de la consultora KrovaLab</p>
+            <p class="focus">Encuadre estratégico · instrucciones efectivas · uso responsable</p>
+          </div>
+        </div>
+        <div class="speaker alt">
+          <div class="ini">PP</div>
+          <div>
+            <p class="name">Pablo Pellizzoni</p>
+            <p class="role">Diseñador industrial · Docente e investigador UNMdP · Cofundador de Outcomy y Kexen · Cofundador de la consultora KrovaLab</p>
+            <p class="focus">Implementación técnica · herramientas · automatización</p>
+          </div>
+        </div>
+        <a class="scroll" href="#tesis" aria-label="Continuar"><span>Continuar</span><span class="arrow"></span></a>
+      </footer>
+    </div>
+  </section>
+
+  <!-- ============ TESIS ============ -->
+  <section id="tesis" class="screen" data-block="Intro" data-point="El humano en el centro del algoritmo" aria-label="Tesis">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Intro · La idea que ordena toda la charla</span>
+        <h2>El humano en el centro del algoritmo</h2>
+        <p class="sub">Los resultados más poderosos se producen cuando la IA se utiliza para <strong>extender</strong>, no reemplazar, la inteligencia humana. Pasamos de un proceso automatizado puro a un modelo de intervención humana.</p>
+      </header>
+      <div class="bd">
+        <div class="g">
+          <div class="loopA">
+            <svg viewBox="0 0 500 300" aria-label="Proceso A con intervención humana">
+              <defs><marker id="ahb" viewBox="0 0 10 10" refX="7" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--g-accent)"/></marker></defs>
+              <circle cx="160" cy="165" r="100" fill="none" style="stroke:var(--g-stroke)" stroke-width="26"/>
+              <path d="M160,65 A100,100 0 0 1 240,105" fill="none" style="stroke:var(--g-accent)" stroke-width="9" marker-end="url(#ahb)"/>
+              <path d="M258,185 A100,100 0 0 1 175,264" fill="none" style="stroke:var(--g-accent)" stroke-width="9" marker-end="url(#ahb)"/>
+              <path d="M62,185 A100,100 0 0 1 80,110" fill="none" style="stroke:var(--g-accent)" stroke-width="9" marker-end="url(#ahb)"/>
+              <text x="160" y="160" text-anchor="middle" font-size="18" font-weight="400" font-family="Inter, sans-serif" style="fill:var(--g-text)">Proceso A</text>
+              <text x="160" y="182" text-anchor="middle" font-size="11" letter-spacing="2" font-family="Inter, sans-serif" style="fill:var(--g-muted)">AUTOMATIZADO</text>
+              <rect x="290" y="36" width="30" height="30" rx="8" style="fill:var(--g-amber)"/>
+              <circle cx="320" cy="51" r="7" style="fill:var(--g-amber)"/>
+              <rect x="296" y="42" width="18" height="18" rx="5" style="fill:#fff" opacity=".4"/>
+              <text x="336" y="50" font-size="14" font-weight="500" font-family="Inter, sans-serif" style="fill:var(--g-text)">Intervención</text>
+              <text x="336" y="68" font-size="14" font-weight="500" font-family="Inter, sans-serif" style="fill:var(--g-text)">humana</text>
+              <text x="336" y="86" font-size="10.5" letter-spacing="1.5" font-family="Inter, sans-serif" style="fill:var(--g-muted)">DEFINE · REVISA · DECIDE</text>
+              <path d="M290,62 L252,96" fill="none" style="stroke:var(--g-amber)" stroke-width="2.5" stroke-dasharray="4 3"/>
+            </svg>
+            <div class="claims">
+              <div class="bx ink">La IA no reemplaza; extiende.</div>
+              <div class="bx">Proceso A → Proceso A + <b>human in the loop</b>.</div>
+              <div class="bx amber">No temer ni venerar a la IA: <b>operarla</b>.</div>
+              <p class="cap">En un mundo acelerado e impulsado por la tecnología, la IA, la automatización y los chatbots están transformando la forma en la que trabajamos y vivimos. Cada organización, sin importar su tamaño o sector, tiene hoy el potencial de operar como una empresa tecnológica.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ARGENTINA ============ -->
+  <section id="argentina" class="screen" data-block="Intro" data-point="¿Para qué usan la IA los argentinos?" aria-label="La IA en Argentina">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Intro · Dónde estamos parados</span>
+        <h2>¿Para qué usan la IA los argentinos?</h2>
+        <p class="sub">Casi la mitad ya la usa para fines personales; en el trabajo, poco más de uno de cada cuatro. Y casi nadie paga por ella.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c4">
+          <div class="g stat"><div class="v">45,5%</div><div class="l">usa herramientas de IA para fines personales (64% en la generación Z)</div></div>
+          <div class="g stat"><div class="v">27,5%</div><div class="l">la usa para tareas laborales</div></div>
+          <div class="g stat"><div class="v">21,8%</div><div class="l">todavía no la usa pero está considerando incorporarla</div></div>
+          <div class="g stat"><div class="v">2,1%</div><div class="l">paga por el servicio: el resto usa planes gratuitos</div></div>
+        </div>
+        <div class="grid c3">
+          <div class="g">
+            <p class="ft">Herramientas más usadas</p>
+            <div class="bars">
+              <div class="b"><span>ChatGPT</span><div class="t"><i style="width:77.8%"></i></div><span class="n">77,8%</span></div>
+              <div class="b"><span>Gemini</span><div class="t"><i style="width:38.6%"></i></div><span class="n">38,6%</span></div>
+              <div class="b"><span>Meta AI</span><div class="t"><i style="width:26.2%"></i></div><span class="n">26,2%</span></div>
+            </div>
+            <p class="cap">Junio 2026: ChatGPT, 7,7 millones de visitantes únicos en Argentina (29% de penetración); Gemini, 4 millones; Claude, 818 mil (Comscore, escritorio).</p>
+          </div>
+          <div class="g">
+            <p class="ft">Para qué la usan (uso personal)</p>
+            <ol class="ls n">
+              <li data-n="1">Buscar información y resolver tareas diarias</li>
+              <li data-n="2">Generar contenidos creativos y entretenimiento</li>
+              <li data-n="3">Traducir, interpretar o resumir textos</li>
+              <li data-n="4">Conversación libre o apoyo emocional · <b>20,3%</b></li>
+            </ol>
+          </div>
+          <div class="g">
+            <p class="ft">Qué les preocupa</p>
+            <div class="bars">
+              <div class="b"><span>Ética y privacidad</span><div class="t"><i style="width:39.6%"></i></div><span class="n">39,6%</span></div>
+              <div class="b"><span>Pensamiento crítico</span><div class="t"><i style="width:31.8%"></i></div><span class="n">31,8%</span></div>
+              <div class="b"><span>Perder el trabajo</span><div class="t"><i style="width:20.6%"></i></div><span class="n">20,6%</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="src">Fuentes: Universidad Torcuato Di Tella, CEPE + Fundar, encuesta nacional (1.589 casos, agosto–septiembre 2025) · Comscore, junio 2026 (vía Infobae, 12/08/2026).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRESENTACIÓN · Pregunta 1 ============ -->
+  <section id="presentacion" class="screen" data-block="Bloque 1" data-point="01 · ¿Cuál es el objetivo de este encuentro?" aria-label="Presentación">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Presentación · Pregunta 01</span>
+        <h2>¿Cuál es el objetivo de este encuentro?</h2>
+        <p class="sub">La inteligencia artificial está transformando la manera de trabajar en todo el mundo. Esta propuesta acerca ese conocimiento a los sectores que generan valor en la ciudad, donde la gastronomía y la hotelería cumplen un rol central.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c3">
+          <div class="tile hl"><span class="k">01 · Entender</span><h3>Cómo se entrenan los modelos y qué significa automatizar</h3><p>Qué hay adentro de un chat de IA, qué es realmente la automatización, y cómo las APIs y los chatbots mejoran la eficiencia, la productividad y la experiencia del cliente.</p></div>
+          <div class="tile hl"><span class="k">02 · Aplicar</span><h3>Identificar oportunidades e implementar flujos</h3><p>Aprender a detectar qué automatizar, implementar flujos de trabajo asistidos por IA y garantizar el cumplimiento de las normas de protección de datos.</p></div>
+          <div class="tile hl"><span class="k">03 · Crear valor</span><h3>Mejorar la forma en la que trabajamos</h3><p>La mejor meta que podemos trazarnos es crear valor y trabajar mejor. Y en el mejor de los casos, disponer de tiempo para otros placeres además del trabajo.</p></div>
+        </div>
+        <div class="note">Para hacer un uso eficiente del tiempo, la actividad contempla <b>una jornada inicial de conceptos generales</b> y <b>dos talleres aplicados</b> que atienden las demandas puntuales de cada rubro.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROPUESTA ============ -->
+  <section id="propuesta" class="screen" data-block="Intro" data-point="La propuesta" aria-label="Propuesta">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">La propuesta</span>
+        <h2>Una jornada para ambos públicos + dos talleres prácticos</h2>
+        <p class="sub">Primero los conceptos que todos necesitan. Después, cada grupo trabaja sobre sus propios procesos.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c3">
+          <div class="tile">
+            <span class="k">Jornada 1 · Ambos públicos</span>
+            <h3>Módulo general: cómo funciona y cómo se usa la IA</h3>
+            <p>Cinco bloques, veinte preguntas. De la historia y los conceptos base a la implementación, la medición y la ética.</p>
+            <ul><li>Encuadre e historia</li><li>Arquitectura y conceptos base</li><li>Técnicas de interacción y control</li><li>Implementación, herramientas y procesos</li><li>Gobernanza y ética</li></ul>
+          </div>
+          <div class="tile amber">
+            <span class="k amber">Taller 2 · Gastronómicos</span>
+            <h3>Velocidad de respuesta e interacción diaria</h3>
+            <p>Un sector donde la velocidad de respuesta define la venta.</p>
+            <ul><li>Respuesta rápida a reseñas locales</li><li>Redacción de propuestas para la carta</li><li>Atención vía WhatsApp</li><li>Contenido para eventos especiales y promociones del día</li></ul>
+          </div>
+          <div class="tile amber">
+            <span class="k amber">Taller 3 · Hoteleros</span>
+            <h3>Experiencia del huésped y comunicación institucional</h3>
+            <p>El eje está en la relación con el huésped antes, durante y después de la estadía.</p>
+            <ul><li>Automatización de correos pre y pos estadía</li><li>Gestión de consultas sobre servicios del hotel</li><li>Respuesta en Booking y TripAdvisor</li><li>Propuestas para turismo corporativo y temporada baja</li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EQUIPO ============ -->
+  <section id="equipo" class="screen" data-block="Intro" data-point="El equipo" aria-label="Equipo">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">El equipo</span>
+        <h2>La visión de la comunicación + la ejecución técnica</h2>
+      </header>
+      <div class="bd">
+        <div class="grid c2">
+          <div class="g">
+            <div class="person">
+              <div class="ini">ME</div>
+              <div>
+                <h3>María Eugenia Dicándilo</h3>
+                <p class="role">Fundadora y directora de Modo Comunicación · Cofundadora de la consultora KrovaLab</p>
+                <p>Referente en el desarrollo de planes de comunicación de posicionamiento para empresas e instituciones. En este ciclo aborda el encuadre estratégico, la confección de instrucciones efectivas y el uso responsable de la tecnología en la gestión institucional.</p>
+              </div>
+            </div>
+          </div>
+          <div class="g">
+            <div class="person alt">
+              <div class="ini">PP</div>
+              <div>
+                <h3>Pablo Pellizzoni</h3>
+                <p class="role">Diseñador industrial · Docente e investigador UNMdP · Cofundador de Outcomy y Kexen · Cofundador de la consultora KrovaLab</p>
+                <p>Distinguido con el Sello Buen Diseño y el premio Innovar. Su especialidad abarca la implementación técnica de la inteligencia artificial, la configuración operativa de herramientas digitales y la automatización de procesos cotidianos.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROGRAMA ============ -->
+  <section id="programa" class="screen" data-block="Intro" data-point="Programa · cinco bloques, veinte preguntas" aria-label="Programa">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Módulo general · Programa</span>
+        <h2>Cinco bloques, veinte preguntas</h2>
+        <p class="sub">Toda la jornada está organizada como preguntas. Cada una se responde con un concepto y un ejemplo del rubro.</p>
+      </header>
+      <div class="bd">
+        <div class="prog">
+          <div class="g bl"><span class="n">1</span><h3>Encuadre e historia</h3><ol><li><span>01</span>¿Cuál es el objetivo de este encuentro?</li><li><span>02</span>¿Qué es la IA y para qué sirve?</li><li><span>03</span>¿Cómo evolucionó a lo largo de su historia?</li></ol></div>
+          <div class="g bl"><span class="n">2</span><h3>Arquitectura y conceptos base</h3><ol><li><span>04</span>¿Cómo funciona la IA por dentro?</li><li><span>05</span>¿Qué son los modelos de IA?</li><li><span>06</span>¿Qué es la IA generativa?</li></ol></div>
+          <div class="g bl"><span class="n">3</span><h3>Interacción y control operativo</h3><ol><li><span>07</span>¿Cómo hablarle a la IA? Contexto, memoria, temperatura y los cuatro pilares del prompting</li><li><span>08</span>¿Cuánto cuesta usar IA y qué es un token?</li><li><span>09</span>¿Qué son las alucinaciones?</li><li><span>10</span>¿Por qué hay que probar e inspeccionar las respuestas?</li></ol></div>
+          <div class="g bl"><span class="n">4</span><h3>Implementación, herramientas y procesos</h3><ol><li><span>11</span>¿De qué formas concretas se puede usar?</li><li><span>12</span>¿Qué son los chatbots?</li><li><span>13</span>Chats, agentes, bajo código y apps integradas</li><li><span>14</span>¿Cómo automatizar tareas repetitivas? + anatomía de un flujo</li><li><span>15</span>Proyectos, conectores, acciones programadas y GPTs propios + caso Gemini</li><li><span>16</span>¿Cómo medir el impacto real?</li><li><span>17</span>¿Cómo acompañar al equipo?</li></ol></div>
+          <div class="g bl"><span class="n">5</span><h3>Gobernanza y ética</h3><ol><li><span>18</span>Sesgos y uso responsable</li><li><span>19</span>Datos personales y fugas de información</li><li><span>20</span>Regulaciones y protocolos en la Argentina + vigilancia estatal</li></ol></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BLOQUE 1 ============ -->
+  <section id="bloque-1" class="screen divider" data-block="Bloque 1" data-point="Encuadre e historia" aria-label="Bloque 1">
+    <div class="wrap">
+      <div class="big">
+        <div class="num">1</div>
+        <div>
+          <div class="kicker">Bloque 1 de 5</div>
+          <h2>Encuadre e historia</h2>
+          <ol>
+            <li><span>01</span>¿Cuál es el objetivo de este encuentro?</li>
+            <li><span>02</span>¿Qué es la inteligencia artificial y para qué sirve?</li>
+            <li><span>03</span>¿Cómo evolucionó la inteligencia artificial a lo largo de su historia?</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q2 ============ -->
+  <section id="q2" class="screen" data-block="Bloque 1" data-point="02 · ¿Qué es la IA y para qué sirve?" aria-label="Pregunta 2">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 1 · Pregunta 02</span>
+        <h2>¿Qué es la inteligencia artificial y para qué sirve?</h2>
+        <p class="sub">La IA no razona ni comprende: calcula trayectorias. Es un sistema matemático que identifica patrones y predice la continuación más probable.</p>
+      </header>
+      <div class="bd">
+        <div class="g">
+          <p class="ft">La paradoja de la adopción masiva</p>
+          <table class="tbl">
+            <thead><tr><th>Percepción humana · se asume que la IA posee</th><th>Realidad operativa · la IA es, en esencia</th></tr></thead>
+            <tbody>
+              <tr><td>Consciencia</td><td class="hi">Un sistema matemático</td></tr>
+              <tr><td>Intención</td><td class="hi">Identificación de patrones</td></tr>
+              <tr><td>Comprensión semántica del mundo</td><td class="hi">Predicción estadística de secuencias</td></tr>
+              <tr><td>Capacidad de razonamiento humano</td><td class="hi">Búsqueda de coherencia probabilística</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="grid c3">
+          <div class="tile"><span class="k">Definición de trabajo</span><h3>Algoritmos + datos → predicción</h3><p>La inteligencia artificial usa algoritmos y datos para predecir resultados y así facilitar la toma de decisiones.</p></div>
+          <div class="tile"><span class="k">Machine learning</span><h3>Aprendizaje automático</h3><p>Patrones y predicciones matemáticas aprendidas de ejemplos, en lugar de reglas escritas a mano. Es la base de casi toda la IA actual.</p></div>
+          <div class="tile"><span class="k">Para qué sirve</span><h3>Producir, resumir, clasificar, traducir</h3><p>Transformar texto, imágenes, audio y datos a una velocidad imposible para una persona. Siempre con alguien que define y revisa.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q2b ============ -->
+  <section id="q2b" class="screen" data-block="Bloque 1" data-point="02 · Mito vs. realidad" aria-label="Pregunta 2 · continuación">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 1 · Pregunta 02 · continuación</span>
+        <h2>La IA no razona ni comprende; calcula trayectorias</h2>
+      </header>
+      <div class="bd">
+        <div class="grid c2">
+          <div class="g">
+            <p class="ft">El mito: comprensión humana</p>
+            <div class="myth"><ul><li>Razona como una persona</li><li>Entiende lo que dice</li><li>Tiene intención y criterio</li><li>Crea de la nada</li></ul></div>
+            <p class="cap">Razonamiento, creatividad autónoma, entendimiento profundo.</p>
+          </div>
+          <div class="g">
+            <p class="ft">La realidad: predicción probabilística</p>
+            <div class="chain" aria-label="Cadena de tokens con probabilidades">
+              <div class="tok"><div class="h">TOKEN</div><div class="v">87%</div></div><span class="ar">→</span>
+              <div class="tok"><div class="h">TOKEN</div><div class="v">42%</div></div><span class="ar">→</span>
+              <div class="tok"><div class="h">TOKEN</div><div class="v">12%</div></div><span class="ar">→</span>
+              <div class="tok"><div class="h">TOKEN</div><div class="v">99%</div></div><span class="ar">→</span>
+              <div class="tok"><div class="h">TOKEN</div><div class="v">99%</div></div>
+            </div>
+            <p class="cap">Procesamiento de secuencias, evaluación estadística, reproducción de patrones. Cada palabra se elige por su probabilidad dada la anterior.</p>
+          </div>
+        </div>
+        <div class="note">La IA contemporánea opera mediante mecanismos de predicción condicionada. <b>No es una entidad; es un motor estadístico altamente sofisticado.</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q3 ============ -->
+  <section id="q3" class="screen" data-block="Bloque 1" data-point="03 · ¿Cómo evolucionó la IA?" aria-label="Pregunta 3">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 1 · Pregunta 03</span>
+        <h2>¿Cómo evolucionó la inteligencia artificial a lo largo de su historia?</h2>
+        <p class="sub">La escalera de capacidades: cómo la IA aprendió, escalón por escalón, a ver, leer, conversar, razonar y operar.</p>
+      </header>
+      <div class="bd">
+        <div class="g">
+          <div class="stairs">
+            <div class="step s1" style="--i:0"><span class="yr">1956</span><b>El nombre</b><small>Conferencia de Dartmouth: nace el concepto de "inteligencia artificial".</small></div>
+            <div class="step s2" style="--i:1"><span class="yr">2012</span><b>Aprender a VER</b><small>Las redes neuronales profundas reconocen imágenes (AlexNet).</small></div>
+            <div class="step s3" style="--i:2"><span class="yr">2017</span><b>Aprender a LEER</b><small>El mecanismo Transformer introduce la atención: entender la frase completa.</small></div>
+            <div class="step s4" style="--i:3"><span class="yr">2022</span><b>Aprender a CONVERSAR</b><small>ChatGPT masifica la tecnología: cualquiera puede usarla.</small></div>
+            <div class="step s5" style="--i:4"><span class="yr">2024</span><b>Aprender a RAZONAR</b><small>Modelos que "piensan" antes de responder y encadenan pasos.</small></div>
+            <div class="step s6" style="--i:5"><span class="yr">2026</span><b>Aprender a OPERAR</b><small>Agentes que coordinan subagentes, usan aplicaciones y navegan interfaces.</small></div>
+          </div>
+        </div>
+        <div class="grid c3">
+          <div class="tile"><span class="k">Antes de 2022</span><h3>IA invisible</h3><p>Ya la usabas sin saberlo: recomendaciones, traducción automática, filtros de spam, mapas, reconocimiento de voz.</p></div>
+          <div class="tile"><span class="k">2022 – 2024</span><h3>IA conversacional</h3><p>Se vuelve una herramienta de trabajo: escribir, resumir, traducir, analizar, programar, generar imágenes.</p></div>
+          <div class="tile"><span class="k">Hoy</span><h3>IA que ejecuta</h3><p>Agentes que completan procesos: leer un correo, consultar una planilla, redactar y enviar una respuesta, con supervisión humana.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BLOQUE 2 ============ -->
+  <section id="bloque-2" class="screen divider" data-block="Bloque 2" data-point="Arquitectura y conceptos base" aria-label="Bloque 2">
+    <div class="wrap">
+      <div class="big">
+        <div class="num">2</div>
+        <div>
+          <div class="kicker">Bloque 2 de 5</div>
+          <h2>Arquitectura y conceptos base</h2>
+          <ol>
+            <li><span>04</span>¿Cómo funciona la inteligencia artificial por dentro?</li>
+            <li><span>05</span>¿Qué son los modelos de inteligencia artificial?</li>
+            <li><span>06</span>¿Qué es la inteligencia artificial generativa?</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q4 ============ -->
+  <section id="q4" class="screen" data-block="Bloque 2" data-point="04 · ¿Cómo funciona la IA por dentro?" aria-label="Pregunta 4">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 2 · Pregunta 04</span>
+        <h2>¿Cómo funciona la inteligencia artificial por dentro?</h2>
+        <p class="sub">Los modelos piensan en relaciones matemáticas, no en palabras. El texto se parte en fragmentos (tokens) y cada fragmento se elige por su probabilidad.</p>
+      </header>
+      <div class="bd">
+        <div class="g">
+          <p class="ft">De las letras a los tokens</p>
+          <div class="tokens3">
+            <div><div class="glyph">A B C</div><div class="lbl"><b>Alfabeto occidental</b><small>Unidades aisladas sin significado propio</small></div></div>
+            <div class="arrow">→</div>
+            <div><div class="glyph cjk">木 森</div><div class="lbl"><b>Ideogramas</b><small>Conceptos que cambian según su combinación (árbol → bosque)</small></div></div>
+            <div class="arrow">→</div>
+            <div><div class="glyph"><div class="tk"><span>des</span><i>↔</i><span>ayu</span><i>↔</i><span>no</span></div></div><div class="lbl"><b>Tokens de IA</b><small>Fragmentos matemáticos vinculados por contexto</small></div></div>
+          </div>
+        </div>
+        <div class="note">El significado no reside en la unidad aislada, sino en la red de combinaciones. <b>Las palabras son una ilusión; la máquina procesa tokens.</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q4b ============ -->
+  <section id="q4b" class="screen" data-block="Bloque 2" data-point="04 · Un árbol de decisiones estadísticas" aria-label="Pregunta 4 · continuación">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 2 · Pregunta 04 · continuación</span>
+        <h2>La generación de lenguaje es un árbol de decisiones estadísticas</h2>
+      </header>
+      <div class="bd">
+        <div class="g">
+          <div class="tree">
+            <div class="root"><div class="bx">Para un buen asado hace falta…</div></div>
+            <svg viewBox="0 0 80 300" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M0,150 C40,150 40,50 80,50" fill="none" style="stroke:var(--g-accent)" stroke-width="3"/>
+              <path d="M0,150 C40,150 40,150 80,150" fill="none" style="stroke:var(--g-stroke)" stroke-width="1.5"/>
+              <path d="M0,150 C40,150 40,250 80,250" fill="none" style="stroke:var(--g-stroke)" stroke-width="1.2" stroke-dasharray="4 4"/>
+            </svg>
+            <div class="opts">
+              <div class="opt"><div class="bx">…paciencia</div><div class="pct">58%</div></div>
+              <div class="opt w"><div class="bx">…buena carne</div><div class="pct">27%</div></div>
+              <div class="opt w"><div class="bx">…un buen vino</div><div class="pct">6%</div></div>
+            </div>
+          </div>
+          <div class="messi">
+            <div class="bx">El mejor futbolista argentino es…</div>
+            <div class="arrow">➜</div>
+            <div class="bx solid big">[Messi]</div>
+            <p class="nt"><b>Falsa inteligencia:</b> al responder "Messi" el modelo no analiza fútbol; reproduce el patrón estadísticamente dominante en sus datos de entrenamiento.</p>
+          </div>
+          <p class="cap">Valores ilustrativos. La opción más frecuente en los datos gana: eso es "consenso cultural", no entendimiento.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q4c ============ -->
+  <section id="q4c" class="screen" data-block="Bloque 2" data-point="04 · La atención prioriza lo relevante" aria-label="Pregunta 4 · atención">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 2 · Pregunta 04 · continuación</span>
+        <h2>El mecanismo estructural: la "atención" prioriza lo relevante</h2>
+      </header>
+      <div class="bd">
+        <div class="g attn">
+          <div class="row">
+            <div class="bx">[El]</div><div class="bx">[huésped]</div><div class="bx">[solicita]</div><div class="bx">[late]</div><div class="bx">[check-out]</div>
+          </div>
+          <svg viewBox="0 0 500 130" aria-hidden="true">
+            <path d="M50,0 Q100,38 150,0" fill="none" style="stroke:var(--g-stroke)" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <path d="M250,0 Q350,112 450,0" fill="none" style="stroke:var(--g-stroke)" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <path d="M150,0 Q250,96 350,0" fill="none" style="stroke:var(--g-accent)" stroke-width="2"/>
+            <path d="M250,0 Q300,70 350,0" fill="none" style="stroke:var(--g-accent)" stroke-width="2.5"/>
+            <path d="M150,0 Q300,128 450,0" fill="none" style="stroke:var(--g-accent)" stroke-width="3.5"/>
+            <text x="100" y="32" font-size="9" letter-spacing="1" font-family="Inter, sans-serif" text-anchor="middle" style="fill:var(--g-dim)">PESO 0.05</text>
+            <text x="300" y="28" font-size="9" letter-spacing="1" font-family="Inter, sans-serif" text-anchor="middle" style="fill:var(--g-accent)">PESO 0.78</text>
+            <text x="205" y="64" font-size="9" letter-spacing="1" font-family="Inter, sans-serif" text-anchor="middle" style="fill:var(--g-accent)">PESO 0.71</text>
+            <text x="300" y="80" font-size="9" letter-spacing="1" font-family="Inter, sans-serif" text-anchor="middle" style="fill:var(--g-accent)">PESO 0.86</text>
+            <text x="425" y="66" font-size="9" letter-spacing="1" font-family="Inter, sans-serif" text-anchor="middle" style="fill:var(--g-dim)">PESO 0.12</text>
+          </svg>
+          <div class="legend">
+            <div><b>Análisis simultáneo</b><p>El modelo no lee palabra por palabra: evalúa la secuencia completa al mismo tiempo.</p></div>
+            <div><b>Asignación de pesos</b><p>"huésped" y "check-out" pesan más entre sí que "El" con cualquiera. Lo central manda, el ruido se minimiza.</p></div>
+            <div><b>Eficiencia cognitiva</b><p>Funciona como el resumen humano: no todo tiene el mismo valor para construir el significado.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q5 ============ -->
+  <section id="q5" class="screen" data-block="Bloque 2" data-point="05 · ¿Qué son los modelos de IA?" aria-label="Pregunta 5">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 2 · Pregunta 05</span>
+        <h2>¿Qué son los modelos de inteligencia artificial?</h2>
+        <p class="sub">Un modelo es el resultado de entrenar una red con enormes volúmenes de datos: miles de millones de conexiones que capturan patrones. Cuatro fundamentos lo explican.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c4">
+          <div class="tile hl"><span class="k">01 / Tokens</span><h3>La unidad mínima</h3><p>La IA no procesa ideas: procesa fragmentos de texto o símbolos.</p></div>
+          <div class="tile hl"><span class="k">02 / Contexto</span><h3>La memoria operativa finita</h3><p>Todo lo que queda fuera del límite de tokens asignado deja de existir para el sistema.</p></div>
+          <div class="tile hl"><span class="k">03 / Parámetros</span><h3>La escala del modelo</h3><p>La cantidad de conexiones internas que capturan relaciones complejas en los datos de entrenamiento.</p></div>
+          <div class="tile hl"><span class="k">04 / Probabilidad</span><h3>El núcleo ejecutor</h3><p>Ante cada token posible, el modelo asigna una probabilidad y apuesta por el más estadísticamente adecuado.</p></div>
+        </div>
+        <div class="grid c2">
+          <div class="g bell">
+            <p class="ft">La gravedad estadística castiga la innovación</p>
+            <svg viewBox="0 0 600 200" aria-label="Campana de distribución">
+              <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--g-accent)"/></marker></defs>
+              <line x1="20" y1="180" x2="590" y2="180" style="stroke:var(--g-stroke)" stroke-width="1.5"/>
+              <path d="M20,180 C150,180 210,14 300,14 C390,14 450,180 580,180 Z" style="fill:var(--g-ink)" opacity=".92"/>
+              <text x="300" y="98" text-anchor="middle" font-size="14" font-family="Inter, sans-serif" style="fill:var(--g-on-ink)">El promedio</text>
+              <text x="300" y="118" text-anchor="middle" font-size="14" font-family="Inter, sans-serif" style="fill:var(--g-on-ink)">Lo existente</text>
+              <text x="300" y="138" text-anchor="middle" font-size="14" font-family="Inter, sans-serif" style="fill:var(--g-on-ink)">La mediocridad</text>
+              <line x1="235" y1="70" x2="110" y2="150" style="stroke:var(--g-accent)" stroke-width="3" marker-end="url(#ah)"/>
+              <line x1="365" y1="70" x2="490" y2="150" style="stroke:var(--g-accent)" stroke-width="3" marker-end="url(#ah)"/>
+              <text x="28" y="134" font-size="10.5" font-family="Inter, sans-serif" style="fill:var(--g-text)">Innovación</text>
+              <text x="28" y="148" font-size="10.5" font-family="Inter, sans-serif" style="fill:var(--g-text)">Rarezas</text>
+              <text x="28" y="162" font-size="10.5" font-family="Inter, sans-serif" style="fill:var(--g-text)">Disrupción</text>
+              <text x="572" y="134" text-anchor="end" font-size="10.5" font-family="Inter, sans-serif" style="fill:var(--g-text)">Innovación</text>
+              <text x="572" y="148" text-anchor="end" font-size="10.5" font-family="Inter, sans-serif" style="fill:var(--g-text)">Rarezas</text>
+              <text x="572" y="162" text-anchor="end" font-size="10.5" font-family="Inter, sans-serif" style="fill:var(--g-text)">Disrupción</text>
+            </svg>
+            <div class="principles"><b>Principios operativos</b>· Privilegia los patrones más frecuentes.<br>· Evita de forma automática los extremos.<br>· Por defecto, la máquina siempre te llevará al centro.</div>
+          </div>
+          <div class="g">
+            <p class="ft">El paisaje de datos: acceder a lo nuevo es computacionalmente costoso</p>
+            <div class="towers" aria-hidden="true">
+              <i style="height:12%"></i><i style="height:18%"></i><i style="height:24%"></i><i style="height:20%"></i><i style="height:34%"></i><i style="height:48%"></i><i class="t" style="height:66%"></i><i class="t" style="height:82%"></i><i class="t" style="height:94%"></i><i class="t" style="height:100%"></i><i class="t" style="height:96%"></i><i class="t" style="height:84%"></i><i class="t" style="height:70%"></i><i style="height:52%"></i><i style="height:38%"></i><i style="height:28%"></i><i style="height:22%"></i><i style="height:16%"></i><i style="height:14%"></i><i style="height:10%"></i>
+            </div>
+            <div class="tw-legend">
+              <div><b>Torres altas (lo frecuente)</b><p>Conceptos hiper-representados. La IA accede a ellos fácilmente porque el costo de procesamiento es bajo.</p></div>
+              <div class="lo"><b>Torres bajas (lo infrecuente)</b><p>Ideas raras e inéditas. La máquina ignora estas zonas a menos que el operador la obligue a explorarlas.</p></div>
+            </div>
+            <p class="cap">"Menú del día" tiene miles de ejemplos; "menú de pasos con productos del puerto marplatense" tiene pocos. Si no lo pedís explícitamente, la IA te devuelve lo primero.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q6 ============ -->
+  <section id="q6" class="screen" data-block="Bloque 2" data-point="06 · ¿Qué es la IA generativa?" aria-label="Pregunta 6">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 2 · Pregunta 06</span>
+        <h2>¿Qué es la inteligencia artificial generativa?</h2>
+        <p class="sub">Crea nuevos contenidos (textos, imágenes, ideas) basándose en patrones de datos aprendidos. Estos sistemas no "piensan" como los humanos: predicen resultados usando relaciones matemáticas aprendidas de enormes conjuntos de datos.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c3 tight">
+          <div class="tile"><span class="k">Texto</span><h3>Redacción y reescritura</h3><p>Respuestas a reseñas, descripciones de platos y habitaciones, correos a huéspedes, propuestas comerciales, traducciones.</p></div>
+          <div class="tile"><span class="k">Imagen</span><h3>Visuales para comunicar</h3><p>Piezas para redes, bocetos de ambientación, variaciones de un flyer, mockups de la carta. Depende por completo del prompt.</p></div>
+          <div class="tile"><span class="k">Audio y voz</span><h3>Locución y transcripción</h3><p>Transcribir notas de voz de WhatsApp, locuciones para videos, atención telefónica automatizada.</p></div>
+          <div class="tile"><span class="k">Video</span><h3>Clips cortos</h3><p>Reels de un plato o una habitación, videos de temporada con subtítulos en varios idiomas.</p></div>
+          <div class="tile"><span class="k">Código</span><h3>Pequeñas herramientas</h3><p>Una planilla que calcula costos, un formulario de reservas, una página de evento, sin saber programar.</p></div>
+          <div class="tile"><span class="k">Datos</span><h3>Análisis e interpretación</h3><p>Resumir 300 reseñas en cinco temas, detectar quejas repetidas, comparar ocupación por mes.</p></div>
+        </div>
+        <div class="g">
+          <p class="ft">Herramientas que hacen esto accesible a cualquiera</p>
+          <div class="pills"><span class="pill">ChatGPT</span><span class="pill">Gemini</span><span class="pill">Claude</span><span class="pill">Midjourney</span><span class="pill">AWS PartyRock</span><span class="pill">Notion AI</span><span class="pill">NotebookLM</span><span class="pill amber">Higgsfield · video, "tipo Netflix" multiplataforma para productores audiovisuales</span></div>
+          <p class="cap">El coste y el rendimiento varían entre modelos, y el uso suele medirse en tokens. Los usuarios debemos equilibrar creatividad con coste y responsabilidad.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q6b ============ -->
+  <section id="q6b" class="screen" data-block="Bloque 2" data-point="06 · Cómo crea sin entender" aria-label="Pregunta 6 · continuación">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 2 · Pregunta 06 · continuación</span>
+        <h2>Cómo "crea" sin entender</h2>
+      </header>
+      <div class="bd">
+        <div class="grid c2">
+          <div class="g">
+            <p class="ft">La anatomía de la creatividad · diagnóstico operativo</p>
+            <table class="tbl">
+              <thead><tr><th>Dimensión</th><th>Cómo opera la IA</th><th>Cómo opera el humano</th></tr></thead>
+              <tbody>
+                <tr><td class="lb">Base de conocimiento</td><td class="dim">Procesamiento de datos preexistentes</td><td class="hi">Integración de experiencias de vida</td></tr>
+                <tr><td class="lb">Impulso</td><td class="dim">Sin intención ni estados emocionales</td><td class="hi">Influencia emocional y contextual</td></tr>
+                <tr><td class="lb">Trayectoria</td><td class="dim">Tiende al consenso y al promedio estadístico</td><td class="hi">Búsqueda activa de disrupción y rareza</td></tr>
+                <tr><td class="lb">Mecanismo</td><td class="dim">Combinación probabilística optimizada</td><td class="hi">Saltos conceptuales interdisciplinares inéditos</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="g">
+            <p class="ft">Lo que cambia para un hotel o un restaurante</p>
+            <ul class="ls">
+              <li>Producir en minutos lo que antes llevaba horas: borradores, variantes, traducciones.</li>
+              <li>Responder a tiempo: reseñas, consultas, cotizaciones, sin esperar "a tener un rato".</li>
+              <li>Mantener un tono consistente en todos los canales con una sola instrucción bien escrita.</li>
+              <li>Convertir datos sueltos (reseñas, planillas, mensajes) en decisiones.</li>
+            </ul>
+            <div class="warn" style="margin-top:12px"><b>Atención:</b> genera contenido <em>plausible</em>, no necesariamente <em>verdadero</em>. Lo que produce se revisa antes de salir (preguntas 09 y 10).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BLOQUE 3 ============ -->
+  <section id="bloque-3" class="screen divider" data-block="Bloque 3" data-point="Técnicas de interacción y control operativo" aria-label="Bloque 3">
+    <div class="wrap">
+      <div class="big">
+        <div class="num">3</div>
+        <div>
+          <div class="kicker">Bloque 3 de 5</div>
+          <h2>Técnicas de interacción y control operativo</h2>
+          <ol>
+            <li><span>07</span>¿Cómo hablarle a la IA? Contexto, memoria, temperatura y los cuatro pilares del prompting</li>
+            <li><span>08</span>¿Cuánto cuesta usar inteligencia artificial y qué es un token?</li>
+            <li><span>09</span>¿Qué son las alucinaciones y por qué la IA inventa datos?</li>
+            <li><span>10</span>¿Por qué resulta necesario probar e inspeccionar las respuestas de la IA?</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q7 ============ -->
+  <section id="q7" class="screen" data-block="Bloque 3" data-point="07 · ¿Cómo hablarle a la IA?" aria-label="Pregunta 7">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 3 · Pregunta 07</span>
+        <h2>¿Cómo hablarle a la IA?</h2>
+        <p class="sub">Un prompting efectivo es el que logra resultados de alta calidad. La IA generativa predice resultados matemáticos: para guiarla, requiere estructura. Cuatro pilares: especificidad, ejemplos, contexto y formato.</p>
+      </header>
+      <div class="bd">
+        <div class="g">
+          <p class="ft">Los cuatro pilares del prompt perfecto</p>
+          <div class="pillars">
+            <div class="pillar"><div class="bx ink">[ ESPECIFICIDAD ]</div><p>Qué querés exactamente, para quién y con qué objetivo. "Respondé esta reseña de 2 estrellas", no "ayudame con las reseñas".</p></div>
+            <div class="plus">+</div>
+            <div class="pillar"><div class="bx">[ EJEMPLOS ]</div><p>Una o dos muestras de lo que te gusta. Una respuesta anterior que salió bien vale más que diez adjetivos.</p></div>
+            <div class="plus">+</div>
+            <div class="pillar"><div class="bx amber">[ CONTEXTO ]</div><p>Quiénes somos, qué pasó, qué datos importan, con qué rol habla. Establece los límites de la memoria operativa.</p></div>
+            <div class="plus">+</div>
+            <div class="pillar"><div class="bx ghost">[ FORMATO ]</div><p>La estructura de salida deseada. Largo, tono, idioma, lista o párrafo, qué no incluir.</p></div>
+          </div>
+        </div>
+        <div class="g">
+          <p class="ft">Ejemplo real · responder una reseña</p>
+          <div class="prompt"><span class="p3">Sos el encargado de atención al cliente de una parrilla familiar de Mar del Plata. Un cliente dejó 2 estrellas en Google porque esperó 40 minutos la mesa un sábado a la noche y el mozo no le avisó la demora. La comida le gustó. Nuestro tono es cercano, sin exagerar disculpas.</span>
+<span class="p1">Redactá una respuesta pública que agradezca, reconozca la demora sin excusas, explique una medida concreta (aviso de espera estimada) y lo invite a volver.</span>
+<span class="p2">Ejemplo de respuesta que nos gusta: "Gracias por contarnos, Martín. Tenés razón con la espera del sábado: ya estamos avisando el tiempo estimado al llegar. Nos alegra que la comida haya valido la pena; te esperamos."</span>
+<span class="p4">Formato: máximo 4 líneas, español rioplatense, sin emojis, sin ofrecer descuentos.</span></div>
+          <p class="cap">Cada color es un pilar: contexto (ámbar), especificidad (sólido), ejemplos (gris), formato (recuadro). Sacá cualquiera y la respuesta se vuelve genérica.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q7b ============ -->
+  <section id="q7b" class="screen" data-block="Bloque 3" data-point="07 · Contexto, memoria y temperatura" aria-label="Pregunta 7 · continuación">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 3 · Pregunta 07 · continuación</span>
+        <h2>Contexto, memoria y el tablero de control</h2>
+        <p class="sub">La IA posee un volumen masivo de información, pero carece de contexto del mundo real (quién sos, dónde estás, qué querés). El operador provee el encuadre para alterar el resultado.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c2">
+          <div class="g">
+            <p class="ft">El significado es un contenedor vacío sin el contexto</p>
+            <div class="ctx">
+              <div class="word">RESERVA</div>
+              <div class="rows">
+                <div class="r"><div class="bx ghost">Contexto: hotel</div><div class="bx solid">Habitación, check-in, noches, huésped</div></div>
+                <div class="r"><div class="bx ghost">Contexto: restaurante</div><div class="bx solid">Mesa, horario, cubiertos, comensales</div></div>
+                <div class="r"><div class="bx ghost">Sin contexto</div><div class="bx">Definición genérica de diccionario</div></div>
+              </div>
+            </div>
+            <div class="note" style="margin-top:14px"><b>Memoria:</b> el modelo solo "recuerda" lo que entra en la ventana de contexto de esa conversación. Lo que no está escrito, no existe. Por eso los proyectos e instrucciones fijas (pregunta 15) importan tanto.</div>
+          </div>
+          <div class="g">
+            <p class="ft">El tablero de control · temperatura y Top-P</p>
+            <div class="grid c2 tight">
+              <div class="gauge">
+                <svg viewBox="0 0 200 118" aria-label="Indicador de temperatura">
+                  <path d="M20,100 A80,80 0 0 1 100,20" fill="none" style="stroke:var(--g-accent)" stroke-width="14" stroke-linecap="round"/>
+                  <path d="M100,20 A80,80 0 0 1 180,100" fill="none" style="stroke:var(--g-amber)" stroke-width="14" stroke-linecap="round"/>
+                  <line x1="100" y1="100" x2="76" y2="26" style="stroke:var(--g-text)" stroke-width="2.5" stroke-linecap="round"/>
+                  <circle cx="100" cy="100" r="5" style="fill:var(--g-text)"/>
+                  <text x="128" y="86" font-size="10" letter-spacing="1" font-family="Inter, sans-serif" style="fill:var(--g-muted)">T = 0.8</text>
+                </svg>
+                <div class="gl"><span>Determinista</span><span>Caótico</span></div>
+                <p class="cap">Controla la aleatoriedad. Baja = respuestas precisas y predecibles (políticas, precios, horarios). Alta = diversidad, variabilidad y riesgo de alucinación (ideas para un evento).</p>
+              </div>
+              <div>
+                <div class="funnel">
+                  <div class="fl"><span>Más opciones</span><span></span></div>
+                  <i style="width:100%"></i><i style="width:72%"></i><i style="width:48%"></i><i style="width:26%"></i>
+                  <div class="fl"><span></span><span>Menos opciones</span></div>
+                </div>
+                <p class="cap">Top-P limita el universo estadístico de tokens candidatos. En los chats comunes no se toca; en herramientas y automatizaciones, sí.</p>
+              </div>
+            </div>
+            <div class="warn" style="margin-top:12px"><b>Atención:</b> mayor exploración (alta T / alto Top-P) = mayor consumo de recursos y dinero, y más riesgo de datos inventados. Los tokens son la moneda de esfuerzo de la IA.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q8 ============ -->
+  <section id="q8" class="screen" data-block="Bloque 3" data-point="08 · ¿Cuánto cuesta y qué es un token?" aria-label="Pregunta 8">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 3 · Pregunta 08</span>
+        <h2>¿Cuánto cuesta usar inteligencia artificial y qué es un token?</h2>
+        <p class="sub">Se paga por tokens procesados: los que entran (tu instrucción + contexto) y los que salen (la respuesta). Un token es, en español, más o menos tres cuartos de una palabra. Saberlo sirve para elegir modelo y controlar el gasto.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c4">
+          <div class="tile hl"><span class="k">Qué es un token</span><h3>Un fragmento de texto</h3><p>"desayuno" ≈ 3 tokens. Una reseña ≈ 80. Una página ≈ 500. Una carta completa ≈ 1.500.</p></div>
+          <div class="tile hl"><span class="k">Qué se cobra</span><h3>Entrada + salida</h3><p>Todo lo que mandás (instrucción, adjuntos, historial) más todo lo que el modelo genera. Los modelos más capaces cuestan más por token.</p></div>
+          <div class="tile hl"><span class="k">Modelos y esfuerzo</span><h3>El calzado correcto</h3><p>No usás las mismas zapatillas para la playa que para correr. Un modelo liviano para lo cotidiano; uno de "razonamiento" para lo complejo. Elegir mal es la forma más común de gastar de más.</p></div>
+          <div class="tile hl"><span class="k">Impacto ambiental</span><h3>Energía y agua</h3><p>Cada respuesta corre en centros de datos que consumen electricidad y agua. Más tokens y modelos más grandes = más consumo.</p></div>
+        </div>
+        <div class="grid c2">
+          <div class="g">
+            <p class="ft">Orden de magnitud · lo barato y lo caro</p>
+            <table class="tbl">
+              <thead><tr><th>Tarea</th><th>Tokens aprox.</th><th>Costo relativo</th></tr></thead>
+              <tbody>
+                <tr><td>Responder una reseña</td><td class="dim">~300</td><td class="hi">Centavos</td></tr>
+                <tr><td>Resumir 300 reseñas del mes</td><td class="dim">~30.000</td><td class="hi">Monedas</td></tr>
+                <tr><td>Chatbot de WhatsApp, 1.000 conversaciones</td><td class="dim">~500.000</td><td class="hi">Unos pocos dólares</td></tr>
+                <tr><td>Hora de una persona redactando</td><td class="dim">—</td><td class="hi">Lo verdaderamente caro</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="g">
+            <p class="ft">Cómo se paga · reglas para no gastar de más</p>
+            <ul class="ls">
+              <li>Planes gratuitos con límites · suscripción mensual por usuario · API por consumo para automatizaciones.</li>
+              <li>Elegir el modelo según la tarea: uno rápido y barato para lo repetitivo; el más capaz para lo delicado.</li>
+              <li>No arrastrar conversaciones eternas: cada mensaje reenvía todo el historial.</li>
+              <li>Adjuntar solo lo necesario; pedir respuestas cortas y precisas.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q9 ============ -->
+  <section id="q9" class="screen" data-block="Bloque 3" data-point="09 · ¿Qué son las alucinaciones?" aria-label="Pregunta 9">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 3 · Pregunta 09</span>
+        <h2>¿Qué son las alucinaciones y por qué la IA inventa datos?</h2>
+        <p class="sub">Son salidas falsas presentadas como hechos o conclusiones, que pueden erosionar la confianza y causar daños en el mundo real. No es un error ocasional: es una propiedad estructural del mecanismo.</p>
+      </header>
+      <div class="bd">
+        <div class="g">
+          <p class="ft">La alucinación como propiedad estructural</p>
+          <div class="flow">
+            <div class="bx ghost">Información insuficiente, ambigua o inexistente en los datos</div>
+            <div class="arrow">→</div>
+            <div class="bx">El modelo sigue el patrón aprendido: "después de esto, suele venir aquello"</div>
+            <div class="arrow">→</div>
+            <div class="bx ink">Respuesta fluida, segura, coherente… y falsa</div>
+          </div>
+          <p class="cap">El modelo no sabe que no sabe. No tiene un "no estoy seguro" nativo: produce la continuación más probable, aunque sea inventada.</p>
+        </div>
+        <div class="grid c2">
+          <div class="g">
+            <p class="ft">Cómo se ve en un hotel o un restaurante</p>
+            <ul class="ls no">
+              <li>Inventa horarios de check-in o de cocina que no son los tuyos.</li>
+              <li>Describe un plato que no está en la carta o un servicio que el hotel no ofrece.</li>
+              <li>Confirma una política de cancelación que nunca definiste.</li>
+              <li>Cita precios, direcciones o teléfonos "plausibles" pero incorrectos.</li>
+            </ul>
+          </div>
+          <div class="g">
+            <p class="ft">Cómo reducirlas (no se eliminan)</p>
+            <ul class="ls">
+              <li>Prompts y descripciones asertivos: darle los datos (carta, tarifas, políticas) y pedir que diga "no tengo ese dato".</li>
+              <li>Bajar la temperatura en tareas de datos; subirla solo para ideas.</li>
+              <li>Pedir fuentes y verificarlas; activar búsqueda web cuando el dato es externo.</li>
+              <li>Someter los resultados al control humano antes de publicar.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q10 ============ -->
+  <section id="q10" class="screen" data-block="Bloque 3" data-point="10 · ¿Por qué probar e inspeccionar?" aria-label="Pregunta 10">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 3 · Pregunta 10</span>
+        <h2>¿Por qué resulta necesario probar e inspeccionar las respuestas de la IA?</h2>
+        <p class="sub">Human in the loop: el estándar operativo. El humano no es un operador reemplazado, es el director del sistema. La calidad del resultado es directamente proporcional a la calidad de la intervención humana.</p>
+      </header>
+      <div class="bd">
+        <div class="g">
+          <p class="ft">Human in the loop · el ciclo</p>
+          <div class="loop">
+            <div class="node"><span class="k">Humano</span><ul><li>Define objetivos</li><li>Formula instrucciones precisas</li><li>Provee contexto y datos</li></ul></div>
+            <div class="arrow">→</div>
+            <div class="node ia"><span class="k">IA</span><ul><li>Procesa el contexto</li><li>Genera variaciones probabilísticas</li><li>Propone borradores</li></ul></div>
+            <div class="arrow">→</div>
+            <div class="node"><span class="k">Humano</span><ul><li>Evalúa resultados</li><li>Corrige y ajusta la instrucción</li><li>Toma la decisión final</li></ul></div>
+            <div class="back">vuelve a empezar con una instrucción mejor</div>
+          </div>
+        </div>
+        <div class="grid c3">
+          <div class="tile"><span class="k">Pruebas · modelos</span><h3>Comparar con resultados conocidos</h3><p>Dale 10 reseñas que ya respondiste y mirá cuánto se parece a lo que hubieras escrito.</p></div>
+          <div class="tile"><span class="k">Pruebas · automatizaciones y chatbots</span><h3>Simular recorridos reales de usuario</h3><p>El cliente apurado, el que escribe mal, el que pregunta algo que no está en la carta.</p></div>
+          <div class="tile"><span class="k">Criterio</span><h3>Detectar pronto y documentar</h3><p>Probar no es evitar errores por completo, sino detectarlos pronto y documentar las correcciones. Protege la reputación y la seguridad del cliente.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q10b ============ -->
+  <section id="q10b" class="screen" data-block="Bloque 3" data-point="10 · Antes de publicar" aria-label="Pregunta 10 · continuación">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 3 · Pregunta 10 · continuación</span>
+        <h2>El antídoto contra la mediocridad automatizada</h2>
+      </header>
+      <div class="bd">
+        <div class="grid c2">
+          <div class="g">
+            <p class="ft">¿Por qué siempre te da la razón?</p>
+            <p class="cap" style="margin:0 0 10px">Los modelos se ajustan para resultar agradables y útiles: tienden a validar lo que decís y a elogiar tus ideas. Eso <b>no es evidencia de que tengas razón</b>.</p>
+            <ul class="ls">
+              <li>Pedile que te contradiga: "buscá tres problemas de esta propuesta".</li>
+              <li>No le cuentes qué respuesta esperás antes de preguntar.</li>
+              <li>Pedí fuentes y verificá al menos una.</li>
+            </ul>
+          </div>
+          <div class="g">
+            <p class="ft">Antes de publicar · lista de inspección</p>
+            <ul class="ls">
+              <li>¿Los datos (precios, horarios, políticas, nombres) son reales y actuales?</li>
+              <li>¿El tono es el nuestro o suena a plantilla?</li>
+              <li>¿Promete algo que no podemos cumplir?</li>
+              <li>¿Incluye datos personales de un cliente o un huésped?</li>
+              <li>¿Lo firmaría con mi nombre?</li>
+            </ul>
+          </div>
+        </div>
+        <div class="grid c3">
+          <div class="tile"><h3>Iluminar nuevas torres</h3><p>La máquina no explorará lo raro sola; la persona debe forzar la conexión: "proponé algo que ningún hotel de la zona haga".</p></div>
+          <div class="tile"><h3>Inyectar vivencias</h3><p>Cruzar lo que sabés del barrio, de tus clientes y de tu cocina altera drásticamente la probabilidad del resultado.</p></div>
+          <div class="tile"><h3>El verdadero problema</h3><p>El riesgo no es la herramienta en sí, sino operarla sin criterio humano activo.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BLOQUE 4 ============ -->
+  <section id="bloque-4" class="screen divider" data-block="Bloque 4" data-point="Implementación, herramientas y procesos" aria-label="Bloque 4">
+    <div class="wrap">
+      <div class="big">
+        <div class="num">4</div>
+        <div>
+          <div class="kicker">Bloque 4 de 5</div>
+          <h2>Implementación, herramientas y procesos</h2>
+          <ol>
+            <li><span>11</span>¿De qué formas concretas se puede usar la inteligencia artificial?</li>
+            <li><span>12</span>¿Qué son los chatbots y para qué sirven?</li>
+            <li><span>13</span>¿Qué diferencias hay entre usar chats, agentes, plataformas de bajo código y apps integradas?</li>
+            <li><span>14</span>¿Cómo automatizar tareas repetitivas? · Anatomía de un flujo de automatización</li>
+            <li><span>15</span>¿Cómo aprovechar funciones útiles, proyectos, conectores, acciones programadas y GPTs propios? · Caso: el ecosistema Gemini</li>
+            <li><span>16</span>¿Cómo medir el impacto real en los tiempos y la calidad del trabajo?</li>
+            <li><span>17</span>¿Cómo acompañar al equipo para superar la resistencia al cambio?</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q11 ============ -->
+  <section id="q11" class="screen" data-block="Bloque 4" data-point="11 · ¿De qué formas concretas se puede usar?" aria-label="Pregunta 11">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 4 · Pregunta 11</span>
+        <h2>¿De qué formas concretas se puede usar la inteligencia artificial?</h2>
+        <p class="sub">Comparativa de productividad: el mismo día de trabajo, con y sin IA.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c2">
+          <div class="g">
+            <p class="colhead no">Flujo de trabajo convencional</p>
+            <ul class="ls no">
+              <li>Responder reseñas una por una, "cuando haya un rato"; muchas quedan sin respuesta.</li>
+              <li>Redactar la carta, las promos y los posteos desde cero cada vez.</li>
+              <li>Las mismas consultas por WhatsApp, a toda hora, respondidas a mano.</li>
+              <li>Correos de confirmación, pre-estadía y post-estadía copiados y pegados.</li>
+              <li>Planillas de ocupación, costos y ventas revisadas a ojo.</li>
+            </ul>
+          </div>
+          <div class="g">
+            <p class="colhead ok">Flujo de trabajo potenciado por IA</p>
+            <ul class="ls">
+              <li>Borradores de respuesta en segundos, con nuestro tono, para aprobar y publicar.</li>
+              <li>Variantes de textos, nombres de platos y propuestas de carta en minutos.</li>
+              <li>Respuestas automáticas a preguntas frecuentes, con derivación a una persona.</li>
+              <li>Secuencias de correos personalizadas que salen solas en el momento justo.</li>
+              <li>Resúmenes e interpretación de datos: "¿qué pasó con las ventas los martes?"</li>
+            </ul>
+          </div>
+        </div>
+        <div class="grid c4 tight">
+          <div class="tile"><span class="k">Comunicación</span><h3>Reseñas, redes, correos</h3><p>Lo más inmediato: se empieza acá y se ve el resultado el mismo día.</p></div>
+          <div class="tile"><span class="k">Atención</span><h3>WhatsApp, web, teléfono</h3><p>Chatbots y asistentes que responden lo frecuente y derivan lo delicado.</p></div>
+          <div class="tile"><span class="k">Gestión</span><h3>Planillas, reportes, compras</h3><p>Análisis de ocupación, costos de carta, pedidos a proveedores, resúmenes semanales.</p></div>
+          <div class="tile"><span class="k">Creación</span><h3>Contenido y propuestas</h3><p>Promociones, eventos, propuestas corporativas, piezas visuales, video corto.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q12 ============ -->
+  <section id="q12" class="screen" data-block="Bloque 4" data-point="12 · ¿Qué son los chatbots?" aria-label="Pregunta 12">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 4 · Pregunta 12</span>
+        <h2>¿Qué son los chatbots y para qué sirven?</h2>
+        <p class="sub">Herramientas digitales que simulan conversaciones para gestionar interacciones rutinarias de forma eficiente. Identifican la intención del usuario y lo guían a través de respuestas lógicas o pasos de recogida de datos.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c3 tight">
+          <div class="tile"><span class="k">Tipo 1 · Básico, por reglas</span><h3>Menús y opciones preestablecidas</h3><p>"Escribí 1 para reservas, 2 para horarios". Predecible, barato, limitado. No entiende texto libre.</p></div>
+          <div class="tile hl"><span class="k">Tipo 2 · Avanzado, con IA</span><h3>Interpreta lenguaje natural</h3><p>Entiende la pregunta aunque esté mal escrita y responde con tus datos. Necesita contexto, límites y revisión.</p></div>
+          <div class="tile"><span class="k">Tipo 3 · Híbrido</span><h3>Lo mejor de los dos</h3><p>Flujos fijos para lo crítico (reservas, pagos) y lenguaje natural para consultas. Es el estándar recomendable.</p></div>
+        </div>
+        <div class="grid c2">
+          <div class="g">
+            <p class="ft">Deconstruyendo la IA conversacional · intención y datos</p>
+            <div class="bubble">Quiero <span class="in">reservar una mesa</span> para <span class="sl">mañana</span> para <span class="sl">cuatro</span> personas</div>
+            <div class="legend2"><span><b>Intent</b> (intención): qué quiere hacer el cliente</span><span class="s"><b>Slot</b> (dato / hueco): lo que necesito para hacerlo</span></div>
+            <p class="cap">Los bots avanzados diseccionan el lenguaje natural en componentes técnicos para ejecutar acciones. Cada funcionalidad es un intent; cada dato (fecha, hora, personas) es un slot.</p>
+          </div>
+          <div class="g">
+            <p class="ft">Cómo se arma uno · ejemplo con Amazon Lex</p>
+            <ol class="ls n">
+              <li data-n="1"><b>Crear el bot:</b> nombre, idioma, canal (WhatsApp, web).</li>
+              <li data-n="2"><b>Definir los intents:</b> "Reservar mesa", con expresiones de ejemplo: "quiero una mesa", "tienen lugar para el sábado".</li>
+              <li data-n="3"><b>Definir los slots:</b> fecha, hora, personas. El bot pregunta lo que falta hasta completarlos.</li>
+              <li data-n="4"><b>Respuestas y acciones:</b> confirmación de la mesa y, combinado con una API, la acción real: cargar la reserva, actualizar el registro.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q12b ============ -->
+  <section id="q12b" class="screen" data-block="Bloque 4" data-point="12 · Dónde vive y reglas de oro" aria-label="Pregunta 12 · continuación">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 4 · Pregunta 12 · continuación</span>
+        <h2>Dónde vive un chatbot y qué reglas respeta</h2>
+        <p class="sub">La ventaja principal es liberar tiempo y mejorar la experiencia del cliente automatizando la comunicación repetitiva. Combinados con APIs, pueden realizar acciones: confirmar reservas, actualizar registros.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c2">
+          <div class="g">
+            <p class="ft">Dónde vive y qué resuelve</p>
+            <table class="tbl">
+              <thead><tr><th>Canal</th><th>Resuelve</th><th>Deriva a una persona</th></tr></thead>
+              <tbody>
+                <tr><td class="lb">WhatsApp Business</td><td>Horarios, ubicación, carta, disponibilidad, preguntas frecuentes</td><td class="dim">Quejas, pedidos especiales, grupos grandes</td></tr>
+                <tr><td class="lb">Web / Instagram</td><td>Consultas de servicios, tarifas orientativas, captación de datos</td><td class="dim">Cotizaciones a medida, eventos</td></tr>
+                <tr><td class="lb">Booking / plataformas</td><td>Respuestas a mensajes de huéspedes pre-llegada</td><td class="dim">Cambios de reserva, reclamos</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="g">
+            <p class="ft">Reglas de oro</p>
+            <ul class="ls">
+              <li>Siempre tiene una salida a un humano, visible y rápida.</li>
+              <li>Solo responde con información que le dimos: carta, tarifas, políticas.</li>
+              <li>No confirma reservas ni pagos por su cuenta si no está integrado al sistema.</li>
+              <li>Se presenta como asistente automático: no simula ser una persona.</li>
+              <li>Se revisan sus conversaciones cada semana para corregir lo que responde mal.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q13 ============ -->
+  <section id="q13" class="screen" data-block="Bloque 4" data-point="13 · Chats, agentes, bajo código y apps integradas" aria-label="Pregunta 13">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 4 · Pregunta 13</span>
+        <h2>¿Qué diferencias hay entre usar chats, agentes, plataformas de bajo código y apps integradas?</h2>
+        <p class="sub">La curva de aceleración operativa: cuatro niveles, de la conversación aislada al proceso que se ejecuta solo. Lo que los une son las APIs: mensajeros digitales que permiten que distintas aplicaciones se comuniquen.</p>
+      </header>
+      <div class="bd">
+        <div class="g">
+          <div class="curve">
+            <div class="lvl l1" style="--i:0"><span class="n">01 / CHATS</span><b>Conversación manual</b><p>ChatGPT, Claude, Gemini. Interacción conversacional, tareas aisladas. Cada vez se empieza de cero.</p></div>
+            <div class="lvl l2" style="--i:1"><span class="n">02 / AGENTES Y ASISTENTES</span><b>Especializados y con memoria</b><p>Proyectos, GPTs propios, asistentes con instrucciones fijas, documentos cargados y herramientas (web, archivos, calendario).</p></div>
+            <div class="lvl l3" style="--i:2"><span class="n">03 / BAJO CÓDIGO</span><b>Flujos entre aplicaciones</b><p>Make, Zapier, n8n: "cuando llega una reseña → redactá → mandame la aprobación → publicá". Sin programar.</p></div>
+            <div class="lvl l4" style="--i:3"><span class="n">04 / APPS INTEGRADAS</span><b>La IA dentro de tus sistemas</b><p>Dentro del PMS, del sistema de reservas, del WhatsApp Business o de una app propia. Procesos completos con supervisión.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q13b ============ -->
+  <section id="q13b" class="screen" data-block="Bloque 4" data-point="13 · De operador a director" aria-label="Pregunta 13 · continuación">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 4 · Pregunta 13 · continuación</span>
+        <h2>De la generación a la acción: el cambio de rol</h2>
+      </header>
+      <div class="bd">
+        <div class="grid c2 tight">
+          <div class="tile"><span class="k">El viejo paradigma</span><h3>Operador</h3><p>La persona interactúa paso a paso con un chatbot. La generación de contenido es el fin último del proceso.</p></div>
+          <div class="tile hl"><span class="k">El nuevo paradigma</span><h3>Director</h3><p>La persona supervisa a un sistema que interactúa con aplicaciones y resuelve procesos completos sin intervención manual.</p></div>
+        </div>
+        <div class="g">
+          <p class="ft">Matriz de diagnóstico · de la generación a la acción</p>
+          <table class="tbl">
+            <thead><tr><th>Dimensión</th><th>IA generativa (chat)</th><th>IA agéntica</th></tr></thead>
+            <tbody>
+              <tr><td class="lb">Resultado</td><td class="dim">Textos, imágenes o código aislados</td><td class="hi">Procesos completos ejecutados</td></tr>
+              <tr><td class="lb">Rol del usuario</td><td class="dim">Editor (human in the loop)</td><td class="hi">Director y auditor (otorga permisos)</td></tr>
+              <tr><td class="lb">Interacción</td><td class="dim">Instrucciones paso a paso (especificidad, ejemplos, contexto, formato)</td><td class="hi">Delegación por meta final</td></tr>
+              <tr><td class="lb">Acceso</td><td class="dim">Copiar y pegar</td><td class="hi">Usa las aplicaciones y los datos del negocio</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q14 ============ -->
+  <section id="q14" class="screen" data-block="Bloque 4" data-point="14 · ¿Cómo automatizar tareas repetitivas?" aria-label="Pregunta 14">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 4 · Pregunta 14</span>
+        <h2>¿Cómo automatizar tareas repetitivas?</h2>
+        <p class="sub">La automatización permite a los sistemas completar tareas repetitivas con una intervención humana mínima. Ahorra tiempo eliminando la repetición manual, pero solo es valiosa cuando el tiempo y el coste ahorrados superan la inversión en configuración y operación.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c2">
+          <div class="g">
+            <p class="ft">Matriz de decisión · ¿cuándo es rentable automatizar?</p>
+            <div class="m2">
+              <div class="ylab">Tiempo manual ↑</div>
+              <div class="cells">
+                <div class="c"><b>Evaluar beneficio</b><p>Alto tiempo, baja frecuencia. Ej.: la propuesta corporativa de cada temporada.</p></div>
+                <div class="c go"><b>¡Automatizar ya!</b><p>Alto tiempo, alta frecuencia. Ej.: responder reseñas, confirmar reservas, correos pre-estadía.</p></div>
+                <div class="c no"><b>Mantener manual</b><p>Bajo tiempo, baja frecuencia. Ej.: el saludo de fin de año a los proveedores.</p></div>
+                <div class="c"><b>Optimizar el flujo</b><p>Bajo tiempo, alta frecuencia. Ej.: contestar "¿tienen estacionamiento?" por WhatsApp.</p></div>
+              </div>
+              <div class="xlab">Frecuencia →</div>
+            </div>
+          </div>
+          <div class="g">
+            <p class="ft">Cinco factores para detectar qué automatizar</p>
+            <ol class="ls n">
+              <li data-n="1"><b>Tiempo manual:</b> cuánto tarda hacerla a mano, cada vez.</li>
+              <li data-n="2"><b>Frecuencia:</b> cuántas veces por día, semana o mes se repite.</li>
+              <li data-n="3"><b>Momento:</b> ¿cuándo habría que automatizarla? Antes de la temporada, no en plena temporada.</li>
+              <li data-n="4"><b>Tiempo de montaje:</b> cuánto lleva configurarla y probarla hasta que funcione sola.</li>
+              <li data-n="5"><b>Coste operativo:</b> suscripciones, tokens, mantenimiento y el tiempo de revisar lo que produce.</li>
+            </ol>
+          </div>
+        </div>
+        <div class="note"><b>Candidatas típicas del rubro:</b> respuesta a reseñas · confirmaciones y recordatorios de reserva · correo de bienvenida y de despedida · resumen diario de mensajes · pedido semanal a proveedores · traducción de la carta · promo del día · presentar facturas el primer día de cada semana.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q14b ============ -->
+  <section id="q14b" class="screen" data-block="Bloque 4" data-point="14 · Anatomía de un flujo de automatización" aria-label="Pregunta 14 · continuación">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 4 · Pregunta 14 · continuación</span>
+        <h2>Anatomía de un flujo de automatización</h2>
+        <p class="sub">Tiene que haber un activador (detonador) que dispare la tarea. Después, una lógica condicional: <strong>si sucede X, entonces hacé Y</strong>. Las APIs son los mensajeros que conectan software independiente para que eso ocurra.</p>
+      </header>
+      <div class="bd">
+        <div class="g">
+          <p class="ft">Ejemplo completo · de la reseña a la promoción</p>
+          <div class="anat">
+            <div class="st"><div class="h">Detonador</div><div class="b"><b>Google Forms</b><p>El cliente deja una reseña de su experiencia en el restaurante.</p></div></div>
+            <div class="lnk"><span>→</span>Si sucede X…</div>
+            <div class="st"><div class="h">Lógica · API</div><div class="b"><b>Zapier + API de IA</b><p>Analiza el sentimiento de la reseña y redacta un correo acorde, con un prompt que limita la extensión para no gastar tokens.</p></div></div>
+            <div class="lnk"><span>→</span>…entonces hacé Y</div>
+            <div class="st"><div class="h">Acción</div><div class="b"><b>Brevo (correo)</b><p>Guarda el contacto en la lista y envía un correo personalizado; más adelante, promociones.</p></div></div>
+          </div>
+          <p class="cap">Todo esto tiene un costo (Zapier, Brevo, tokens de la API) y hay que evaluarlo contra el tiempo que ahorra. Y requiere consentimiento del cliente para usar su correo: Ley 25.326 de Protección de Datos Personales.</p>
+        </div>
+        <div class="g">
+          <p class="ft">Paso a paso en Zapier</p>
+          <div class="grid c5 tight">
+            <div class="tile"><span class="k">1 · Crear un Zap</span><p>Un Zap es un flujo: un disparador y una o más acciones.</p></div>
+            <div class="tile"><span class="k">2 · Elegir el trigger</span><p>"Nueva respuesta en Google Forms": cuando el cliente completa el formulario, arranca el flujo.</p></div>
+            <div class="tile"><span class="k">3 · Integración</span><p>Conectar la plataforma de correo (Brevo) y mapear los campos: nombre, correo, puntaje.</p></div>
+            <div class="tile"><span class="k">4 · Personalizar con IA</span><p>Un paso con la API de OpenAI, Claude o Gemini: el prompt lee la reseña y redacta el correo según lo que dijo el cliente.</p></div>
+            <div class="tile"><span class="k">5 · Probar y activar</span><p>Correr el flujo con 5 respuestas de prueba antes de encenderlo. Empezar poco a poco.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q14c ============ -->
+  <section id="q14c" class="screen" data-block="Bloque 4" data-point="14 · Ejemplos y arquitectura multiagente" aria-label="Pregunta 14 · ejemplos">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 4 · Pregunta 14 · continuación</span>
+        <h2>Otros ejemplos y la nueva anatomía operativa</h2>
+      </header>
+      <div class="bd">
+        <div class="grid c2">
+          <div class="g">
+            <p class="ft">Otros ejemplos y herramientas</p>
+            <ul class="ls">
+              <li><b>Zapier, Make, n8n o Claude:</b> incluso quien no programa puede vincular aplicaciones y crear flujos.</li>
+              <li><b>Fotógrafo:</b> Photoshop con IA aplica una marca de agua a cientos de fotos de un evento, sin abrirlas una por una.</li>
+              <li><b>Administración:</b> presentar las facturas el primer día de cada semana, con el calendario como disparador.</li>
+              <li><b>Formulario → lista de correo:</b> transferir automáticamente las respuestas de Google Forms a la lista de clientes.</li>
+            </ul>
+            <div class="warn" style="margin-top:12px"><b>Clave:</b> empezar poco a poco, hacer pruebas exhaustivas y asegurar el cumplimiento de las normas de protección de datos. La automatización empodera, pero exige planificación y conciencia de los límites éticos.</div>
+          </div>
+          <div class="g">
+            <p class="ft">Arquitectura multiagente</p>
+            <p class="hexes-txt">Los modelos actuales no solo predicen texto: <b>diseñan estrategias</b>. Ante un problema complejo, el agente principal coordina subagentes independientes que trabajan en paralelo y <b>verifican los resultados</b>.</p>
+            <div class="hexes">
+              <div class="hex main">Agente principal</div>
+              <div class="subs">
+                <div class="s"><div class="hexw"><div class="hex sub">Subagente<br>lector de reseñas</div></div></div>
+                <div class="s"><div class="hexw"><div class="hex sub">Subagente<br>consulta de reservas</div></div></div>
+                <div class="s"><div class="hexw"><div class="hex sub">Subagente<br>verificador de datos</div></div></div>
+              </div>
+            </div>
+            <p class="cap">"Preparame el reporte semanal": uno lee las reseñas, otro consulta la ocupación, otro verifica que los números cierren, y el principal redacta.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q15 ============ -->
+  <section id="q15" class="screen" data-block="Bloque 4" data-point="15 · Proyectos, conectores, acciones programadas y GPTs" aria-label="Pregunta 15">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 4 · Pregunta 15</span>
+        <h2>¿Cómo aprovechar funciones útiles, proyectos, conectores, acciones programadas y GPTs propios?</h2>
+        <p class="sub">Las herramientas de chat ya traen funciones que convierten una conversación suelta en un sistema de trabajo.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c4 tight">
+          <div class="tile hl"><span class="k">Proyectos</span><h3>Carpetas con memoria</h3><p>Instrucciones fijas + archivos (carta, tarifas, políticas, tono). "Reseñas del restaurante", "Temporada 2027".</p></div>
+          <div class="tile hl"><span class="k">Conectores</span><h3>La IA lee tus datos</h3><p>Google Drive, Gmail, Calendar, Sheets, WhatsApp Business. Consulta la planilla de ocupación sin copiar y pegar.</p></div>
+          <div class="tile hl"><span class="k">Acciones programadas</span><h3>Tareas que se repiten solas</h3><p>"Todos los días a las 9, resumime las reseñas nuevas y proponé respuestas." Llega al correo, listo para aprobar.</p></div>
+          <div class="tile hl"><span class="k">GPTs / asistentes propios</span><h3>Tu asistente con tu voz</h3><p>"El asistente del hotel": sabe tus políticas, tu tono y tus servicios. Lo usa todo el equipo de la misma manera.</p></div>
+          <div class="tile"><span class="k">Memoria</span><h3>Recuerda entre chats</h3><p>Preferencias y datos del negocio que no hace falta repetir. Conviene revisar qué guarda.</p></div>
+          <div class="tile"><span class="k">Búsqueda web</span><h3>Datos actuales</h3><p>Precios de competencia, eventos de la ciudad, feriados, clima del fin de semana largo.</p></div>
+          <div class="tile"><span class="k">Voz y dictado</span><h3>Manos libres</h3><p>Dictar la respuesta a una reseña desde la cocina; transcribir audios de WhatsApp de huéspedes.</p></div>
+          <div class="tile"><span class="k">Análisis de datos</span><h3>Planillas que explican</h3><p>Subir el Excel de ventas y preguntar: "¿qué plato cayó en septiembre y por qué?"</p></div>
+        </div>
+        <div class="g">
+          <p class="ft">Combinación mínima recomendada para empezar</p>
+          <div class="flow">
+            <div class="bx ink center">1 proyecto por área (reseñas · huéspedes · carta)</div>
+            <div class="plus">+</div>
+            <div class="bx solid center">1 conector a la planilla o el Drive del negocio</div>
+            <div class="plus">+</div>
+            <div class="bx amber center">1 acción programada diaria con revisión humana</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q15b ============ -->
+  <section id="q15b" class="screen" data-block="Bloque 4" data-point="15 · Caso: el ecosistema Gemini" aria-label="Pregunta 15 · Gemini">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 4 · Pregunta 15 · caso</span>
+        <h2>El ecosistema Gemini como centro de productividad</h2>
+        <p class="sub">El propósito de esta tecnología es actuar como un potenciador de nuestras capacidades. La ventaja de Gemini es su integración total con el ecosistema de Google. ChatGPT y Claude ofrecen equivalentes para casi todo lo que sigue.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c4 tight">
+          <div class="tile hl"><span class="k">Deep Research</span><h3>Profundidad, orden y velocidad</h3><p>Investigaciones profundas que generan informes completos y estructurados sobre temas complejos.</p></div>
+          <div class="tile hl"><span class="k">Gemini Live</span><h3>Asistencia por voz</h3><p>Conversación fluida, con la cámara en vivo para interactuar: mostrarle la carta, un cartel en otro idioma.</p></div>
+          <div class="tile hl"><span class="k">Nano Banana</span><h3>Imágenes: crear y editar</h3><p>Mover objetos de una foto, cambiar la época, fusionar fotos, agregar textos, ediciones precisas con indicaciones; también genera desde cero.</p></div>
+          <div class="tile hl"><span class="k">SynthID</span><h3>Marca de agua invisible</h3><p>Las imágenes llevan una marca de agua digital inserta en los píxeles: permite detectar que fueron hechas con IA. Originalidad, responsabilidad y seguimiento.</p></div>
+          <div class="tile"><span class="k">Veo</span><h3>Video desde texto</h3><p>Genera el contenido visual y el audio de forma nativa a partir de una descripción. Usos: prototipos, animaciones, proyectos.</p></div>
+          <div class="tile"><span class="k">Aprendizaje guiado</span><h3>Un tutor personal</h3><p>Explicaciones claras, feedback y cuestionarios que transforman el estudio pasivo en práctica activa.</p></div>
+          <div class="tile"><span class="k">Archivos y video</span><h3>Digitalizar y analizar</h3><p>Digitalizar archivos personales, leer PDFs y planillas, analizar videos.</p></div>
+          <div class="tile"><span class="k">Integración</span><h3>Gmail, Drive, Calendar</h3><p>Resumir correos, buscar en Drive, agendar: el chat se vuelve el centro de trabajo.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q15c ============ -->
+  <section id="q15c" class="screen" data-block="Bloque 4" data-point="15 · Canvas vs. NotebookLM" aria-label="Pregunta 15 · Canvas y NotebookLM">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 4 · Pregunta 15 · caso</span>
+        <h2>Lienzos de creación vs. motores de análisis</h2>
+      </header>
+      <div class="bd">
+        <div class="grid c2">
+          <div class="g">
+            <p class="ft">Canvas · para construir</p>
+            <p class="cap" style="margin:0 0 10px">Transforma un espacio en blanco en un aliado para la escritura, la programación y la colaboración en tiempo real. Cambia el formato de <b>pregunta-respuesta</b> por uno de <b>creación-edición</b> en un mismo espacio: seleccionás lo que querés cambiar y lo cambia.</p>
+            <ul class="ls">
+              <li>Escribir, programar y diseñar en vivo con edición selectiva.</li>
+              <li>Convertir un texto plano en otros activos: presentaciones, infografías, prototipos de apps.</li>
+              <li>Armar un plan de negocios y, desde ahí, estructurar una presentación que se edita con instrucciones.</li>
+              <li>Crear código: un ta-te-ti o un juego interactivo tipo "elegí tu propia aventura".</li>
+            </ul>
+          </div>
+          <div class="g">
+            <p class="ft">NotebookLM · para dialogar</p>
+            <p class="cap" style="margin:0 0 10px">Especializado en "dialogar" con tus propias fuentes (PDF, videos, libros): extrae información específica de materiales extensos y <b>solo responde con lo que le diste</b>.</p>
+            <ul class="ls">
+              <li>Genera resúmenes, podcasts, videos y mapas mentales a partir de tus documentos.</li>
+              <li>Pedirle diseño visual para entender mejor: diagramas, infografías, animaciones.</li>
+              <li>Hotel: cargar el manual de procedimientos y las políticas, y que el equipo le pregunte.</li>
+              <li>Restaurante: cargar la carta, las fichas técnicas y los alérgenos, y consultar al instante.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="note"><b>Canvas no es solo para preguntar: es para construir.</b> NotebookLM no es para crear: es para dialogar con lo que ya tenés.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q16 ============ -->
+  <section id="q16" class="screen" data-block="Bloque 4" data-point="16 · ¿Cómo medir el impacto real?" aria-label="Pregunta 16">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 4 · Pregunta 16</span>
+        <h2>¿Cómo medir el impacto real de la IA en los tiempos y la calidad del trabajo?</h2>
+        <p class="sub">Sin un "antes" no hay impacto: se mide una tarea concreta, dos semanas sin IA y dos semanas con IA.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c4 tight">
+          <div class="g kpi"><span class="k">Tiempo por tarea</span><div class="v">— min <span>→</span> — min</div><p>Responder una reseña, redactar un correo, armar la promo del día.</p></div>
+          <div class="g kpi"><span class="k">Cobertura</span><div class="v">— % <span>→</span> — %</div><p>Reseñas respondidas sobre el total; mensajes contestados en menos de 1 hora.</p></div>
+          <div class="g kpi"><span class="k">Calidad</span><div class="v">— % <span>→</span> — %</div><p>Borradores aprobados sin cambios; reclamos resueltos en el primer contacto.</p></div>
+          <div class="g kpi"><span class="k">Costo</span><div class="v">$ — <span>→</span> $ —</div><p>Horas ahorradas por mes vs. costo de suscripciones y herramientas.</p></div>
+        </div>
+        <div class="grid c2">
+          <div class="g">
+            <p class="ft">Método · cuatro semanas</p>
+            <table class="tbl">
+              <thead><tr><th>Semana</th><th>Qué se hace</th><th>Qué se anota</th></tr></thead>
+              <tbody>
+                <tr><td class="lb">1 – 2</td><td>La tarea como siempre</td><td class="dim">Minutos por tarea, cantidad hecha, cantidad pendiente</td></tr>
+                <tr><td class="lb">3 – 4</td><td>La misma tarea con IA + revisión</td><td class="dim">Lo mismo + cuántos borradores se corrigieron</td></tr>
+                <tr><td class="lb">5</td><td>Comparar y decidir</td><td class="dim">Seguir, ajustar la instrucción o descartar</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="g">
+            <p class="ft">Señales de que funciona (y de que no)</p>
+            <ul class="ls">
+              <li>El equipo la usa sin que se lo pidan.</li>
+              <li>Baja el tiempo de respuesta al cliente y suben las reseñas respondidas.</li>
+            </ul>
+            <ul class="ls no" style="margin-top:7px">
+              <li>Se corrige más de lo que se ahorra: la instrucción está mal armada.</li>
+              <li>Se publican errores: falta la revisión humana, no sobra IA.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q17 ============ -->
+  <section id="q17" class="screen" data-block="Bloque 4" data-point="17 · ¿Cómo acompañar al equipo?" aria-label="Pregunta 17">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 4 · Pregunta 17</span>
+        <h2>¿Cómo acompañar al equipo para superar la resistencia al cambio?</h2>
+        <p class="sub">La resistencia no es a la tecnología: es al miedo de ser reemplazado y a la sensación de no saber. Las dos se trabajan con lo mismo: una tarea concreta que les saque un peso de encima.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c3 tight">
+          <div class="tile hl"><span class="k">01</span><h3>Empezar por la tarea odiada</h3><p>No "vamos a usar IA", sino "vamos a dejar de escribir el mismo correo 30 veces por día". Automatizar lo tedioso para potenciar, no para reemplazar.</p></div>
+          <div class="tile hl"><span class="k">02</span><h3>Mostrar antes y después</h3><p>Una reseña respondida en 40 segundos frente a 10 minutos. Lo visible convence más que la explicación.</p></div>
+          <div class="tile hl"><span class="k">03</span><h3>Reglas claras: qué sí, qué no</h3><p>Qué datos se pueden cargar, qué sale con revisión y qué nunca se automatiza. Una página, a la vista.</p></div>
+          <div class="tile"><span class="k">04</span><h3>Un referente por turno</h3><p>Alguien del equipo que la usa bien y ayuda a los demás. No el dueño: un par.</p></div>
+          <div class="tile"><span class="k">05</span><h3>Capacitación corta y práctica</h3><p>Una hora, con los casos del propio establecimiento, no con ejemplos genéricos.</p></div>
+          <div class="tile"><span class="k">06</span><h3>Reconocer el tiempo ganado</h3><p>Decir en voz alta qué se dejó de hacer a mano y en qué se usó ese tiempo.</p></div>
+        </div>
+        <div class="note"><b>El mensaje al equipo:</b> la IA no reemplaza a la persona que atiende; reemplaza el copiar y pegar. Quien sabe de huéspedes y de clientes sigue siendo quien decide.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BLOQUE 5 ============ -->
+  <section id="bloque-5" class="screen divider" data-block="Bloque 5" data-point="Gobernanza y ética" aria-label="Bloque 5">
+    <div class="wrap">
+      <div class="big">
+        <div class="num">5</div>
+        <div>
+          <div class="kicker">Bloque 5 de 5</div>
+          <h2>Gobernanza y ética</h2>
+          <ol>
+            <li><span>18</span>¿Cuáles son los sesgos y cómo garantizar un uso responsable de la IA?</li>
+            <li><span>19</span>¿Cómo cuidar los datos personales y evitar fugas de información confidencial en la empresa?</li>
+            <li><span>20</span>¿Qué regulaciones y protocolos existen hoy sobre inteligencia artificial en la Argentina? · El debate abierto: vigilancia estatal</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q18 ============ -->
+  <section id="q18" class="screen" data-block="Bloque 5" data-point="18 · Sesgos y uso responsable" aria-label="Pregunta 18">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 5 · Pregunta 18</span>
+        <h2>¿Cuáles son los sesgos y cómo garantizar un uso responsable de la IA?</h2>
+        <p class="sub">El modelo aprendió de datos producidos por personas: hereda sus desigualdades, estereotipos y puntos ciegos, y los reproduce con total naturalidad. Tres pilares para no perder de vista.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c3 tight">
+          <div class="tile hl"><span class="k">Pilar 1</span><h3>Ética y privacidad de los datos</h3><p>La protección de la información es la prioridad número uno. Como la IA se nutre de datos, su uso debe ser riguroso, transparente y siempre bajo marcos éticos.</p></div>
+          <div class="tile hl"><span class="k">Pilar 2</span><h3>Mitigación de sesgos</h3><p>Las IA pueden reflejar prejuicios presentes en sus datos de entrenamiento. El compromiso es buscar objetividad y justicia algorítmica para evitar discriminaciones.</p></div>
+          <div class="tile hl"><span class="k">Pilar 3</span><h3>Evolución del trabajo</h3><p>La IA no busca reemplazar al ser humano, sino potenciar sus capacidades: automatizar lo tedioso para que las personas se centren en la creatividad y el valor humano.</p></div>
+        </div>
+        <div class="grid c3 tight">
+          <div class="tile"><span class="k">De dónde vienen</span><h3>De los datos de entrenamiento</h3><p>Lo más frecuente en internet se vuelve "lo normal" para el modelo. Lo poco representado se invisibiliza o se caricaturiza.</p></div>
+          <div class="tile"><span class="k">Cómo se ven en el rubro</span><h3>Pequeños y constantes</h3><p>Tono distinto según el nombre del cliente · sugerencias de menú que asumen cultura o religión · descripciones que estereotipan al "turista".</p></div>
+          <div class="tile"><span class="k">Dónde no delegar</span><h3>Decisiones sobre personas</h3><p>Selección de personal, precios distintos por perfil, admisión de huéspedes, evaluación de empleados. Ahí la IA asiste; nunca decide.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q18b ============ -->
+  <section id="q18b" class="screen" data-block="Bloque 5" data-point="18 · Innovación inclusiva" aria-label="Pregunta 18 · continuación">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 5 · Pregunta 18 · continuación</span>
+        <h2>Los pilares de la innovación inclusiva</h2>
+        <p class="sub">Para desarrollar una IA responsable, la innovación debe ser inclusiva: hace falta un diálogo abierto entre la sociedad, las empresas y las instituciones que establezca "las reglas del juego".</p>
+      </header>
+      <div class="bd">
+        <div class="grid c2">
+          <div class="g">
+            <p class="ft">Uso responsable · reglas de la casa</p>
+            <ul class="ls">
+              <li>Instrucciones explícitas: "tratá a todos los clientes con el mismo tono, sin suposiciones sobre su origen".</li>
+              <li>Revisión humana de todo lo que se publica o se envía a un cliente.</li>
+              <li>Transparencia: decir que un asistente es automático; no simular personas.</li>
+              <li>Probar con casos variados (nombres, idiomas, edades) antes de automatizar.</li>
+              <li>Un responsable interno del uso de IA, aunque sea el dueño.</li>
+            </ul>
+          </div>
+          <div class="g">
+            <p class="ft">Ejercicio rápido</p>
+            <div class="prompt">Pedile a la IA que redacte la bienvenida para "la familia Rodríguez" y para "la familia Al-Hassan". Compará tono, longitud y supuestos. Si cambian sin que vos lo hayas pedido, hay sesgo: corregí la instrucción, no solo el texto.</div>
+            <p class="cap">Un sesgo detectado en la prueba es barato. Un sesgo detectado por un cliente en una reseña, no.</p>
+          </div>
+        </div>
+        <div class="note">La IA es una herramienta poderosa y, como tal, <b>hay que manejarla con responsabilidad y conciencia</b>.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q19 ============ -->
+  <section id="q19" class="screen" data-block="Bloque 5" data-point="19 · Datos personales" aria-label="Pregunta 19">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 5 · Pregunta 19</span>
+        <h2>¿Cómo cuidar los datos personales y evitar fugas de información confidencial?</h2>
+        <p class="sub">La protección de datos es un mandato innegociable. Hoteles y restaurantes manejan datos sensibles todos los días: documentos, tarjetas, alergias, fechas de viaje. Lo que se pega en un chat puede salir de la empresa.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c2">
+          <div class="g">
+            <p class="ft">Lo que exige la Ley 25.326 de Protección de Datos Personales</p>
+            <ul class="ls">
+              <li><b>Obtener consentimiento explícito</b> del cliente para recopilar y usar sus datos (el correo de la reseña, el teléfono del WhatsApp).</li>
+              <li><b>Garantizar la exactitud</b> de los datos recopilados y usarlos solo para la finalidad informada.</li>
+              <li><b>Otorgar el derecho de acceso, rectificación y eliminación:</b> si un cliente pide que lo borres, se borra.</li>
+            </ul>
+            <p class="cap">El cumplimiento implica un procesamiento legal de los datos, un seguimiento transparente del consentimiento y un almacenamiento seguro. Autoridad de aplicación: AAIP. (En Europa, el equivalente es el RGPD.)</p>
+          </div>
+          <div class="g">
+            <p class="ft">Tus datos no entrenan la IA general</p>
+            <p class="cap" style="margin:0 0 10px">Las APIs de OpenAI, Anthropic y Google, los servicios de AWS y los planes de empresa (Team / Business / Enterprise) ofrecen opciones que <b>impiden entrenar modelos con los datos del usuario</b>. En las cuentas personales gratuitas, conviene revisar la configuración de privacidad y desactivar el uso de datos para entrenamiento.</p>
+            <div class="warn"><b>Verificar:</b> nota pendiente: "Sandbox · Anthropic (dieron de baja marca de agua)". Confirmar a qué se refiere antes de incluirlo.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q19b ============ -->
+  <section id="q19b" class="screen" data-block="Bloque 5" data-point="19 · Semáforo de datos" aria-label="Pregunta 19 · continuación">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 5 · Pregunta 19 · continuación</span>
+        <h2>Qué se carga, qué se anonimiza, qué nunca</h2>
+      </header>
+      <div class="bd">
+        <div class="grid c2">
+          <div class="g">
+            <p class="colhead no">Nunca se carga en una IA de uso general</p>
+            <ul class="ls no">
+              <li>Números de documento, pasaporte o tarjeta de huéspedes y clientes.</li>
+              <li>Listados completos de clientes con teléfonos y correos.</li>
+              <li>Datos de salud (alergias, condiciones) asociados a un nombre.</li>
+              <li>Contraseñas, accesos a sistemas, datos bancarios del negocio.</li>
+            </ul>
+          </div>
+          <div class="g">
+            <p class="colhead ok">Cómo trabajar igual, sin exponer</p>
+            <ul class="ls">
+              <li>Anonimizar: "el huésped de la 204" en lugar del nombre; "cliente A" en las planillas.</li>
+              <li>Usar cuentas de empresa con el entrenamiento sobre tus datos desactivado.</li>
+              <li>Una política interna de una página: quién usa qué herramienta, con qué datos, para qué.</li>
+              <li>Accesos personales, no compartidos; cerrar cuentas de quien se va.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="grid c3 tight">
+          <div class="tile ok"><span class="k ok">Verde · se puede</span><p>Carta, tarifas públicas, políticas, descripciones de servicios, reseñas públicas, textos propios.</p></div>
+          <div class="tile amber"><span class="k amber">Amarillo · anonimizado</span><p>Mensajes de clientes, reclamos, planillas de ventas y ocupación, correos internos.</p></div>
+          <div class="tile no"><span class="k no">Rojo · nunca</span><p>Documentos, tarjetas, datos de salud, contraseñas, datos de empleados, bases completas de clientes.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q20 ============ -->
+  <section id="q20" class="screen" data-block="Bloque 5" data-point="20 · Regulaciones en la Argentina" aria-label="Pregunta 20">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 5 · Pregunta 20</span>
+        <h2>¿Qué regulaciones y protocolos existen hoy sobre inteligencia artificial en la Argentina?</h2>
+        <p class="sub">No hay todavía una ley específica de IA. Lo que rige hoy es la protección de datos personales, las recomendaciones del Estado y las normas sectoriales de siempre (defensa del consumidor, lealtad comercial).</p>
+      </header>
+      <div class="bd">
+        <div class="grid c3 tight">
+          <div class="tile hl"><span class="k">Vigente · datos</span><h3>Ley 25.326 de Protección de Datos Personales</h3><p>Consentimiento, finalidad, seguridad y confidencialidad de los datos de clientes y huéspedes. Autoridad: AAIP. Hay proyectos de reforma en el Congreso.</p></div>
+          <div class="tile hl"><span class="k">Vigente · lineamientos</span><h3>Recomendaciones para una IA fiable</h3><p>Lineamientos del Estado nacional (2023) para el uso responsable de IA en el sector público: transparencia, supervisión humana, no discriminación. Guía también para privados.</p></div>
+          <div class="tile"><span class="k">Vigente · AAIP</span><h3>Programa de transparencia y protección de datos en el uso de IA</h3><p>Guías sobre el impacto de la IA en los datos personales y el deber de informar a las personas.</p></div>
+          <div class="tile"><span class="k">En trámite</span><h3>Proyectos de ley de IA</h3><p>Varias iniciativas en el Congreso con enfoques por nivel de riesgo, inspiradas en la regulación europea. Ninguna sancionada a la fecha.</p></div>
+          <div class="tile"><span class="k">Referencia internacional</span><h3>Reglamento de IA de la Unión Europea (2024)</h3><p>Clasifica usos por riesgo y exige transparencia en chatbots: avisar que se habla con una máquina.</p></div>
+          <div class="tile"><span class="k">Siempre aplica</span><h3>Consumidor y lealtad comercial</h3><p>Lo que publica tu chatbot te obliga: precios, promociones y condiciones informadas por un asistente automático son oferta vinculante.</p></div>
+        </div>
+        <div class="warn"><b>Verificar antes de la charla:</b> estado de los proyectos de ley y novedades de la AAIP a la fecha del encuentro.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q20b ============ -->
+  <section id="q20b" class="screen" data-block="Bloque 5" data-point="20 · ¿Un estado de espionaje en Argentina?" aria-label="Pregunta 20 · vigilancia">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 5 · Pregunta 20 · el debate abierto</span>
+        <h2>¿Se está construyendo un estado de espionaje en Argentina?</h2>
+        <p class="sub">Informe de Democracia en Red y ODIA (Observatorio de Derecho Informático Argentino). Hoy, sin que hayas cometido ningún delito, sin orden judicial y sin que lo sepas, el Estado puede monitorear tus redes, cruzar tus datos con bases del gobierno y construir un perfil sobre vos.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c2 tight">
+          <div class="tile no"><span class="k no">Resolución 428/2024 · Ministerio de Seguridad</span><h3>Ciberpatrullaje en fuentes digitales abiertas</h3><p>Habilita el monitoreo automatizado de redes sociales y sitios públicos para "prevención del delito", sin orden judicial previa.</p></div>
+          <div class="tile no"><span class="k no">Resolución 710/2024 · Ministerio de Seguridad</span><h3>Unidad de Inteligencia Artificial Aplicada a la Seguridad</h3><p>Puede analizar grandes volúmenes de datos en tiempo real, cruzarlos y "predecir comportamientos". Según el informe, en 2025 decretos extendieron estas competencias a Gendarmería, Servicio Penitenciario y Policía Aeroportuaria.</p></div>
+        </div>
+        <div class="g">
+          <p class="ft">La mecánica oculta del perfilamiento ciudadano</p>
+          <div class="flow">
+            <div class="bx ghost"><b>Recolección</b><br>Publicaciones, ubicaciones, documentos, interacciones en redes</div>
+            <div class="arrow">→</div>
+            <div class="bx ink"><b>Análisis IA y cruce algorítmico</b><br>Con bases de datos del gobierno, en tiempo real</div>
+            <div class="arrow">→</div>
+            <div class="bx ghost"><b>Perfil digital</b><br>Se construye sin que sepas que existe, qué contiene ni qué decisiones genera</div>
+          </div>
+          <p class="cap">Sin debate parlamentario, sin evaluación de impacto y sin mecanismos para saber qué se recopila, quién lo ve o cuánto tiempo se guarda. Una vez construido, un perfil quizás no se puede deshacer.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q20c ============ -->
+  <section id="q20c" class="screen" data-block="Bloque 5" data-point="20 · La tecnología no es el enemigo" aria-label="Pregunta 20 · cierre del debate">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 5 · Pregunta 20 · el debate abierto</span>
+        <h2>La tecnología no es el enemigo. El uso sin controles, sí.</h2>
+      </header>
+      <div class="bd">
+        <div class="grid c2">
+          <div class="g">
+            <p class="ft">El algoritmo no distingue · ¿quién está en la mira?</p>
+            <div class="pillbox">
+              <span>Periodistas<small>protegen fuentes</small></span>
+              <span>Abogados y abogadas<small>confidencialidad con clientes</small></span>
+              <span>Personas LGBTIQ+<small>datos sensibles inferidos</small></span>
+              <span>Migrantes<small>señalados "de riesgo" por origen o idioma</small></span>
+              <span>Activistas y defensores de DD. HH.<small>organizan su trabajo en redes</small></span>
+            </div>
+            <p class="cap">La vigilancia expone asimétricamente a quienes dependen de la confidencialidad. El daño puede ser irreversible.</p>
+          </div>
+          <div class="g">
+            <p class="ft">La diferencia está en qué se puede hacer, quién lo controla y qué garantías existen</p>
+            <p class="cap" style="margin:0 0 10px">No se trata de estar en contra de la tecnología ni de que el Estado la use para prevenir delitos graves. Sí de atender cuando esas herramientas se usan sin transparencia, sin controles, sin evaluación de impacto y sin proteger los derechos de las personas.</p>
+            <ul class="ls">
+              <li><b>El ABC de la Vigilancia Estatal:</b> qué es, cómo funciona el ciberpatrullaje, qué implica el perfilamiento.</li>
+              <li><b>Vigilancia Digital Estatal en Argentina:</b> ¿qué pasó y qué dicen las nuevas normas?</li>
+              <li><b>Informe completo:</b> ¿Se está construyendo un estado de espionaje en Argentina? (Democracia en Red + ODIA).</li>
+            </ul>
+          </div>
+        </div>
+        <div class="note"><b>Por qué importa en un hotel o un restaurante:</b> ustedes también recolectan, cruzan y guardan datos de personas. Las mismas preguntas (qué se guarda, quién accede, para qué, por cuánto tiempo) aplican a la planilla de huéspedes y a la lista de WhatsApp.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TALLER · GASTRONÓMICOS ============ -->
+  <section id="taller-gastronomicos" class="screen" data-block="Talleres" data-point="Taller aplicado · Gastronómicos" aria-label="Taller gastronómicos">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Taller aplicado · Gastronómicos</span>
+        <h2>Velocidad de respuesta e interacción diaria</h2>
+        <p class="sub">Un sector donde la velocidad de respuesta e interacción diaria define la venta. Cuatro estaciones de trabajo con casos propios de cada participante.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c4 tight">
+          <div class="tile amber"><span class="k amber">Estación 1</span><h3>Respuesta rápida a reseñas locales</h3><ul><li>Google, TripAdvisor, Instagram</li><li>Instrucción fija con el tono del local</li><li>Reseñas negativas: reconocer, resolver, invitar</li><li>Automatizar las de 4 y 5 estrellas</li></ul></div>
+          <div class="tile amber"><span class="k amber">Estación 2</span><h3>Propuestas para la carta</h3><ul><li>Nombres y descripciones de platos</li><li>Variantes por temporada y por público</li><li>Traducción a inglés y portugués</li><li>Costeo y precio sugerido desde la planilla</li></ul></div>
+          <div class="tile amber"><span class="k amber">Estación 3</span><h3>Atención vía WhatsApp</h3><ul><li>Respuestas a preguntas frecuentes</li><li>Reservas y grupos: qué automatizar y qué no</li><li>Asistente híbrido con derivación</li><li>Transcripción de audios</li></ul></div>
+          <div class="tile amber"><span class="k amber">Estación 4</span><h3>Eventos especiales y promos del día</h3><ul><li>Promo del día en 3 formatos (historia, posteo, WhatsApp)</li><li>Calendario de fechas especiales</li><li>Propuesta para eventos privados</li><li>Piezas visuales rápidas</li></ul></div>
+        </div>
+        <div class="note"><b>Cada participante se lleva:</b> sus instrucciones fijas (reseñas, carta, WhatsApp, promos), un proyecto armado con sus datos y una automatización mínima funcionando.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TALLER · HOTELEROS ============ -->
+  <section id="taller-hoteleros" class="screen" data-block="Talleres" data-point="Taller aplicado · Hoteleros" aria-label="Taller hoteleros">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Taller aplicado · Hoteleros</span>
+        <h2>Experiencia del huésped y comunicación institucional</h2>
+        <p class="sub">El eje está en la relación con el huésped antes, durante y después de la estadía, y en la voz institucional del hotel.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c4 tight">
+          <div class="tile amber"><span class="k amber">Estación 1</span><h3>Correos pre y pos estadía</h3><ul><li>Secuencia: confirmación → pre-llegada → bienvenida → despedida → pedido de reseña</li><li>Personalización por tipo de huésped</li><li>Multilingüe automático</li><li>Disparadores desde el sistema de reservas</li></ul></div>
+          <div class="tile amber"><span class="k amber">Estación 2</span><h3>Consultas sobre servicios del hotel</h3><ul><li>Base de conocimiento: servicios, horarios, políticas</li><li>Asistente del hotel con tono propio</li><li>Qué deriva a recepción</li><li>Pruebas con casos reales</li></ul></div>
+          <div class="tile amber"><span class="k amber">Estación 3</span><h3>Booking y TripAdvisor</h3><ul><li>Respuesta a mensajes pre-llegada</li><li>Respuesta pública a reseñas</li><li>Detección de temas repetidos en las reseñas</li><li>Informe mensual automático</li></ul></div>
+          <div class="tile amber"><span class="k amber">Estación 4</span><h3>Turismo corporativo y temporada baja</h3><ul><li>Propuesta para empresas y eventos</li><li>Paquetes de temporada baja</li><li>Piezas para agencias y redes</li><li>Seguimiento de propuestas enviadas</li></ul></div>
+        </div>
+        <div class="note"><b>Cada participante se lleva:</b> su secuencia de correos lista, el asistente del hotel con sus datos, instrucciones para plataformas y una propuesta corporativa base.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CIERRE ============ -->
+  <section id="cierre" class="screen" data-block="Cierre" data-point="Gracias" aria-label="Cierre">
+    <div class="wrap">
+      <span class="tag">Ciclo de formación · AEHG Mar del Plata</span>
+      <p class="big">Gracias.<br><em>¿Preguntas?</em></p>
+      <p class="sub">Quedamos a disposición para presentar la propuesta en detalle y definir el cronograma de trabajo.</p>
+      <div class="names">
+        <div class="g"><b>María Eugenia Dicándilo</b><span>Modo Comunicación · KrovaLab</span></div>
+        <div class="g"><b>Pablo Pellizzoni</b><span>Outcomy · Kexen · KrovaLab · UNMdP</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* ---------- Red de nodos de la portada ---------- */
+(function(){
+  var c=document.getElementById('net'); if(!c) return;
+  var ctx=c.getContext('2d');
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var DPR=Math.min(window.devicePixelRatio||1,2);
+  var w=0,h=0,pts=[],raf=0,R=140,running=true;
+  function size(){
+    w=c.clientWidth; h=c.clientHeight;
+    c.width=Math.round(w*DPR); c.height=Math.round(h*DPR);
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    var n=Math.round(Math.min(120,Math.max(45,(w*h)/15000)));
+    pts=[];
+    for(var i=0;i<n;i++){ pts.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:.9+Math.random()*1.5}); }
+  }
+  function step(){
+    ctx.clearRect(0,0,w,h);
+    var i,j,a,b,dx,dy,d,o,p;
+    if(!reduce){
+      for(i=0;i<pts.length;i++){ p=pts[i]; p.x+=p.vx; p.y+=p.vy;
+        if(p.x<-20)p.x=w+20; else if(p.x>w+20)p.x=-20;
+        if(p.y<-20)p.y=h+20; else if(p.y>h+20)p.y=-20; }
+    }
+    ctx.lineWidth=1;
+    for(i=0;i<pts.length;i++){ a=pts[i];
+      for(j=i+1;j<pts.length;j++){ b=pts[j]; dx=a.x-b.x; dy=a.y-b.y; d=dx*dx+dy*dy;
+        if(d<R*R){ o=(1-Math.sqrt(d)/R)*.28; ctx.strokeStyle='rgba(124,199,255,'+o.toFixed(3)+')'; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); } } }
+    for(i=0;i<pts.length;i++){ p=pts[i]; ctx.fillStyle=(i%9===0)?'rgba(242,178,76,.9)':'rgba(244,241,234,.55)'; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); }
+    if(!reduce && running) raf=window.requestAnimationFrame(step);
+  }
+  function start(){ if(reduce){ step(); return; } if(!running){ running=true; raf=window.requestAnimationFrame(step); } }
+  function stop(){ running=false; window.cancelAnimationFrame(raf); }
+  size(); step();
+  window.addEventListener('resize',function(){ size(); if(reduce) step(); });
+  document.addEventListener('visibilitychange',function(){ if(document.hidden) stop(); else start(); });
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) start(); else stop(); }); },{threshold:0.05}).observe(document.getElementById('hero'));
+  }
+})();
+
+/* ---------- Tema día / noche ---------- */
+(function(){
+  var KEY='charla-theme', root=document.documentElement, btn=document.getElementById('themeBtn');
+  function cur(){ return root.getAttribute('data-theme')==='day'?'day':'night'; }
+  function paint(){ if(btn) btn.setAttribute('aria-label', cur()==='day' ? 'Cambiar a modo noche' : 'Cambiar a modo día'); }
+  if(btn){ btn.addEventListener('click',function(){ var t=cur()==='day'?'night':'day'; root.setAttribute('data-theme',t); try{ localStorage.setItem(KEY,t); }catch(e){} paint(); }); }
+  paint();
+})();
+
+/* ---------- Rail lateral · contador · navegación ---------- */
+(function(){
+  var secs=Array.prototype.slice.call(document.querySelectorAll('main > section'));
+  if(!secs.length) return;
+  var track=document.getElementById('track'), mk=document.getElementById('railmk'), tip=document.getElementById('railtip');
+  var lbl=document.getElementById('raillbl'), mlbl=document.getElementById('mobilelbl'), ctr=document.getElementById('counter');
+  var cur=-1, n=secs.length, segH=100/n;
+
+  function text(i){
+    var s=secs[i], blk=s.getAttribute('data-block')||'', pt=s.getAttribute('data-point')||s.getAttribute('aria-label')||'';
+    return (blk?'<b>'+blk+'</b><span class="sep">·</span>':'')+pt;
+  }
+
+  /* segmentos invisibles sobre la línea: hover muestra el nombre, click navega */
+  var lastBlock=null;
+  secs.forEach(function(s,i){
+    var blk=s.getAttribute('data-block')||'';
+    var seg=document.createElement('i');
+    seg.style.top=(i*segH)+'%'; seg.style.height=segH+'%';
+    if(blk!==lastBlock && i>0) seg.className='blk';
+    lastBlock=blk;
+    seg.setAttribute('aria-label',(blk?blk+' · ':'')+(s.getAttribute('data-point')||''));
+    seg.addEventListener('mouseenter',function(){ if(!tip) return; tip.innerHTML=text(i); tip.style.top=((i+0.5)*segH)+'%'; tip.classList.add('show'); });
+    seg.addEventListener('mouseleave',function(){ if(tip) tip.classList.remove('show'); });
+    seg.addEventListener('click',function(){ go(i); });
+    if(track) track.appendChild(seg);
+  });
+  if(mk){ mk.style.height='max(14px,'+segH+'%)'; }
+
+  function setCur(i){
+    if(i===cur) return;
+    cur=i;
+    if(mk) mk.style.top='min(calc(100% - max(14px,'+segH+'%)),'+(i*segH)+'%)';
+    if(ctr) ctr.textContent=(i+1)+' / '+n;
+    var html=text(i); if(lbl) lbl.innerHTML=html; if(mlbl) mlbl.innerHTML=html;
+    document.documentElement.classList.toggle('inv', secs[i].classList.contains('divider'));
+  }
+  function go(i){ i=Math.max(0,Math.min(n-1,i)); secs[i].scrollIntoView({behavior:'smooth',block:'start'}); }
+
+  /* sección actual */
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && e.intersectionRatio>=0.5) setCur(secs.indexOf(e.target)); }); },{threshold:[0.5]});
+    secs.forEach(function(s){ io.observe(s); });
+  }
+  function fallback(){ var y=window.scrollY+window.innerHeight*0.45, idx=0; for(var i=0;i<secs.length;i++){ if(secs[i].offsetTop<=y) idx=i; } setCur(idx); }
+  window.addEventListener('scroll',fallback,{passive:true});
+  window.addEventListener('resize',fallback);
+
+  /* teclado */
+  document.addEventListener('keydown',function(e){
+    if(e.altKey||e.ctrlKey||e.metaKey) return;
+    var t=e.target; if(t && /input|textarea|select|button/i.test(t.tagName)) return;
+    var k=e.key;
+    if(k==='ArrowRight'||k==='PageDown'||k===' '){ e.preventDefault(); go(cur+1); }
+    else if(k==='ArrowLeft'||k==='PageUp'){ e.preventDefault(); go(cur-1); }
+    else if(k==='Home'){ e.preventDefault(); go(0); }
+    else if(k==='End'){ e.preventDefault(); go(n-1); }
+  });
+  fallback();
+})();
+</script>
+<script src="hero-header.js" defer></script>
+</body>
+</html>
