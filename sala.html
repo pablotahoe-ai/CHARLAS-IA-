@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Charla IA · Sala</title>
+<script src="config.js"></script>
+<script>
+  /* Toma la URL del Apps Script de config.js. */
+  window.SALA = { api: (window.CHARLA_CONFIG && window.CHARLA_CONFIG.api) || '' };
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg0:#0b1020;--bg1:#171d30;--text:#eef1f7;--muted:#a4acbe;--fill:rgba(255,255,255,.07);--stroke:rgba(255,255,255,.14);--accent:#86b7ff;--ok:#7fd6ab}
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%;font-family:Inter,system-ui,sans-serif;color:var(--text);background:linear-gradient(160deg,var(--bg0),var(--bg1));-webkit-font-smoothing:antialiased}
+  body::before{content:"";position:fixed;inset:-20%;background:radial-gradient(40% 40% at 20% 20%,rgba(72,98,160,.5),transparent 70%),radial-gradient(40% 40% at 80% 80%,rgba(130,160,220,.2),transparent 70%);z-index:-1}
+  main{max-width:520px;margin:0 auto;padding:28px 18px 60px}
+  .tag{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:500}
+  h1{font-weight:300;font-size:26px;line-height:1.15;margin:8px 0 10px}
+  p{font-weight:300;color:var(--muted);line-height:1.5;margin:0 0 18px}
+  .g{background:var(--fill);border:1px solid var(--stroke);border-radius:20px;padding:18px;backdrop-filter:blur(18px);box-shadow:0 10px 28px rgba(0,0,0,.35)}
+  input,textarea{width:100%;border:1px solid var(--stroke);background:rgba(255,255,255,.08);color:var(--text);border-radius:14px;padding:14px;font:inherit;font-size:17px;outline:none}
+  input:focus,textarea:focus{border-color:var(--accent)}
+  button{width:100%;margin-top:12px;padding:14px;border-radius:999px;border:0;background:var(--accent);color:#fff;font:inherit;font-size:16px;letter-spacing:.04em;cursor:pointer}
+  button[disabled]{opacity:.5}
+  .opts{display:grid;gap:10px}
+  .opt{padding:14px 16px;border-radius:14px;border:1px solid var(--stroke);background:rgba(255,255,255,.06);font-size:17px;cursor:pointer}
+  .opt.on{border-color:var(--accent);background:rgba(134,183,255,.18)}
+  .ok{color:var(--ok);text-align:center;padding:30px 10px;font-size:18px;font-weight:300}
+  .foot{margin-top:24px;font-size:12px;color:var(--muted);text-align:center;font-weight:300}
+</style>
+</head>
+<body>
+<main>
+  <span class="tag">Charla IA · AEHG Mar del Plata</span>
+  <h1 id="title">Conectando…</h1>
+  <p id="desc"></p>
+  <div class="g" id="box"></div>
+  <div class="foot">Tus respuestas son anónimas. Solo se muestran en la pantalla de la sala.</div>
+</main>
+<script>
+(function(){
+  var api=(window.SALA&&SALA.api)||'', q=new URLSearchParams(location.search), ej=q.get('ej')||'';
+  var title=document.getElementById('title'), desc=document.getElementById('desc'), box=document.getElementById('box');
+  var EJ={
+    '3':{t:'¿Para qué usás la IA?',d:'Una o dos palabras. Por ejemplo: "resumir", "ideas", "traducir", "planillas".',type:'word'},
+    '1':{t:'¿Usaste inteligencia artificial esta semana?',d:'Elegí una opción.',type:'vote',opts:['Sí, todos los días','Sí, alguna vez','No, pero quiero','No me interesa']},
+    '11':{t:'¿Cuál es la tarea más repetitiva de tu trabajo?',d:'Escribila en pocas palabras.',type:'word'},
+    '20':{t:'El chatbot del hotel prometió late check-out gratis. ¿Nos obliga?',d:'Elegí una opción.',type:'vote',opts:['Sí, nos obliga','No, fue un error del bot','Depende de lo que diga el sitio']}
+  };
+  function post(payload){
+    if(!api){ return Promise.resolve({ok:true,offline:true}); }
+    return fetch(api,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).then(function(r){ return r.json(); });
+  }
+  function render(e){
+    title.textContent=e.t; desc.textContent=e.d;
+    if(e.type==='word'){
+      box.innerHTML='<input id="w" type="text" maxlength="40" placeholder="escribí acá…" autocomplete="off"><button id="b" type="button">Enviar</button>';
+      var w=document.getElementById('w'), b=document.getElementById('b'); w.focus();
+      function send(){ var v=w.value.trim(); if(!v) return; b.disabled=true; post({action:'word',ej:ej,word:v.toLowerCase()}).then(function(){ box.innerHTML='<div class="ok">¡Gracias! Mirá la pantalla.</div><button id="again" type="button">Mandar otra</button>'; document.getElementById('again').addEventListener('click',function(){ render(e); }); }).catch(function(){ b.disabled=false; }); }
+      b.addEventListener('click',send); w.addEventListener('keydown',function(ev){ if(ev.key==='Enter') send(); });
+    } else {
+      box.innerHTML='<div class="opts">'+e.opts.map(function(o,i){ return '<div class="opt" data-i="'+i+'">'+o+'</div>'; }).join('')+'</div>';
+      box.querySelectorAll('.opt').forEach(function(o){ o.addEventListener('click',function(){ box.querySelectorAll('.opt').forEach(function(x){ x.classList.remove('on'); }); o.classList.add('on'); post({action:'vote',ej:ej,opt:o.getAttribute('data-i')}).then(function(){ box.innerHTML='<div class="ok">¡Gracias! Mirá la pantalla.</div>'; }); }); });
+    }
+  }
+  function load(){
+    if(ej && EJ[ej]) return render(EJ[ej]);
+    if(!api){ title.textContent='Todavía no hay un ejercicio activo'; desc.textContent='Esperá a que en la pantalla lo activen.'; box.innerHTML=''; return; }
+    fetch(api+(api.indexOf('?')>-1?'&':'?')+'action=state').then(function(r){ return r.json(); }).then(function(s){ if(s && s.ej && EJ[s.ej]){ ej=s.ej; render(EJ[ej]); } else { title.textContent='Todavía no hay un ejercicio activo'; desc.textContent='Esperá a que en la pantalla lo activen.'; setTimeout(load,4000); } }).catch(function(){ setTimeout(load,4000); });
+  }
+  load();
+})();
+</script>
+</body>
+</html>

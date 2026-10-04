@@ -1,0 +1,12 @@
+{
+  "name": "charla-bot-whatsapp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mini-bot de WhatsApp para la charla IA · AEHG (pantalla 29/50)",
+  "main": "bot.js",
+  "scripts": { "start": "node bot.js" },
+  "dependencies": {
+    "qrcode": "^1.5.4",
+    "whatsapp-web.js": "^1.34.1"
+  }
+}
