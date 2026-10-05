@@ -89,6 +89,8 @@
 
   *{box-sizing:border-box}
   html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+  html{scrollbar-width:none;-ms-overflow-style:none}
+  html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
   html,body{margin:0;font-family:var(--font-body);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
   body{background:var(--g-bg0);color:var(--g-text);overflow-x:hidden}
   main{display:block}
@@ -173,7 +175,35 @@
   #railtip b{font-weight:500}
   #railtip .sep{opacity:.5;margin:0 .5em}
   #topbar{position:fixed;top:14px;right:14px;z-index:60;display:flex;gap:8px;align-items:center}
+  /* logos (config.js → logos): siempre abajo a la derecha */
+  #brands{position:fixed;right:clamp(16px,2vw,30px);bottom:clamp(12px,2vh,22px);z-index:55;display:flex;align-items:center;gap:clamp(16px,1.8vw,30px);pointer-events:none}
+  #brands .brand{pointer-events:auto;display:block;opacity:.82;transition:opacity .2s,transform .2s}
+  #brands a.brand:hover,#brands a.brand:focus-visible{opacity:1;transform:translateY(-1px)}
+  #brands img{display:block;height:clamp(22px,3.3vh,34px);width:auto;max-width:150px;object-fit:contain}
+  #brands .brand[hidden]{display:none}
+  html[data-theme="day"] #brands img{filter:invert(1)}
+  html[data-theme="night"].inv #brands img{filter:invert(1)}
+  html[data-theme="day"].inv #brands img{filter:none}
+  @media(max-width:820px){#brands{right:12px;bottom:10px;gap:12px}#brands img{height:18px}}
   #counter{font-size:11.5px;letter-spacing:.14em;padding:9px 13px;border-radius:999px;color:var(--g-text);font-variant-numeric:tabular-nums}
+  #langs{display:flex;gap:4px;padding:5px;border-radius:999px}
+  #langs .lg{width:28px;height:28px;border-radius:50%;padding:0;border:0;background:none;cursor:pointer;display:grid;place-items:center;box-shadow:0 0 0 2px transparent;transition:box-shadow .2s,opacity .2s}
+  #langs .lg svg{width:26px;height:26px;display:block;border-radius:50%}
+  #langs .lg.on{box-shadow:0 0 0 2px var(--g-accent)}
+  #langs .lg:disabled{opacity:.38;cursor:not-allowed;filter:saturate(.55)}
+  #clock{font-size:12.5px;letter-spacing:.06em;padding:9px 13px;border-radius:999px;color:var(--g-text);font-variant-numeric:tabular-nums;white-space:nowrap}
+  #timer{display:flex;align-items:center;gap:2px;padding:3px 4px;border-radius:999px;color:var(--g-text)}
+  #timer button{width:30px;height:30px;border-radius:50%;border:0;background:none;color:inherit;cursor:pointer;display:grid;place-items:center;padding:0;font:inherit;transition:background .2s}
+  #timer button:hover,#timer button:focus-visible{background:var(--g-fill2)}
+  #timer button svg{width:15px;height:15px;display:block}
+  #timer .ico-pause{display:none}#timer.run .ico-pause{display:block}#timer.run .ico-play{display:none}
+  #tmTime{font-size:12.5px;min-width:48px;text-align:center;font-variant-numeric:tabular-nums;letter-spacing:.04em}
+  #timer.run #tmTime{color:var(--g-accent)}
+  @media(max-width:820px){#langs,#clock{display:none}}
+  @media(max-width:560px){#timer{display:none}}
+  /* en la portada no se muestran ni los logos ni la barra lateral */
+  #rail,#mobilelbl,#brands{transition:opacity .3s ease}
+  html.on-hero #rail,html.on-hero #mobilelbl,html.on-hero #brands{opacity:0;visibility:hidden;pointer-events:none}
   #themeBtn,#fsBtn{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:var(--g-text);padding:0;font:inherit}
   #themeBtn svg,#fsBtn svg{width:18px;height:18px;display:block}
   #fsBtn .comp{display:none}#fsBtn.is-fs .comp{display:block}#fsBtn.is-fs .exp{display:none}
@@ -602,6 +632,25 @@
   .vs .side ul{margin:0;padding:0;list-style:none;display:grid;gap:5px;font-size:clamp(12px,1.5vh,14px);color:var(--g-muted);font-weight:300}
   .vs .mid{display:grid;place-items:center;font-size:12px;letter-spacing:.2em;color:var(--g-dim)}
   .vs .side.h svg{color:var(--g-amber)}.vs .side.m svg{color:var(--g-accent)}
+
+  /* Equipo: persona completa en tarjeta (video vertical 2:3, sin recorte) + texto al costado */
+  #equipo .pcard{display:flex;align-items:center;gap:clamp(14px,1.8vw,28px);padding:clamp(12px,2vh,22px)}
+  #equipo .pcard.rev{flex-direction:row-reverse}
+  #equipo .pcard .vid{flex:none;aspect-ratio:2/3;max-height:none;width:auto;margin:0;height:clamp(260px,min(calc(100svh - 250px),36vw),700px)}
+  #equipo .pcard .vid video{object-fit:contain;-webkit-mask-image:none;mask-image:none}
+  #equipo .ptxt{flex:1 1 0;min-width:0;display:flex;flex-direction:column;justify-content:center}
+  #equipo .ptxt h3{margin:0 0 8px;font-weight:300;font-size:clamp(19px,3vh,30px);line-height:1.15;letter-spacing:-.01em}
+  #equipo .ptxt .role{font-size:clamp(11.5px,1.5vh,13px);color:var(--g-accent);letter-spacing:.04em;line-height:1.45;margin:0 0 clamp(8px,1.4vh,14px)}
+  #equipo .ptxt .cap{margin:0;font-size:clamp(12px,1.55vh,14.5px)}
+
+  /* Persona vs. máquina: imagen + listas debajo de cada mitad */
+  #q2 .grid.c2{grid-template-columns:1.2fr 1fr}
+  #q2 .pvm-img{display:block;width:auto;max-width:100%;height:auto;max-height:clamp(150px,27vh,300px);margin:0 auto clamp(8px,1.4vh,14px);object-fit:contain}
+  #q2 .pvm{display:grid;grid-template-columns:1fr 1fr;gap:clamp(8px,1vw,14px)}
+  #q2 .pvm .col{padding:clamp(9px,1.4vh,14px);border-radius:var(--r2);background:var(--g-fill2);border:1px solid var(--g-stroke);text-align:center}
+  #q2 .pvm h4{margin:0 0 6px;font-weight:500;font-size:clamp(13px,1.7vh,16px)}
+  #q2 .pvm .h h4{color:var(--g-amber)}#q2 .pvm .m h4{color:var(--g-accent)}
+  #q2 .pvm ul{margin:0;padding:0;list-style:none;display:grid;gap:4px;font-size:clamp(12px,1.5vh,14px);color:var(--g-muted);font-weight:300}
   .typing{font-size:clamp(18px,2.8vh,28px);font-weight:300;line-height:1.5;min-height:3.2em}
   .typing .cand{display:inline-block;padding:2px 10px;border-radius:10px;background:var(--g-fill2);border:1px solid var(--g-stroke);margin-left:6px;font-size:.8em;vertical-align:middle;transition:all .3s}
   .typing .cand.win{background:var(--g-accent);color:#fff;border-color:transparent}
@@ -710,6 +759,117 @@
   .gen .hist{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
   .gen .hist img{width:54px;height:54px;object-fit:cover;border-radius:8px;border:1px solid var(--g-stroke);cursor:pointer;opacity:.75}
   .gen .hist img.on{opacity:1;border-color:var(--g-accent)}
+  .hintlink{background:none;border:0;padding:0;font:inherit;color:var(--g-accent);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+  .btn.load.slow.saving .bar{transition:width 22s cubic-bezier(.1,.6,.3,1)}
+  .img.wait{border-style:solid;border-color:color-mix(in srgb,var(--g-accent) 55%,transparent)}
+  .img.wait .ph{animation:pulse 1.4s infinite}
+  /* ---------- Tesis · rueda human in the loop ---------- */
+  .hitl-loop{display:flex;flex-direction:column;min-height:0;align-items:stretch}
+  .hitl-body{display:grid;grid-template-columns:1fr 2fr;gap:clamp(12px,2vh,22px);align-items:stretch;min-height:0}
+  .hitl-loop{display:flex;flex-direction:column;min-height:0}
+  #hitlLoop{display:block;width:100%;height:auto;max-height:min(60vh,700px);margin:0 auto;cursor:pointer;border-radius:16px;-webkit-tap-highlight-color:transparent;user-select:none;overflow:visible}
+  #hitlLoop .hl-bg{fill:url(#hitlGrid)}
+  #hitlLoop .hl-grid{stroke:var(--g-text);stroke-opacity:.08}
+  #hitlLoop .hl-halo{fill:url(#hitlHalo)}
+  #hitlLoop .hl-ring{fill:none;stroke:var(--g-accent);stroke-width:22;stroke-linecap:butt;transition:stroke .3s}
+  #hitlLoop .hl-ring.hl-green{stroke:var(--g-ok)}
+  #hitlLoop.cut .hl-ring:not(.hl-green){stroke:var(--g-amber)}
+  #hitlLoop #hitlG{transition:transform .5s ease}
+  #hitlLoop .hl-arrow{fill:var(--g-accent)}#hitlLoop .hl-arrow.hl-green{fill:var(--g-ok)}#hitlLoop.cut .hl-arrow:not(.hl-green){fill:var(--g-amber)}
+  #hitlLoop .hl-dot{fill:#fff;opacity:.85}#hitlLoop .hl-dot.hl-green{fill:#e4ffee}#hitlLoop.cut .hl-dot:not(.hl-green){fill:#fff4d6}
+  #hitlLoop .hl-exit{fill:none;stroke:var(--g-amber);stroke-width:22;stroke-linecap:butt}
+  #hitlLoop .hl-exit-tip{fill:var(--g-amber)}
+  #hitlLoop .hl-cust{cursor:pointer}
+  #hitlLoop .hl-cust .hl-cbg{fill:var(--g-amber);stroke:#fff;stroke-width:3}
+  #hitlLoop .hl-cust .hl-cring{fill:none;stroke:var(--g-amber);stroke-width:3;opacity:.45;animation:hitlPulse 2.2s ease-out infinite;transform-box:fill-box;transform-origin:center}
+  #hitlLoop .hl-cust .hl-w{fill:#fff}
+  #hitlLoop .hl-cust .hl-clbl{fill:var(--g-amber);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+  #hitlLoop .hl-cust .hl-cchip{transform-box:fill-box;transform-origin:center;animation:hitlPop .4s cubic-bezier(.2,.9,.3,1.3)}
+  #hitlLoop .hl-pc{animation:hitlBreathe 3.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+  #hitlLoop .hl-pc .hl-shadow{fill:#000;opacity:.28}
+  #hitlLoop .hl-pc .hl-body{fill:#161c2b;stroke:rgba(255,255,255,.28);stroke-width:1.5}
+  #hitlLoop .hl-pc .hl-screen{fill:url(#hitlScr)}
+  #hitlLoop .hl-pc .hl-think circle{fill:#fff;animation:hitlThink 1.3s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+  #hitlLoop .hl-pc .hl-think circle:nth-child(2){animation-delay:.2s}#hitlLoop .hl-pc .hl-think circle:nth-child(3){animation-delay:.4s}
+  #hitlLoop .hl-pc .hl-ia{fill:#fff;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.85}
+  #hitlLoop .hl-pc .hl-neck{fill:#2a3347}#hitlLoop .hl-pc .hl-base{fill:#2a3347;stroke:rgba(255,255,255,.22);stroke-width:1}
+  #hitlLoop .hl-proc{fill:var(--g-muted);font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:500}
+  #hitlLoop .hl-hand{cursor:pointer}
+  #hitlLoop .hl-hand .hl-chip{transform-box:fill-box;transform-origin:center;animation:hitlPop .4s cubic-bezier(.2,.9,.3,1.3);transition:transform .2s}
+  #hitlLoop .hl-hand:hover .hl-chip{transform:scale(1.1)}
+  #hitlLoop .hl-hand .hl-ring2{fill:none;stroke:var(--g-ok);stroke-width:3;opacity:.45;animation:hitlPulse 2.2s ease-out infinite;transform-box:fill-box;transform-origin:center}
+  #hitlLoop .hl-hand .hl-bgc{fill:var(--g-ok);stroke:#fff;stroke-width:3}
+  #hitlLoop .hl-hand .hl-w{fill:#fff}#hitlLoop .hl-hand .hl-ln{fill:var(--g-ok)}
+  #hitlLoop .hl-hand .hl-lens{fill:rgba(255,255,255,.22);stroke:#fff;stroke-width:2.6}#hitlLoop .hl-hand .hl-hdl{stroke:#fff;stroke-width:3.2;stroke-linecap:round}
+  .hitl-legend{margin:8px 0 0;text-align:center}
+  .hitl-claims{display:grid;grid-template-rows:repeat(3,1fr);gap:clamp(12px,2vh,22px);min-height:0}
+  .hitl-claims .g.bx{display:flex;flex-direction:column;justify-content:center;gap:10px;font-size:clamp(13px,1.9vh,18px);line-height:1.45;font-weight:300;padding:clamp(14px,2.4vh,26px) clamp(16px,2.4vh,28px);border-radius:var(--r)}
+  .hitl-claims .g.bx.ink,.hitl-claims .g.bx.amber{backdrop-filter:none;-webkit-backdrop-filter:none}
+  .hitl-claims .kk{display:block;font-size:.7em;letter-spacing:.16em;text-transform:uppercase;opacity:.72;font-weight:500;margin-bottom:6px}
+  .hitl-claims .bx .n{width:30px;height:30px;border-radius:50%;border:1px solid currentColor;font-size:13px;display:grid;place-items:center;font-weight:600;font-style:normal;flex:none;opacity:.9}
+  @keyframes hitlBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+  @keyframes hitlThink{0%,100%{opacity:.35;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+  @keyframes hitlPop{from{transform:scale(.3);opacity:0}}
+  @keyframes hitlPulse{0%{transform:scale(1);opacity:.5}100%{transform:scale(1.7);opacity:0}}
+  .zoomimg img{display:block;max-width:100%;max-height:82vh;margin:0 auto;border-radius:12px}
+  /* ---------- 27/50 carta de productos + human in the loop ---------- */
+  .gen.carta{grid-template-columns:1fr 1fr;align-items:stretch}
+  .gen.carta .g{display:flex;flex-direction:column;min-height:min(62vh,700px)}
+  .carta-top{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start}
+  .carta-logo{width:clamp(96px,15vh,136px);height:clamp(96px,15vh,136px);border-radius:var(--r2);background:var(--g-fill2);border:1px dashed var(--g-stroke);display:grid;place-items:center;overflow:hidden;cursor:pointer;outline:none;text-align:center;color:var(--g-dim);font-size:12.5px;font-weight:300;transition:border-color .2s,background .2s}
+  .carta-logo .ph small{display:block;font-size:10.5px;margin-top:4px}
+  .carta-logo:hover,.carta-logo:focus,.carta-logo.over{border-color:var(--g-accent);background:color-mix(in srgb,var(--g-accent) 10%,var(--g-fill2))}
+  .carta-logo.locked{pointer-events:none;opacity:.45}
+  .gen.carta .in:disabled{opacity:.45;cursor:not-allowed}
+  .gen.carta .btn:disabled{opacity:.45;cursor:not-allowed}
+  .carta-logo img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
+  .carta-fields{min-width:0}
+  .gen.carta .carta-out .img{position:relative;flex:1 1 0px;min-height:140px;height:auto;max-height:none;aspect-ratio:auto;width:100%;margin:8px 0 0;cursor:default}
+  .gen.carta .carta-out .img img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;cursor:zoom-in}
+  .gen.carta .carta-out .img.wait{border-style:solid;border-color:color-mix(in srgb,var(--g-accent) 55%,transparent)}
+  .gen.carta .carta-out .img.wait .ph{animation:pulse 1.4s infinite}
+  .gen.carta .hist{margin-top:10px;min-height:58px}
+  .gen.carta .hist img{width:58px;height:58px}
+  .gen.carta .btn.load{min-width:0}
+  .btn.load:not(.primary) .bar{background:color-mix(in srgb,var(--g-accent) 32%,transparent)}
+  .btn.load:not(.primary).done{color:#fff}
+  /* ---------- logos: botón de arriba (se guardan en esta PC) ---------- */
+  #logoBtn,#musicBtn{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:var(--g-text);padding:0;font:inherit;position:relative}
+  #logoBtn svg,#musicBtn svg{width:18px;height:18px;display:block}
+  #musicBtn .eq{display:none;align-items:flex-end;gap:2px;height:14px}
+  #musicBtn .eq i{display:block;width:3px;background:var(--g-accent);border-radius:2px;animation:mEq .9s ease-in-out infinite;height:40%}
+  #musicBtn .eq i:nth-child(2){animation-delay:.25s}#musicBtn .eq i:nth-child(3){animation-delay:.5s}
+  #musicBtn.on .mnote{display:none}#musicBtn.on .eq{display:flex}
+  @keyframes mEq{0%,100%{height:30%}50%{height:100%}}
+  /* reproductor: coverflow de temas */
+  .mp-cf{position:relative;height:clamp(190px,30vh,260px);perspective:1100px;perspective-origin:50% 45%;overflow:visible;margin:4px 0 8px;cursor:pointer;user-select:none}
+  .mp-cf .c{position:absolute;left:50%;top:50%;width:clamp(130px,20vh,180px);height:clamp(130px,20vh,180px);margin:calc(clamp(130px,20vh,180px) / -2) 0 0 calc(clamp(130px,20vh,180px) / -2);border-radius:14px;overflow:hidden;background:var(--g-fill2);border:1px solid var(--g-stroke);box-shadow:var(--g-shadow);transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .45s;transform-style:preserve-3d;backface-visibility:hidden;display:grid;place-items:center;text-align:center;padding:10px;font-size:13px;color:var(--g-text)}
+  .mp-cf .c img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .mp-cf .c .t{position:relative;z-index:1;font-weight:500;line-height:1.3;text-shadow:0 1px 8px rgba(0,0,0,.4)}
+  .mp-cf .c .k{position:relative;z-index:1;font-size:28px;opacity:.55;margin-bottom:6px}
+  .mp-cf .c.hasimg>div{display:none}
+  .mp-cf .c.cur{box-shadow:0 18px 40px rgba(0,0,0,.35),0 0 0 2px var(--g-accent)}
+  .mp-cf .c.playing::after{content:"";position:absolute;right:10px;bottom:10px;width:10px;height:10px;border-radius:50%;background:var(--g-ok);box-shadow:0 0 10px var(--g-ok);z-index:2}
+  .mp-now{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:6px 0 10px;font-size:13px;color:var(--g-muted)}
+  .mp-now b{color:var(--g-text);font-weight:500}
+  .mp-ctl{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .mp-ctl .btn.round{width:42px;height:42px;padding:0;justify-content:center;font-size:16px}
+  .mp-vol{display:flex;align-items:center;gap:8px;margin-left:auto}
+  .mp-vol input{width:120px;accent-color:var(--g-accent)}
+  .mp-empty{padding:14px;border:1px dashed var(--g-stroke);border-radius:var(--r2);font-size:13px;color:var(--g-muted);line-height:1.5}
+  .mp-empty code{font-size:12px}
+  #brands .brand{transition:opacity .35s,transform .35s}
+  #brands .brand.pulse{transform:scale(1.16);opacity:1}
+  .lgm{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .lgm .ft{margin-bottom:8px}
+  .lgm-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px;border:1px solid var(--g-stroke);border-radius:var(--r2);background:var(--g-fill2);margin-bottom:8px;min-width:0}
+  .lgm-chk{display:flex;align-items:center;gap:10px;cursor:pointer;min-width:0}
+  .lgm-chk input{width:18px;height:18px;accent-color:var(--g-accent);flex:none}
+  .lgm-chip{width:110px;height:40px;border-radius:8px;background:#141a28;display:grid;place-items:center;padding:6px;flex:none;box-sizing:border-box}
+  .lgm-chip img{max-width:100%;max-height:100%;display:block}
+  .lgm-name{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .btn.sm{padding:6px 10px;font-size:12px}
+  @media(max-width:820px){.gen.carta{grid-template-columns:1fr}.lgm{grid-template-columns:1fr}.hitl-body{grid-template-columns:1fr}}
   .gen .steps{font-size:12px;color:var(--g-dim);font-weight:300;margin-top:6px}
   .file{display:flex;align-items:center;gap:10px}
   .file input{display:none}
@@ -757,6 +917,9 @@
     .loopA{grid-template-columns:1fr}
     .pic,.calc,.bot,.gen,.ex2,.qrbox,.bot .qrw{grid-template-columns:1fr}
     .vs{grid-template-columns:1fr}.why{grid-template-columns:1fr}
+    #equipo .pcard,#equipo .pcard.rev{flex-direction:column}
+    #equipo .pcard .vid{height:min(62svh,520px)}
+    #q2 .grid.c2{grid-template-columns:1fr}
     .cf .cfc{width:70vw}
     .hexes{grid-template-columns:1fr;justify-items:center}.hexes .subs{grid-template-columns:repeat(3,1fr);justify-items:center}.subs .s::before{display:none}
     .m2 .cells{grid-template-columns:1fr}
@@ -919,7 +1082,30 @@
 </nav>
 <div id="mobilelbl" class="glass"><b>Portada</b></div>
 <div id="topbar">
+  <div id="langs" class="glass" role="group" aria-label="Idioma de la charla">
+    <button class="lg on" type="button" data-lang="es" aria-pressed="true" title="Español (Argentina)" aria-label="Español (Argentina)"><svg viewBox="0 0 24 24" aria-hidden="true"><defs><clipPath id="fcA"><circle cx="12" cy="12" r="12"/></clipPath></defs><g clip-path="url(#fcA)"><rect width="24" height="24" fill="#74acdf"/><rect y="8" width="24" height="8" fill="#fff"/><circle cx="12" cy="12" r="2.3" fill="#f6b40e"/></g></svg></button>
+    <button class="lg" type="button" data-lang="en" disabled title="English: próximamente" aria-label="English: próximamente"><svg viewBox="0 0 24 24" aria-hidden="true"><defs><clipPath id="fcE"><circle cx="12" cy="12" r="12"/></clipPath></defs><g clip-path="url(#fcE)"><rect width="24" height="24" fill="#012169"/><path d="M0 0L24 24M24 0L0 24" stroke="#fff" stroke-width="4.4"/><path d="M0 0L24 24M24 0L0 24" stroke="#c8102e" stroke-width="1.6"/><path d="M12 0V24M0 12H24" stroke="#fff" stroke-width="7"/><path d="M12 0V24M0 12H24" stroke="#c8102e" stroke-width="4"/></g></svg></button>
+    <button class="lg" type="button" data-lang="pt" disabled title="Português: em breve" aria-label="Português: em breve"><svg viewBox="0 0 24 24" aria-hidden="true"><defs><clipPath id="fcP"><circle cx="12" cy="12" r="12"/></clipPath></defs><g clip-path="url(#fcP)"><rect width="24" height="24" fill="#009b3a"/><path d="M12 3.2L21.4 12L12 20.8L2.6 12Z" fill="#fedf00"/><circle cx="12" cy="12" r="4.5" fill="#002776"/><path d="M7.7 11.2Q12 9.6 16.3 12.8" stroke="#fff" stroke-width="1" fill="none"/></g></svg></button>
+  </div>
+  <div id="clock" class="glass" title="Hora actual" aria-label="Hora actual">--:--</div>
+  <div id="timer" class="glass" role="group" aria-label="Cronómetro de la charla">
+    <button id="tmPlay" type="button" title="Iniciar / pausar el cronómetro" aria-label="Iniciar el cronómetro">
+      <svg class="ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
+      <svg class="ico-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z" fill="currentColor"/></svg>
+    </button>
+    <span id="tmTime" aria-live="off">00:00</span>
+    <button id="tmReset" type="button" title="Reiniciar a 00:00" aria-label="Reiniciar el cronómetro">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.6-5.9"/><path d="M4 4.5v4.6h4.6"/></svg>
+    </button>
+  </div>
   <div id="counter" class="glass">1 / 1</div>
+  <button id="musicBtn" class="glass" type="button" aria-label="Música" title="Música de la charla">
+    <svg class="mnote" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V6l11-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+  </button>
+  <button id="logoBtn" class="glass" type="button" aria-label="Logos de esta charla" title="Logos de esta charla">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 9"/></svg>
+  </button>
   <button id="fsBtn" class="glass" type="button" aria-label="Pantalla completa">
     <svg class="exp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
     <svg class="comp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>
@@ -928,6 +1114,12 @@
     <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
     <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
   </button>
+</div>
+
+<div id="brands" aria-label="Organizan y acompañan">
+  <a class="brand" data-brand="krovalab" href="https://www.krovalab.com" target="_blank" rel="noopener" title="KrovaLab consultora"><img src="media/logos/krovalab.png" alt="KrovaLab consultora"></a>
+  <a class="brand" data-brand="outcomy" href="https://www.outcomy.com" target="_blank" rel="noopener" title="Outcomy"><img src="media/logos/outcomy.png" alt="Outcomy"></a>
+  <a class="brand" data-brand="modo" href="https://modocomunicacion.com.ar/" target="_blank" rel="noopener" title="Modo Comunicación"><img src="media/logos/modo.png" alt="Modo Comunicación"></a>
 </div>
 
 <div id="modal" role="dialog" aria-modal="true"><div class="box glass"><button class="btn round x" id="modalX" type="button" aria-label="Cerrar">✕</button><div id="modalBody"></div></div></div>
@@ -939,6 +1131,14 @@
     <canvas id="net" aria-hidden="true"></canvas>
     <div class="vignette"></div>
 
+    <div id="intro" aria-hidden="true"><video id="introVideo" playsinline preload="none"></video></div>
+    <button id="introSkip" type="button" tabindex="-1">Saltar ▸</button>
+
+    <button id="heroCta" class="hero-cta" type="button" aria-label="Comenzar: ver la introducción">
+      <span class="cta-lbl">Comenzar</span>
+      <span class="cta-line" aria-hidden="true"></span>
+    </button>
+
     <div class="inner">
       <header class="topbar rise d1">
         <div class="brand"><span class="dot"></span><span>Ciclo de formación · AEHG Mar del Plata</span></div>
@@ -947,13 +1147,8 @@
 
       <div class="hero-main">
         <div class="eyebrow rise d2">Jornada general + talleres aplicados</div>
-        <h1 class="rise d3">Inteligencia <em>artificial</em> para la hotelería y la gastronomía</h1>
+        <h1 class="rise d3"><span class="l1">Inteligencia <em>artificial</em></span><span class="l2">para la hotelería y la gastronomía</span></h1>
         <p class="lead rise d4">Qué es, cómo funciona y <strong>cómo aplicarla hoy</strong> en la gestión diaria de tu establecimiento: reseñas, WhatsApp, cartas, huéspedes, promociones y automatización.</p>
-        <div class="chips rise d4">
-          <span class="chip"><span class="n">1</span> Jornada de conceptos generales</span>
-          <span class="chip"><span class="n">2</span> Taller aplicado · Gastronómicos</span>
-          <span class="chip"><span class="n">3</span> Taller aplicado · Hoteleros</span>
-        </div>
       </div>
 
       <footer class="hero-foot rise d5">
@@ -973,8 +1168,124 @@
             <p class="focus">Implementación técnica · herramientas · automatización</p>
           </div>
         </div>
-        <a class="scroll" href="#bloque-1" aria-label="Continuar"><span>Continuar</span><span class="arrow"></span></a>
       </footer>
+    </div>
+  </section>
+
+  <!-- ============ 4 · OBJETIVO (Pregunta 1) ============ -->
+  <section id="presentacion" class="screen" data-block="Apertura" data-point="¿Cuál es el objetivo de este encuentro?" aria-label="Presentación">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Presentación</span>
+        <h2>¿Cuál es el objetivo de este encuentro?</h2>
+        <p class="sub">La inteligencia artificial está transformando la manera de trabajar en todo el mundo. Esta propuesta acerca ese conocimiento a los sectores que generan valor en la ciudad, donde la gastronomía y la hotelería cumplen un rol central. Tocá cada tarjeta para ver el ejemplo.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c3">
+          <div class="tile hl click" data-ex="entrenar">
+            <span class="k">01 · Entender</span>
+            <h3>Cómo se entrenan los modelos y qué significa automatizar</h3>
+            <p>Qué hay adentro de un chat de IA, qué es realmente la automatización, y cómo las APIs y los chatbots mejoran la eficiencia, la productividad y la experiencia del cliente.</p>
+            <span class="more">Ver ejemplo →</span>
+          </div>
+          <div class="tile hl click" data-ex="flujos">
+            <span class="k">02 · Aplicar</span>
+            <h3>Identificar oportunidades e implementar flujos</h3>
+            <p>Aprender a detectar qué automatizar, implementar flujos de trabajo asistidos por IA y garantizar el cumplimiento de las normas de protección de datos.</p>
+            <span class="more">Ver ejemplo →</span>
+          </div>
+          <div class="tile hl click" data-ex="valor">
+            <span class="k">03 · Crear valor</span>
+            <h3>Mejorar la forma en la que trabajamos</h3>
+            <p>La mejor meta que podemos trazarnos es crear valor y trabajar mejor. Y en el mejor de los casos, disponer de tiempo para otros placeres además del trabajo.</p>
+            <span class="more">Ver ejemplo →</span>
+          </div>
+        </div>
+        <div class="note">Para hacer un uso eficiente del tiempo, la actividad contempla <b>una jornada inicial de conceptos generales</b> y <b>dos talleres aplicados</b> que atienden las demandas puntuales de cada rubro.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5 · PROPUESTA ============ -->
+  <section id="propuesta" class="screen" data-block="Apertura" data-point="La propuesta" aria-label="Propuesta">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">La propuesta</span>
+        <h2>Una jornada para ambos públicos + dos talleres prácticos</h2>
+        <p class="sub">Primero los conceptos que todos necesitan. Después, cada grupo trabaja sobre sus propios procesos.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c3">
+          <div class="tile">
+            <span class="k">Jornada 1 · Ambos públicos</span>
+            <h3>Módulo general: cómo funciona y cómo se usa la IA</h3>
+            <p>Cinco bloques, veinte preguntas. De la historia y los conceptos base a la implementación, la medición y la ética.</p>
+            <ul><li>Encuadre e historia</li><li>Arquitectura y conceptos base</li><li>Técnicas de interacción y control</li><li>Implementación, herramientas y procesos</li><li>Gobernanza y ética</li></ul>
+          </div>
+          <div class="tile amber">
+            <span class="k amber">Taller 2 · Gastronómicos</span>
+            <h3>Velocidad de respuesta e interacción diaria</h3>
+            <p>Un sector donde la velocidad de respuesta define la venta.</p>
+            <ul><li>Respuesta rápida a reseñas locales</li><li>Redacción de propuestas para la carta</li><li>Atención vía WhatsApp</li><li>Contenido para eventos especiales y promociones del día</li></ul>
+          </div>
+          <div class="tile amber">
+            <span class="k amber">Taller 3 · Hoteleros</span>
+            <h3>Experiencia del huésped y comunicación institucional</h3>
+            <p>El eje está en la relación con el huésped antes, durante y después de la estadía.</p>
+            <ul><li>Automatización de correos pre y pos estadía</li><li>Gestión de consultas sobre servicios del hotel</li><li>Respuesta en Booking y TripAdvisor</li><li>Propuestas para turismo corporativo y temporada baja</li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6 · EQUIPO ============ -->
+  <section id="equipo" class="screen" data-block="Apertura" data-point="El equipo" aria-label="Equipo">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">El equipo</span>
+        <h2>La visión de la comunicación + la ejecución técnica</h2>
+      </header>
+      <div class="bd">
+        <div class="grid c2">
+          <div class="g pcard">
+            <div class="vid"><video muted playsinline preload="metadata" loop src="Euge se mueve.mp4"></video></div>
+            <div class="ptxt">
+              <h3>María Eugenia Dicándilo</h3>
+              <p class="role">Fundadora y directora de Modo Comunicación · Cofundadora de la consultora KrovaLab</p>
+              <p class="cap">Referente en el desarrollo de planes de comunicación de posicionamiento para empresas e instituciones. En este ciclo aborda el encuadre estratégico, la confección de instrucciones efectivas y el uso responsable de la tecnología en la gestión institucional.</p>
+            </div>
+          </div>
+          <div class="g pcard rev">
+            <div class="vid"><video muted playsinline preload="metadata" loop src="Peli saludando.mp4"></video></div>
+            <div class="ptxt">
+              <h3>Pablo Pellizzoni</h3>
+              <p class="role">Diseñador industrial · Docente e investigador UNMdP · Cofundador de Outcomy y Kexen · Cofundador de la consultora KrovaLab</p>
+              <p class="cap">Distinguido con el Sello Buen Diseño y el premio Innovar. Su especialidad abarca la implementación técnica de la inteligencia artificial, la configuración operativa de herramientas digitales y la automatización de procesos cotidianos.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 7 · PROGRAMA · coverflow ============ -->
+  <section id="programa" class="screen" data-block="Apertura" data-point="Programa · cinco bloques" aria-label="Programa">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Módulo general · Programa</span>
+        <h2>Cinco bloques</h2>
+      </header>
+      <div class="bd">
+        <div class="cf" id="cf">
+          <div class="cfc" data-i="0"><div class="n">1</div><h3>Encuadre e historia</h3><p>Qué es la IA, para qué sirve y cómo llegó hasta acá.</p><div class="refl"></div></div>
+          <div class="cfc" data-i="1"><div class="n">2</div><h3>Arquitectura y conceptos base</h3><p>Cómo funciona por dentro, qué es un modelo, qué es la IA generativa.</p><div class="refl"></div></div>
+          <div class="cfc" data-i="2"><div class="n">3</div><h3>Interacción y control operativo</h3><p>Cómo hablarle, cuánto cuesta, por qué inventa y cómo se controla.</p><div class="refl"></div></div>
+          <div class="cfc" data-i="3"><div class="n">4</div><h3>Implementación, herramientas y procesos</h3><p>Usos, chatbots, automatización, funciones, medir y acompañar al equipo.</p><div class="refl"></div></div>
+          <div class="cfc" data-i="4"><div class="n">5</div><h3>Gobernanza y ética</h3><p>Sesgos, datos personales y regulación en la Argentina.</p><div class="refl"></div></div>
+        </div>
+        <div class="cf-nav"><button class="btn round" id="cfPrev" type="button" aria-label="Anterior">‹</button><button class="btn round" id="cfNext" type="button" aria-label="Siguiente">›</button></div>
+      </div>
     </div>
   </section>
 
@@ -987,52 +1298,132 @@
           <div class="kicker">Bloque 1 de 5</div>
           <h2>Encuadre e historia</h2>
           <ol>
-            <li><span>01</span>¿Cuál es el objetivo de este encuentro?</li>
-            <li><span>02</span>¿Qué es la inteligencia artificial y para qué sirve?</li>
-            <li><span>03</span>¿Cómo evolucionó la inteligencia artificial a lo largo de su historia?</li>
+            <li><span>01</span>¿Qué es la inteligencia artificial y para qué sirve?</li>
+            <li><span>02</span>¿Cómo evolucionó la inteligencia artificial a lo largo de su historia?</li>
+            <li><span>03</span>El humano en el circuito (human in the loop)</li>
           </ol>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ 2 · TESIS + demo human in the loop ============ -->
-  <section id="tesis" class="screen" data-block="Bloque 1" data-point="El humano en el centro del algoritmo" aria-label="Tesis">
+  <!-- ============ 9 · Q2 fusionada: persona vs. máquina + por qué no razona ============ -->
+  <section id="q2" class="screen" data-block="Bloque 1" data-point="01 · ¿Qué es la IA y para qué sirve?" aria-label="Pregunta 1">
     <div class="wrap">
       <header class="hd">
-        <span class="tag">Intro · La idea que ordena toda la charla</span>
+        <span class="tag">Bloque 1 · Pregunta 01</span>
+        <h2>¿Qué es la inteligencia artificial y para qué sirve?</h2>
+        <p class="sub">Usa algoritmos y datos para predecir resultados y facilitar decisiones. No razona ni comprende: calcula la continuación más probable. Razonar es de los seres humanos.</p>
+      </header>
+      <div class="bd">
+        <div class="grid c2">
+          <div class="g">
+            <p class="ft">Persona vs. máquina</p>
+            <img class="pvm-img" src="media/persona-vs-maquina.png" alt="Una persona con sus recuerdos, valores y experiencias frente a una máquina con datos, gráficos y redes">
+            <div class="pvm">
+              <div class="col h">
+                <h4>Persona</h4>
+                <ul><li>Consciencia e intención</li><li>Experiencias de vida</li><li>Busca lo raro y lo nuevo</li><li>Decide y se hace cargo</li></ul>
+              </div>
+              <div class="col m">
+                <h4>Máquina</h4>
+                <ul><li>Sistema matemático</li><li>Datos preexistentes</li><li>Tiende al promedio</li><li>Propone, no decide</li></ul>
+              </div>
+            </div>
+          </div>
+          <div class="g">
+            <p class="ft">Por qué no razona · mirá cómo "piensa"</p>
+            <div class="typing" id="typing"></div>
+            <div class="row" style="margin:8px 0 12px"><button class="btn" id="typingBtn" type="button">Repetir</button><span class="hint">Cada palabra es una apuesta estadística sobre la anterior. Nada más.</span></div>
+            <div class="why" id="why">
+              <div class="w"><b>Razonar</b> es tener un objetivo propio y evaluar caminos para llegar.</div>
+              <div class="w"><b>Comprender</b> es conectar lo que se dice con una experiencia vivida.</div>
+              <div class="w"><b>Decidir</b> es hacerse cargo de la consecuencia. Eso es humano.</div>
+            </div>
+          </div>
+        </div>
+        <div class="note">La IA contemporánea opera mediante mecanismos de predicción condicionada. <b>No es una entidad; es un motor estadístico altamente sofisticado.</b> Sirve para producir, resumir, clasificar y traducir a una velocidad imposible para una persona.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q3 ============ -->
+  <section id="q3" class="screen" data-block="Bloque 1" data-point="02 · ¿Cómo evolucionó la IA?" aria-label="Pregunta 2">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 1 · Pregunta 02</span>
+        <h2>¿Cómo evolucionó la inteligencia artificial a lo largo de su historia?</h2>
+        <p class="sub">La escalera de capacidades: cómo la IA aprendió, escalón por escalón, a ver, leer, conversar, razonar y operar.</p>
+      </header>
+      <div class="bd">
+        <div class="g">
+          <div class="stairs">
+            <div class="step s1" style="--i:0"><span class="yr">1956</span><b>El nombre</b><small>Conferencia de Dartmouth: nace el concepto de "inteligencia artificial".</small></div>
+            <div class="step s2" style="--i:1"><span class="yr">2012</span><b>Aprender a VER</b><small>Las redes neuronales profundas reconocen imágenes (AlexNet).</small></div>
+            <div class="step s3" style="--i:2"><span class="yr">2017</span><b>Aprender a LEER</b><small>El mecanismo Transformer introduce la atención: entender la frase completa.</small></div>
+            <div class="step s4" style="--i:3"><span class="yr">2022</span><b>Aprender a CONVERSAR</b><small>ChatGPT masifica la tecnología: cualquiera puede usarla.</small></div>
+            <div class="step s5" style="--i:4"><span class="yr">2024</span><b>Aprender a RAZONAR</b><small>Modelos que "piensan" antes de responder y encadenan pasos.</small></div>
+            <div class="step s6" style="--i:5"><span class="yr">2026</span><b>Aprender a OPERAR</b><small>Agentes que coordinan subagentes, usan aplicaciones y navegan interfaces.</small></div>
+          </div>
+        </div>
+        <div class="grid c3">
+          <div class="tile"><span class="k">Antes de 2022</span><h3>IA invisible</h3><p>Ya la usabas sin saberlo: recomendaciones, traducción automática, filtros de spam, mapas, reconocimiento de voz.</p></div>
+          <div class="tile"><span class="k">2022 – 2024</span><h3>IA conversacional</h3><p>Se vuelve una herramienta de trabajo: escribir, resumir, traducir, analizar, programar, generar imágenes.</p></div>
+          <div class="tile"><span class="k">Hoy</span><h3>IA que ejecuta</h3><p>Agentes que completan procesos: leer un correo, consultar una planilla, redactar y enviar una respuesta, con supervisión humana.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2 · TESIS + demo human in the loop ============ -->
+  <section id="tesis" class="screen" data-block="Bloque 1" data-point="03 · El humano en el circuito (human in the loop)" aria-label="Pregunta 3 · Tesis">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 1 · Pregunta 03</span>
         <h2>El humano en el centro del algoritmo</h2>
         <p class="sub">La IA no reemplaza; <strong>extiende</strong>. El primer resultado es lo mediocre de todos: lo que vale es la vuelta humana. No temer ni venerar a la IA: operarla.</p>
       </header>
       <div class="bd">
-        <div class="gen">
-          <div class="g">
-            <p class="ft">Demo en vivo · Proceso A → Proceso A + human in the loop</p>
-            <label class="lbl2" for="hitlPrompt">Qué imagen queremos</label>
-            <textarea class="in" id="hitlPrompt" rows="3" placeholder="Ej.: una mesa de un restaurante de Mar del Plata al atardecer, con vista al mar"></textarea>
-            <div class="row" style="margin-top:10px">
-              <button class="btn primary" id="hitlGemini" type="button">Abrir en Gemini</button>
-              <button class="btn" id="hitlGpt" type="button">Abrir en ChatGPT</button>
-            </div>
-            <div class="row" style="margin-top:8px">
-              <button class="btn" id="hitlMore" type="button">Sumar frase de la sala</button>
-              <button class="btn ghost" id="hitlKeep" type="button">Me quedo con esta</button>
-              <span class="status on" id="hitlStatus">vuelta 1</span>
-            </div>
-            <p class="hint" style="margin-top:8px">El botón copia el pedido y abre la herramienta con tu cuenta. Pegás (Ctrl+V), generás, copiás la imagen y la pegás en el recuadro de la derecha.</p>
-            <div class="claims" style="margin-top:12px">
-              <div class="bx ink">Vuelta 1: lo que la máquina cree que querés. <b>Lo mediocre de todos.</b></div>
-              <div class="bx">Vuelta 2, 3, 4: cada frase de una persona lo mueve hacia lo que nadie más pediría.</div>
-              <div class="bx amber">La decisión final (seguir o quedarse) es siempre humana.</div>
-            </div>
+        <div class="hitl-body">
+          <div class="hitl-claims">
+            <div class="g bx ink"><span><span class="kk">1 — Primer resultado</span>La IA entrega lo que estadísticamente cree que querés.<br><b>El resultado promedio.</b></span></div>
+            <div class="g bx"><span><span class="kk">2 — La vuelta humana</span>Cada intervención humana corrige, orienta y empuja el resultado hacia algo más propio.<br><b>Ahí aparece la diferencia.</b></span></div>
+            <div class="g bx amber"><span><span class="kk">3 — Decisión final</span><b>La IA propone.</b><br>La decisión de seguir, cambiar o quedarse es siempre humana.</span></div>
           </div>
-          <div class="g">
-            <p class="ft">Resultado · vuelta <span id="hitlRound">0</span></p>
-            <div class="img drop" id="hitlImg" tabindex="0"><div class="ph">Pegá acá la imagen (Ctrl+V)<br>o arrastrala · o tocá para elegirla</div></div>
-            <input type="file" id="hitlFile" accept="image/*" hidden>
-            <div class="hist" id="hitlHist"></div>
-            <p class="steps" id="hitlSteps">Frases: —</p>
-          </div>
+        <div class="g hitl-loop">
+          <div class="row" style="justify-content:space-between;margin-bottom:4px"><p class="ft" style="margin:0">Human in the loop · tocá la rueda</p><span class="status" id="hitlLoopSt">sin intervención</span></div>
+          <svg id="hitlLoop" viewBox="0 0 480 480" role="img" aria-label="Proceso A: un circuito automático. Cada toque mete una persona en el flujo; tocando afuera, la rueda se corta y el flujo termina en el cliente">
+            <defs>
+              <pattern id="hitlGrid" width="20" height="20" patternUnits="userSpaceOnUse"><path class="hl-grid" d="M20 0H0V20" fill="none"/></pattern>
+              <linearGradient id="hitlScr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6fb2ff"><animate attributeName="stop-color" values="#6fb2ff;#8fd0ff;#6fb2ff" dur="4s" repeatCount="indefinite"/></stop><stop offset=".55" stop-color="#7c6cf2"><animate attributeName="stop-color" values="#7c6cf2;#5f8cff;#7c6cf2" dur="4s" repeatCount="indefinite"/></stop><stop offset="1" stop-color="#2f3f7a"/></linearGradient>
+              <radialGradient id="hitlHalo"><stop offset="0" stop-color="#86b7ff" stop-opacity=".35"/><stop offset="1" stop-color="#86b7ff" stop-opacity="0"/></radialGradient>
+              <clipPath id="hitlClip"></clipPath>
+            </defs>
+            <rect class="hl-bg" x="0" y="0" width="480" height="480" rx="18"/>
+            <g id="hitlG">
+            <circle class="hl-halo" cx="240" cy="240" r="90"/>
+            <path id="hitlRing" class="hl-ring" d=""/>
+            <path id="hitlRingG" class="hl-ring hl-green" d="" clip-path="url(#hitlClip)"/>
+            <g id="hitlExit"></g>
+            <g id="hitlArrows"></g>
+            <g id="hitlDots"></g>
+            <g transform="translate(240 240)">
+              <g class="hl-pc">
+                <ellipse class="hl-shadow" cx="0" cy="44" rx="42" ry="6"/>
+                <rect class="hl-body" x="-56" y="-50" width="112" height="76" rx="12"/>
+                <rect class="hl-screen" x="-49" y="-43" width="98" height="62" rx="7"/>
+                <g class="hl-think"><circle cx="-15" cy="-12" r="5.5"/><circle cx="0" cy="-12" r="5.5"/><circle cx="15" cy="-12" r="5.5"/></g>
+                <text class="hl-ia" x="0" y="11" text-anchor="middle">IA pensando</text>
+                <rect class="hl-neck" x="-9" y="26" width="18" height="10"/>
+                <rect class="hl-base" x="-32" y="35" width="64" height="7" rx="3.5"/>
+              </g>
+              <text class="hl-proc" x="0" y="66" text-anchor="middle">Proceso A</text>
+            </g>
+            <g id="hitlHands"></g>
+            </g>
+          </svg>
+          <p class="hint hitl-legend">Tocá la rueda: entra una persona al circuito (el flujo pasa por sus manos y vuelve). Tocá a la persona para sacarla. Tocá bien afuera: la rueda se corta y el flujo va de la primera persona a la última y termina en el cliente. Tocá al cliente para cerrarla de nuevo.</p>
+        </div>
         </div>
       </div>
     </div>
@@ -1143,191 +1534,6 @@
             <div class="it" style="--x:120%;--y:-50px;--r:5deg"><span>Traducir, interpretar o resumir textos</span><span class="n">3º</span></div>
             <div class="it" style="--x:70%;--y:-12px;--r:-6deg"><span>Conversación libre o apoyo emocional</span><span class="n">20,3%</span></div>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ 4 · OBJETIVO (Pregunta 1) ============ -->
-  <section id="presentacion" class="screen" data-block="Bloque 1" data-point="01 · ¿Cuál es el objetivo de este encuentro?" aria-label="Presentación">
-    <div class="wrap">
-      <header class="hd">
-        <span class="tag">Presentación · Pregunta 01</span>
-        <h2>¿Cuál es el objetivo de este encuentro?</h2>
-        <p class="sub">La inteligencia artificial está transformando la manera de trabajar en todo el mundo. Esta propuesta acerca ese conocimiento a los sectores que generan valor en la ciudad, donde la gastronomía y la hotelería cumplen un rol central. Tocá cada tarjeta para ver el ejemplo.</p>
-      </header>
-      <div class="bd">
-        <div class="grid c3">
-          <div class="tile hl click" data-ex="entrenar">
-            <span class="k">01 · Entender</span>
-            <h3>Cómo se entrenan los modelos y qué significa automatizar</h3>
-            <p>Qué hay adentro de un chat de IA, qué es realmente la automatización, y cómo las APIs y los chatbots mejoran la eficiencia, la productividad y la experiencia del cliente.</p>
-            <span class="more">Ver ejemplo →</span>
-          </div>
-          <div class="tile hl click" data-ex="flujos">
-            <span class="k">02 · Aplicar</span>
-            <h3>Identificar oportunidades e implementar flujos</h3>
-            <p>Aprender a detectar qué automatizar, implementar flujos de trabajo asistidos por IA y garantizar el cumplimiento de las normas de protección de datos.</p>
-            <span class="more">Ver ejemplo →</span>
-          </div>
-          <div class="tile hl click" data-ex="valor">
-            <span class="k">03 · Crear valor</span>
-            <h3>Mejorar la forma en la que trabajamos</h3>
-            <p>La mejor meta que podemos trazarnos es crear valor y trabajar mejor. Y en el mejor de los casos, disponer de tiempo para otros placeres además del trabajo.</p>
-            <span class="more">Ver ejemplo →</span>
-          </div>
-        </div>
-        <div class="note">Para hacer un uso eficiente del tiempo, la actividad contempla <b>una jornada inicial de conceptos generales</b> y <b>dos talleres aplicados</b> que atienden las demandas puntuales de cada rubro.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ 5 · PROPUESTA ============ -->
-  <section id="propuesta" class="screen" data-block="Bloque 1" data-point="La propuesta" aria-label="Propuesta">
-    <div class="wrap">
-      <header class="hd">
-        <span class="tag">La propuesta</span>
-        <h2>Una jornada para ambos públicos + dos talleres prácticos</h2>
-        <p class="sub">Primero los conceptos que todos necesitan. Después, cada grupo trabaja sobre sus propios procesos.</p>
-      </header>
-      <div class="bd">
-        <div class="grid c3">
-          <div class="tile">
-            <span class="k">Jornada 1 · Ambos públicos</span>
-            <h3>Módulo general: cómo funciona y cómo se usa la IA</h3>
-            <p>Cinco bloques, veinte preguntas. De la historia y los conceptos base a la implementación, la medición y la ética.</p>
-            <ul><li>Encuadre e historia</li><li>Arquitectura y conceptos base</li><li>Técnicas de interacción y control</li><li>Implementación, herramientas y procesos</li><li>Gobernanza y ética</li></ul>
-          </div>
-          <div class="tile amber">
-            <span class="k amber">Taller 2 · Gastronómicos</span>
-            <h3>Velocidad de respuesta e interacción diaria</h3>
-            <p>Un sector donde la velocidad de respuesta define la venta.</p>
-            <ul><li>Respuesta rápida a reseñas locales</li><li>Redacción de propuestas para la carta</li><li>Atención vía WhatsApp</li><li>Contenido para eventos especiales y promociones del día</li></ul>
-          </div>
-          <div class="tile amber">
-            <span class="k amber">Taller 3 · Hoteleros</span>
-            <h3>Experiencia del huésped y comunicación institucional</h3>
-            <p>El eje está en la relación con el huésped antes, durante y después de la estadía.</p>
-            <ul><li>Automatización de correos pre y pos estadía</li><li>Gestión de consultas sobre servicios del hotel</li><li>Respuesta en Booking y TripAdvisor</li><li>Propuestas para turismo corporativo y temporada baja</li></ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ 6 · EQUIPO ============ -->
-  <section id="equipo" class="screen" data-block="Bloque 1" data-point="El equipo" aria-label="Equipo">
-    <div class="wrap">
-      <header class="hd">
-        <span class="tag">El equipo</span>
-        <h2>La visión de la comunicación + la ejecución técnica</h2>
-      </header>
-      <div class="bd">
-        <div class="grid c2">
-          <div class="g">
-            <div class="vid" data-alpha="media/euge.webm"><video muted playsinline preload="metadata" loop src="Euge se mueve.mp4"></video><div class="nm">María Eugenia Dicándilo</div></div>
-            <p class="role" style="font-size:12.5px;color:var(--g-accent);letter-spacing:.04em;margin:12px 0 6px">Fundadora y directora de Modo Comunicación · Cofundadora de la consultora KrovaLab</p>
-            <p class="cap" style="margin:0">Referente en el desarrollo de planes de comunicación de posicionamiento para empresas e instituciones. En este ciclo aborda el encuadre estratégico, la confección de instrucciones efectivas y el uso responsable de la tecnología en la gestión institucional.</p>
-          </div>
-          <div class="g">
-            <div class="vid" data-alpha="media/peli.webm"><video muted playsinline preload="metadata" loop src="Peli saludando.mp4"></video><div class="nm">Pablo Pellizzoni</div></div>
-            <p class="role" style="font-size:12.5px;color:var(--g-accent);letter-spacing:.04em;margin:12px 0 6px">Diseñador industrial · Docente e investigador UNMdP · Cofundador de Outcomy y Kexen · Cofundador de la consultora KrovaLab</p>
-            <p class="cap" style="margin:0">Distinguido con el Sello Buen Diseño y el premio Innovar. Su especialidad abarca la implementación técnica de la inteligencia artificial, la configuración operativa de herramientas digitales y la automatización de procesos cotidianos.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ 7 · PROGRAMA · coverflow ============ -->
-  <section id="programa" class="screen" data-block="Bloque 1" data-point="Programa · cinco bloques" aria-label="Programa">
-    <div class="wrap">
-      <header class="hd">
-        <span class="tag">Módulo general · Programa</span>
-        <h2>Cinco bloques</h2>
-      </header>
-      <div class="bd">
-        <div class="cf" id="cf">
-          <div class="cfc" data-i="0"><div class="n">1</div><h3>Encuadre e historia</h3><p>Qué es la IA, para qué sirve y cómo llegó hasta acá.</p><div class="refl"></div></div>
-          <div class="cfc" data-i="1"><div class="n">2</div><h3>Arquitectura y conceptos base</h3><p>Cómo funciona por dentro, qué es un modelo, qué es la IA generativa.</p><div class="refl"></div></div>
-          <div class="cfc" data-i="2"><div class="n">3</div><h3>Interacción y control operativo</h3><p>Cómo hablarle, cuánto cuesta, por qué inventa y cómo se controla.</p><div class="refl"></div></div>
-          <div class="cfc" data-i="3"><div class="n">4</div><h3>Implementación, herramientas y procesos</h3><p>Usos, chatbots, automatización, funciones, medir y acompañar al equipo.</p><div class="refl"></div></div>
-          <div class="cfc" data-i="4"><div class="n">5</div><h3>Gobernanza y ética</h3><p>Sesgos, datos personales y regulación en la Argentina.</p><div class="refl"></div></div>
-        </div>
-        <div class="cf-nav"><button class="btn round" id="cfPrev" type="button" aria-label="Anterior">‹</button><button class="btn round" id="cfNext" type="button" aria-label="Siguiente">›</button></div>
-      </div>
-    </div>
-  </section>
-
-
-
-  <!-- ============ 9 · Q2 fusionada: persona vs. máquina + por qué no razona ============ -->
-  <section id="q2" class="screen" data-block="Bloque 1" data-point="02 · ¿Qué es la IA y para qué sirve?" aria-label="Pregunta 2">
-    <div class="wrap">
-      <header class="hd">
-        <span class="tag">Bloque 1 · Pregunta 02</span>
-        <h2>¿Qué es la inteligencia artificial y para qué sirve?</h2>
-        <p class="sub">Usa algoritmos y datos para predecir resultados y facilitar decisiones. No razona ni comprende: calcula la continuación más probable. Razonar es de los seres humanos.</p>
-      </header>
-      <div class="bd">
-        <div class="grid c2">
-          <div class="g">
-            <p class="ft">Persona vs. máquina</p>
-            <div class="vs">
-              <div class="side h">
-                <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="50" cy="32" r="16"/><path d="M22 92c0-18 12-28 28-28s28 10 28 28"/><path d="M42 30c2-5 14-5 16 0M44 36c3 3 9 3 12 0"/><path d="M50 8v6M70 14l-4 4M30 14l4 4"/></svg>
-                <h4>Persona</h4>
-                <ul><li>Consciencia e intención</li><li>Experiencias de vida</li><li>Busca lo raro y lo nuevo</li><li>Decide y se hace cargo</li></ul>
-              </div>
-              <div class="mid">VS</div>
-              <div class="side m">
-                <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="22" y="22" width="56" height="56" rx="8"/><rect x="36" y="36" width="28" height="28" rx="3"/><path d="M36 10v12M50 10v12M64 10v12M36 78v12M50 78v12M64 78v12M10 36h12M10 50h12M10 64h12M78 36h12M78 50h12M78 64h12"/></svg>
-                <h4>Máquina</h4>
-                <ul><li>Sistema matemático</li><li>Datos preexistentes</li><li>Tiende al promedio</li><li>Propone, no decide</li></ul>
-              </div>
-            </div>
-            <div class="ill" data-img="media/q02-persona-vs-maquina.webp" style="margin:12px 0 0;max-height:none"><img alt="" style="display:none;width:100%;border-radius:14px"></div>
-            <p class="hint">Si subís <code>media/q02-persona-vs-maquina.webp</code>, tu dibujo aparece acá debajo.</p>
-          </div>
-          <div class="g">
-            <p class="ft">Por qué no razona · mirá cómo "piensa"</p>
-            <div class="typing" id="typing"></div>
-            <div class="row" style="margin:8px 0 12px"><button class="btn" id="typingBtn" type="button">Repetir</button><span class="hint">Cada palabra es una apuesta estadística sobre la anterior. Nada más.</span></div>
-            <div class="why" id="why">
-              <div class="w"><b>Razonar</b> es tener un objetivo propio y evaluar caminos para llegar.</div>
-              <div class="w"><b>Comprender</b> es conectar lo que se dice con una experiencia vivida.</div>
-              <div class="w"><b>Decidir</b> es hacerse cargo de la consecuencia. Eso es humano.</div>
-            </div>
-          </div>
-        </div>
-        <div class="note">La IA contemporánea opera mediante mecanismos de predicción condicionada. <b>No es una entidad; es un motor estadístico altamente sofisticado.</b> Sirve para producir, resumir, clasificar y traducir a una velocidad imposible para una persona.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ Q3 ============ -->
-  <section id="q3" class="screen" data-block="Bloque 1" data-point="03 · ¿Cómo evolucionó la IA?" aria-label="Pregunta 3">
-    <div class="wrap">
-      <header class="hd">
-        <span class="tag">Bloque 1 · Pregunta 03</span>
-        <h2>¿Cómo evolucionó la inteligencia artificial a lo largo de su historia?</h2>
-        <p class="sub">La escalera de capacidades: cómo la IA aprendió, escalón por escalón, a ver, leer, conversar, razonar y operar.</p>
-      </header>
-      <div class="bd">
-        <div class="g">
-          <div class="stairs">
-            <div class="step s1" style="--i:0"><span class="yr">1956</span><b>El nombre</b><small>Conferencia de Dartmouth: nace el concepto de "inteligencia artificial".</small></div>
-            <div class="step s2" style="--i:1"><span class="yr">2012</span><b>Aprender a VER</b><small>Las redes neuronales profundas reconocen imágenes (AlexNet).</small></div>
-            <div class="step s3" style="--i:2"><span class="yr">2017</span><b>Aprender a LEER</b><small>El mecanismo Transformer introduce la atención: entender la frase completa.</small></div>
-            <div class="step s4" style="--i:3"><span class="yr">2022</span><b>Aprender a CONVERSAR</b><small>ChatGPT masifica la tecnología: cualquiera puede usarla.</small></div>
-            <div class="step s5" style="--i:4"><span class="yr">2024</span><b>Aprender a RAZONAR</b><small>Modelos que "piensan" antes de responder y encadenan pasos.</small></div>
-            <div class="step s6" style="--i:5"><span class="yr">2026</span><b>Aprender a OPERAR</b><small>Agentes que coordinan subagentes, usan aplicaciones y navegan interfaces.</small></div>
-          </div>
-        </div>
-        <div class="grid c3">
-          <div class="tile"><span class="k">Antes de 2022</span><h3>IA invisible</h3><p>Ya la usabas sin saberlo: recomendaciones, traducción automática, filtros de spam, mapas, reconocimiento de voz.</p></div>
-          <div class="tile"><span class="k">2022 – 2024</span><h3>IA conversacional</h3><p>Se vuelve una herramienta de trabajo: escribir, resumir, traducir, analizar, programar, generar imágenes.</p></div>
-          <div class="tile"><span class="k">Hoy</span><h3>IA que ejecuta</h3><p>Agentes que completan procesos: leer un correo, consultar una planilla, redactar y enviar una respuesta, con supervisión humana.</p></div>
         </div>
       </div>
     </div>
@@ -1901,30 +2107,41 @@
   </section>
 
   <!-- ============ 28 · Q11b · flyer en vivo ============ -->
-  <section id="q11b" class="screen" data-block="Bloque 4" data-point="11 · Un flyer en vivo" aria-label="Pregunta 11 · flyer">
+  <section id="q11b" class="screen" data-block="Bloque 4" data-point="11 · Una carta en vivo · human in the loop" aria-label="Pregunta 11 · carta">
     <div class="wrap">
       <header class="hd">
-        <span class="tag">Bloque 4 · Pregunta 11 · en vivo</span>
-        <h2>Un flyer de promoción, ahora, con el logo de alguien de la sala</h2>
+        <span class="tag">Bloque 4 · Pregunta 11 · en vivo · human in the loop</span>
+        <h2>Una carta de productos, ahora: la IA propone, la sala corrige</h2>
+        <p class="sub">Vuelta 1: lo que la máquina cree que querés, <strong>lo mediocre de todos</strong>. Vuelta 2, 3, 4: cada corrección de una persona la mueve hacia lo que nadie más pediría. La decisión final es siempre humana.</p>
       </header>
       <div class="bd">
-        <div class="gen">
+        <div class="gen carta">
           <div class="g">
-            <p class="ft">Entrada</p>
-            <label class="lbl2">Logo del establecimiento (para adjuntar en Gemini o ChatGPT)</label>
-            <label class="file"><input type="file" id="flyLogo" accept="image/*"><span class="btn" aria-hidden="true">Elegir imagen</span><span class="prev" id="flyPrev">sin logo</span></label>
-            <label class="lbl2" for="flyPromo" style="margin-top:12px">¿De qué es la promo?</label>
-            <input class="in" id="flyPromo" type="text" placeholder="Ej.: 2x1 en cafetería de lunes a jueves de 16 a 19">
-            <label class="lbl2" for="flyCtx" style="margin-top:12px">Contexto (quiénes somos, estilo, público)</label>
-            <textarea class="in" id="flyCtx" rows="3" placeholder="Ej.: cafetería de especialidad en Güemes, estética cálida y minimalista, público joven y turistas"></textarea>
-            <div class="row" style="margin-top:12px"><button class="btn primary" id="flyGemini" type="button">Abrir en Gemini</button><button class="btn" id="flyGpt" type="button">Abrir en ChatGPT</button></div>
-            <p class="hint" style="margin-top:8px">Copia el pedido y abre la herramienta con tu cuenta. Allá: pegás (Ctrl+V), adjuntás el logo y generás. Después copiás el flyer y lo pegás a la derecha.</p>
+            <p class="ft">Entrada · Proceso A → Proceso A + human in the loop</p>
+            <div class="carta-top">
+              <div class="carta-logo" id="ctLogo" tabindex="0" title="Logo: tocá para elegir un archivo, o pegalo con Ctrl+V"><span class="ph">Logo<small>tocá o pegá (Ctrl+V)</small></span></div>
+              <input type="file" id="ctLogoFile" accept="image/*" hidden>
+              <div class="carta-fields">
+                <label class="lbl2" for="ctName">Restaurante</label>
+                <input class="in" id="ctName" type="text" placeholder="Ej.: La Marea">
+                <label class="lbl2" for="ctTitle" style="margin-top:10px">Título de la carta</label>
+                <input class="in" id="ctTitle" type="text" placeholder="Ej.: Carta de tragos de verano">
+              </div>
+            </div>
+            <label class="lbl2" for="ctDesc" id="ctDescLbl" style="margin-top:12px">Descripción (cómo son los tragos, bebidas o platos)</label>
+            <textarea class="in" id="ctDesc" rows="3" placeholder="Ej.: tragos de autor con frutas de estación, pocos ingredientes, nombres cortos en español, precios entre 8.000 y 14.000"></textarea>
+            <div class="row" style="margin-top:14px">
+              <button class="btn primary load slow" id="ctGen" type="button"><span class="bar"></span><span class="lb">Vamos a crear algo fascinante</span></button>
+              <button class="btn load slow" id="ctImp" type="button" hidden><span class="bar"></span><span class="lb">Mejorá la opción 1</span></button>
+              <span class="status" id="ctStatus">todavía sin opciones</span>
+            </div>
+            <p class="hint" style="margin-top:8px">Se genera acá mismo con Gemini (unos 15 segundos), con el logo adjunto. Después cambiá lo que quieras y tocá "Mejorá la opción": sigue sobre esa misma carta. Plan B si falla: <button class="hintlink" id="ctGemini" type="button">abrir en Gemini</button> · <button class="hintlink" id="ctGpt" type="button">abrir en ChatGPT</button> y pegar la carta a la derecha.</p>
           </div>
-          <div class="g">
-            <p class="ft">Flyer</p>
-            <div class="img drop" id="flyImg" tabindex="0"><div class="ph">Pegá acá el flyer (Ctrl+V)<br>o arrastralo · o tocá para elegirlo</div></div>
-            <input type="file" id="flyFile" accept="image/*" hidden>
-            <div class="row" style="margin-top:10px"><button class="btn" id="flyDl" type="button" disabled>Descargar</button><button class="btn ghost" id="flyAgain" type="button">Pedir otra versión</button></div>
+          <div class="g carta-out">
+            <div class="row" style="justify-content:space-between"><p class="ft" style="margin:0">Carta · opción <span id="ctRound">–</span></p><button class="btn sm" id="ctDl" type="button" disabled>Descargar</button></div>
+            <div class="img" id="ctImg" tabindex="0"><div class="ph">Acá aparece la carta<br><small>tocá la carta o una miniatura para verla grande</small></div></div>
+            <input type="file" id="ctFile" accept="image/*" hidden>
+            <div class="hist" id="ctHist"></div>
           </div>
         </div>
       </div>
@@ -2660,6 +2877,11 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     return (blk?'<b>'+blk+'</b><span class="sep">·</span>':'')+pt;
   }
 
+  function tipText(i){
+    var s=secs[i], pt=s.getAttribute('data-point')||s.getAttribute('aria-label')||'';
+    return '<b>'+(i+1)+'/'+n+'</b><span class="sep">·</span>'+pt;
+  }
+
   /* segmentos invisibles sobre la línea: hover muestra el nombre, click navega */
   var lastBlock=null;
   secs.forEach(function(s,i){
@@ -2669,7 +2891,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     if(blk!==lastBlock && i>0) seg.className='blk';
     lastBlock=blk;
     seg.setAttribute('aria-label',(blk?blk+' · ':'')+(s.getAttribute('data-point')||''));
-    seg.addEventListener('mouseenter',function(){ if(!tip) return; tip.innerHTML=text(i); tip.style.top=((i+0.5)*segH)+'%'; tip.classList.add('show'); });
+    seg.addEventListener('mouseenter',function(){ if(!tip) return; tip.innerHTML=tipText(i); tip.style.top=((i+0.5)*segH)+'%'; tip.classList.add('show'); });
     seg.addEventListener('mouseleave',function(){ if(tip) tip.classList.remove('show'); });
     seg.addEventListener('click',function(){ go(i); });
     if(track) track.appendChild(seg);
@@ -2682,8 +2904,11 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     if(mk) mk.style.top='min(calc(100% - max(14px,'+segH+'%)),'+(i*segH)+'%)';
     if(ctr) ctr.textContent=(i+1)+' / '+n;
     var html=text(i); if(lbl) lbl.innerHTML=html; if(mlbl) mlbl.innerHTML=html;
-    document.documentElement.classList.toggle('inv', secs[i].classList.contains('divider'));
+    document.documentElement.classList.toggle('inv', invFor(secs[i]));
+    document.documentElement.classList.toggle('on-hero', secs[i].id==='hero');
   }
+  function invFor(sec){ if(sec.id==='hero') return document.documentElement.getAttribute('data-theme')==='day'; return sec.classList.contains('divider'); }
+  try{ new MutationObserver(function(){ if(cur>=0 && secs[cur]) document.documentElement.classList.toggle('inv', invFor(secs[cur])); }).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']}); }catch(e){}
   function go(i){ i=Math.max(0,Math.min(n-1,i)); secs[i].scrollIntoView({behavior:'smooth',block:'start'}); }
 
   /* sección actual */
@@ -2943,7 +3168,7 @@ window.Live = (function(){
   function readFile(file,cb){ if(!file || !/^image\//.test(file.type)) return; var r=new FileReader(); r.onload=function(){ cb(r.result); }; r.readAsDataURL(file); }
   function zone(box,input,section,cb){
     zones.push({section:section,cb:cb});
-    box.addEventListener('click',function(){ input.click(); });
+    box.addEventListener('click',function(e){ var im=e.target && e.target.tagName==='IMG' ? e.target : null; if(im && im.src){ Charla.open('<div class="zoomimg"><img alt="" src="'+im.src+'"></div>'); return; } input.click(); });
     box.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); input.click(); } });
     input.addEventListener('change',function(){ readFile(input.files && input.files[0],cb); input.value=''; });
     box.addEventListener('dragover',function(e){ e.preventDefault(); box.classList.add('over'); });
@@ -2961,58 +3186,318 @@ window.Live = (function(){
   return {say:say,copy:copy,openTool:openTool,zone:zone};
 })();
 
-/* ---------- 2/50 Human in the loop con Gemini / ChatGPT de tu cuenta ---------- */
+
+
+/* ---------- Tesis · rueda "human in the loop": la IA gira sola; cada toque mete una persona; tocando afuera, la rueda se corta y termina en el cliente ---------- */
 (function(){
-  var sec=document.getElementById('tesis'), p=document.getElementById('hitlPrompt'); if(!sec || !p) return;
-  var gem=document.getElementById('hitlGemini'), gpt=document.getElementById('hitlGpt'), more=document.getElementById('hitlMore'), keep=document.getElementById('hitlKeep'), st=document.getElementById('hitlStatus');
-  var box=document.getElementById('hitlImg'), file=document.getElementById('hitlFile'), hist=document.getElementById('hitlHist'), round=document.getElementById('hitlRound'), steps=document.getElementById('hitlSteps');
-  var phrases=[], imgs=[], pending='';
-  function base(){ return 'Generá una imagen: '+(p.value.trim()||'una mesa de un restaurante de Mar del Plata al atardecer, con vista al mar')+'. Estilo fotográfico, luz natural, sin texto.'; }
-  function request(){ return pending || base(); }
-  function paint(){ st.textContent='vuelta '+(imgs.length+1); steps.textContent='Frases: '+(phrases.length? phrases.join(' + ') : '—'); }
-  function show(i){ box.innerHTML='<img alt="Imagen generada, vuelta '+(i+1)+'" src="'+imgs[i]+'">'; hist.querySelectorAll('img').forEach(function(h,k){ h.classList.toggle('on',k===i); }); round.textContent=String(i+1); }
-  gem.addEventListener('click',function(){ Live.openTool('gemini',request()); });
-  gpt.addEventListener('click',function(){ Live.openTool('chatgpt',request()); });
-  more.addEventListener('click',function(){
-    Charla.open('<h3>Sumar una frase de la sala</h3><p class="sub">Qué le agregamos o cambiamos a la imagen.</p><input class="in" id="hitlExtra" type="text" placeholder="Ej.: que sea de noche, con faroles cálidos"><div class="row" style="margin-top:12px"><button class="btn primary" id="hitlOk" type="button">Copiar y abrir Gemini</button><button class="btn" id="hitlOk2" type="button">Copiar y abrir ChatGPT</button></div>');
-    var ex=document.getElementById('hitlExtra'); ex.focus();
-    function go(tool){ var v=ex.value.trim(); if(!v) return; phrases.push(v); pending='Sobre la última imagen, cambiá esto: '+v+'. Mantené todo lo demás.'; Charla.close(); paint(); Live.openTool(tool,pending); }
-    document.getElementById('hitlOk').addEventListener('click',function(){ go('gemini'); });
-    document.getElementById('hitlOk2').addEventListener('click',function(){ go('chatgpt'); });
-    ex.addEventListener('keydown',function(e){ if(e.key==='Enter') go('gemini'); });
+  var svg=document.getElementById('hitlLoop'); if(!svg) return;
+  var sec=document.getElementById('tesis'), grp=document.getElementById('hitlG'), ring=document.getElementById('hitlRing'), ringG=document.getElementById('hitlRingG'), clip=document.getElementById('hitlClip'), exitG=document.getElementById('hitlExit');
+  var arrowsG=document.getElementById('hitlArrows'), dotsG=document.getElementById('hitlDots'), handsG=document.getElementById('hitlHands'), st=document.getElementById('hitlLoopSt');
+  var CX=240, CY=240, R=120, B=42, D=0.40, N=4, GAP=44, TIP=30, ND=9, REV=9000, MAX=6, CHIP_R=28, CUST_R=26, SCUT=0.76;
+  var hands=[], cut=false, S=1, L=0, nA=N, dashLen=0, off=0, last=0, raf=0, on=false, arrows=[], dots=[], dotBase=[];
+  var TAU=Math.PI*2;
+  function pt(a,r){ return [CX+r*Math.cos(a), CY+r*Math.sin(a)]; }
+  function dAng(a,b){ return Math.atan2(Math.sin(a-b),Math.cos(a-b)); }
+  function norm(a){ a=a%TAU; if(a<0) a+=TAU; return a; }
+  function radius(a){ var r=R; for(var i=0;i<hands.length;i++){ var d=dAng(a,hands[i]); if(Math.abs(d)<D) r+=B*0.5*(1+Math.cos(Math.PI*d/D)); } return r; }
+  function wedge(a0,a1,r0,r1){
+    var span=norm(a1-a0); if(span<1e-6) span=TAU; var n=Math.max(6,Math.ceil(span/0.09)), pts=[], k, q;
+    for(k=0;k<=n;k++){ q=pt(a0+span*k/n,r0); pts.push(q[0].toFixed(1)+','+q[1].toFixed(1)); }
+    for(k=n;k>=0;k--){ q=pt(a0+span*k/n,r1); pts.push(q[0].toFixed(1)+','+q[1].toFixed(1)); }
+    return '<polygon points="'+pts.join(' ')+'"/>';
+  }
+  var CHIP='<circle class="hl-ring2" r="'+(CHIP_R+2)+'"/><circle class="hl-bgc" r="'+CHIP_R+'"/><g transform="scale(1.12)">'+
+    '<circle class="hl-w" cx="-9" cy="-10" r="5.6"/><path class="hl-w" d="M-20 7 Q-20 -3 -9 -3 Q2 -3 2 7 Z"/>'+
+    '<rect class="hl-w" x="0" y="-13" width="17" height="22" rx="2.5"/><rect class="hl-ln" x="3" y="-8" width="11" height="2" rx="1"/><rect class="hl-ln" x="3" y="-3" width="11" height="2" rx="1"/><rect class="hl-ln" x="3" y="2" width="7" height="2" rx="1"/>'+
+    '<circle class="hl-lens" cx="9" cy="5" r="6.5"/><line class="hl-hdl" x1="13.8" y1="9.8" x2="19.5" y2="15.5"/></g>';
+  var CUST='<circle class="hl-cring" r="'+(CUST_R+2)+'"/><g class="hl-cchip"><circle class="hl-cbg" r="'+CUST_R+'"/><circle class="hl-w" cx="0" cy="-7" r="6.5"/><path class="hl-w" d="M-13 13 Q-13 1 0 1 Q13 1 13 13 Z"/></g>';
+  function first(){ return hands[0]; } function lastH(){ return hands[hands.length-1]; }
+  function build(){
+    var d='', i, a, p, isCut=cut && hands.length>0;
+    S=isCut?SCUT:1; grp.setAttribute('transform', isCut ? 'translate('+CX+' '+CY+') scale('+SCUT+') translate('+(-CX)+' '+(-CY)+')' : '');
+    svg.classList.toggle('cut',isCut);
+    if(!isCut){
+      for(i=0;i<360;i++){ a=i/360*TAU; p=pt(a,radius(a)); d+=(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1); } d+='Z';
+    } else {
+      /* rueda cortada: solo de la primera persona a la última, en un sentido */
+      var a0=first()-D-0.38, span=norm(lastH()+D+0.08-a0);   /* arranca un poco antes de la primera persona: el flujo entra */ if(span<1e-6) span=TAU; var n=Math.max(12,Math.ceil(span/(TAU/360)));
+      for(i=0;i<=n;i++){ a=a0+span*i/n; p=pt(a,radius(a)); d+=(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1); }
+    }
+    ring.setAttribute('d',d); ringG.setAttribute('d',d);
+    L=ring.getTotalLength(); nA=isCut?Math.max(1,Math.min(N,Math.round(L/170))):N; dashLen=L/nA-GAP;
+    ring.style.strokeDasharray=ringG.style.strokeDasharray=dashLen+' '+GAP;
+    clip.innerHTML=hands.map(function(h){ return wedge(h-D-0.06,h+D+0.06,R-16,R+B+34); }).join('');
+    handsG.innerHTML=hands.map(function(h,i){ var q=pt(h,R+B); return '<g class="hl-hand" data-i="'+i+'" transform="translate('+q[0].toFixed(1)+' '+q[1].toFixed(1)+')"><g class="hl-chip">'+CHIP+'</g></g>'; }).join('');
+    exitG.innerHTML='';
+    if(isCut){
+      /* flecha amarilla desde la última persona hacia afuera, hasta el cliente */
+      var h=lastH(), r0=R+B+CHIP_R+3, tipR=r0+44, p0=pt(h,r0), p1=pt(h,tipR-TIP), tp=pt(h,tipR), cc=pt(h,tipR+6+CUST_R), ang=h*180/Math.PI;
+      exitG.innerHTML='<path class="hl-exit" d="M'+p0[0].toFixed(1)+' '+p0[1].toFixed(1)+'L'+p1[0].toFixed(1)+' '+p1[1].toFixed(1)+'"/><polygon class="hl-exit-tip" points="0,0 -40,-26 -40,26" transform="translate('+tp[0].toFixed(1)+' '+tp[1].toFixed(1)+') rotate('+ang.toFixed(1)+')"/>'
+        +'<g class="hl-cust" transform="translate('+cc[0].toFixed(1)+' '+cc[1].toFixed(1)+')">'+CUST+'<text class="hl-clbl" x="0" y="'+(CUST_R+17)+'" text-anchor="middle">Customer · Cliente</text></g>';
+    }
+    for(var k=0;k<N;k++) arrows[k].style.visibility=k<nA?'':'hidden';
+    var n2=hands.length, t=!n2?'sin intervención':(n2===1?'1 intervención humana':n2+' intervenciones humanas');
+    if(isCut) t+=' · termina en el cliente';
+    st.textContent=t; st.className='status '+(isCut?'busy':(n2?'on':''));
+  }
+  function mk(tag,cls){ var e=document.createElementNS('http://www.w3.org/2000/svg',tag); e.setAttribute('class',cls); return e; }
+  for(var k=0;k<N;k++){ var ar=mk('polygon','hl-arrow'); ar.setAttribute('points','0,0 -40,-26 -40,26'); arrowsG.appendChild(ar); arrows.push(ar); }
+  for(var j=0;j<ND;j++){ var dt=mk('circle','hl-dot'); dt.setAttribute('r',j%3?2.6:3.4); dotsG.appendChild(dt); dots.push(dt); dotBase.push(j/ND+(j%2?0.03:0)); }
+  function place(el,pos,rot){
+    pos=((pos%L)+L)%L; var p1=ring.getPointAtLength(pos);
+    if(rot){ el.style.opacity=(cut && hands.length && pos<TIP+30)?'0':''; var p0=ring.getPointAtLength(Math.max(0,pos-2)); el.setAttribute('transform','translate('+p1.x.toFixed(1)+' '+p1.y.toFixed(1)+') rotate('+(Math.atan2(p1.y-p0.y,p1.x-p0.x)*180/Math.PI).toFixed(1)+')'); }
+    else { el.setAttribute('cx',p1.x.toFixed(1)); el.setAttribute('cy',p1.y.toFixed(1)); }
+    el.classList.toggle('hl-green',Math.hypot(p1.x-CX,p1.y-CY)>R+7);
+  }
+  function frame(t){
+    if(!on) return; raf=requestAnimationFrame(frame);
+    if(!last) last=t; var dt=Math.min(64,t-last); last=t; off=(off+dt/REV*L)%L;
+    ring.style.strokeDashoffset=ringG.style.strokeDashoffset=(-off).toFixed(2);
+    for(var k=0;k<nA;k++) place(arrows[k], off+k*L/nA+dashLen+TIP, true);
+    for(var j=0;j<ND;j++) place(dots[j], dotBase[j]*L+off*1.7, false);
+  }
+  function run(v){ v=v && !document.hidden; if(v===on) return; on=v; last=0; cancelAnimationFrame(raf); if(on) raf=requestAnimationFrame(frame); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ run(es[0].isIntersecting); },{threshold:.2}).observe(sec); } else run(true);
+  document.addEventListener('visibilitychange',function(){ if(document.hidden) run(false); else { var r=sec.getBoundingClientRect(); run(r.bottom>0 && r.top<innerHeight); } });
+  svg.addEventListener('click',function(e){
+    var hand=e.target.closest ? e.target.closest('.hl-hand') : null;
+    if(hand){ hands.splice(+hand.getAttribute('data-i'),1); if(!hands.length) cut=false; build(); return; }
+    if(e.target.closest && e.target.closest('.hl-cust')){ cut=false; build(); return; }   /* tocar al cliente cierra la rueda */
+    var P=svg.createSVGPoint(); P.x=e.clientX; P.y=e.clientY; var q=P.matrixTransform(svg.getScreenCTM().inverse());
+    var x=(q.x-CX)/S+CX, y=(q.y-CY)/S+CY, dx=x-CX, dy=y-CY, dist=Math.hypot(dx,dy), a=Math.atan2(dy,dx);
+    if(dist>R+B+52){
+      if(!hands.length){ Live.say('Primero tocá la rueda para meter una persona.'); return; }
+      if(cut){ Live.say('Tocá al cliente para cerrar la rueda de nuevo.'); return; }
+      cut=true; build(); return;
+    }
+    if(dist<R-34 || dist>R+B+36) return;
+    for(var i=0;i<hands.length;i++){ if(Math.abs(dAng(a,hands[i]))<2*D+0.08){ Live.say('Muy cerca de otra persona: tocá más lejos o sacala.'); return; } }
+    if(hands.length>=MAX){ Live.say('Ya hay '+MAX+' personas en el circuito.'); return; }
+    hands.push(a); hands.sort(function(x,y){ return x-y; }); build();
   });
-  keep.addEventListener('click',function(){ st.textContent=imgs.length? 'decisión humana: nos quedamos con la vuelta '+imgs.length : 'todavía no hay imagen'; });
-  Live.zone(box,file,sec,function(data){
-    imgs.push(data); var th=document.createElement('img'); th.src=data; th.alt='vuelta '+imgs.length; var idx=imgs.length-1;
-    th.addEventListener('click',function(){ show(idx); }); hist.appendChild(th); show(idx); paint();
-  });
+  build();
+})();
+
+/* ---------- 27/50 Carta de productos en vivo + human in the loop: se genera acá (Gemini vía el Google Sheet) y se mejora sobre la misma carta. Plan B: Gemini/ChatGPT de tu cuenta y pegar ---------- */
+(function(){
+  var sec=document.getElementById('q11b'), name=document.getElementById('ctName'); if(!sec || !name) return;
+  var title=document.getElementById('ctTitle'), desc=document.getElementById('ctDesc'), logoBox=document.getElementById('ctLogo'), logoFile=document.getElementById('ctLogoFile');
+  var genB=document.getElementById('ctGen'), impB=document.getElementById('ctImp'), st=document.getElementById('ctStatus'), gem=document.getElementById('ctGemini'), gpt=document.getElementById('ctGpt');
+  var box=document.getElementById('ctImg'), file=document.getElementById('ctFile'), hist=document.getElementById('ctHist'), round=document.getElementById('ctRound'), dl=document.getElementById('ctDl');
+  var descLbl=document.getElementById('ctDescLbl'), lbG=genB.querySelector('.lb'), lbI=impB.querySelector('.lb'), logo=null, imgs=[], cur=-1, busy=false, locked=false, desc0='';
+  function esc(t){ return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+  function v(el,ph){ return el.value.trim()||ph; }
+  /* el logo se achica a 1024 px antes de mandarlo (fotos pesadas) */
+  function shrink(data,max,cb){ var im=new Image(); im.onload=function(){ var w=im.naturalWidth, h=im.naturalHeight; if(w<=max && h<=max){ cb(data); return; } var k=max/Math.max(w,h), c=document.createElement('canvas'); c.width=Math.round(w*k); c.height=Math.round(h*k); c.getContext('2d').drawImage(im,0,0,c.width,c.height); cb(c.toDataURL('image/png')); }; im.onerror=function(){ cb(data); }; im.src=data; }
+  function readImg(f,cb){ if(!f || !/^image\//.test(f.type)) return; var r=new FileReader(); r.onload=function(){ cb(r.result); }; r.readAsDataURL(f); }
+  function setLogo(data){ logoBox.innerHTML='<img alt="logo" src="'+data+'">'; shrink(data,1024,function(d){ logo=d; }); }
+  function zoom(src){ Charla.open('<div class="zoomimg"><img alt="" src="'+src+'"></div>'); }
+  /* logo: tocar, arrastrar o pegar */
+  logoBox.addEventListener('click',function(){ logoFile.click(); });
+  logoBox.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); logoFile.click(); } });
+  logoFile.addEventListener('change',function(){ readImg(logoFile.files && logoFile.files[0],setLogo); logoFile.value=''; });
+  function dragZone(el,cb){ el.addEventListener('dragover',function(e){ e.preventDefault(); el.classList.add('over'); }); el.addEventListener('dragleave',function(){ el.classList.remove('over'); }); el.addEventListener('drop',function(e){ e.preventDefault(); el.classList.remove('over'); readImg(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0],cb); }); }
+  dragZone(logoBox,function(d){ if(!locked) setLogo(d); }); dragZone(box,function(d){ add(d); });
+  /* Ctrl+V en esta pantalla: antes de la primera opción es el logo; después, una carta pegada (plan B) */
+  document.addEventListener('paste',function(e){
+    var t=e.target; if(t && /input|textarea/i.test(t.tagName)) return;
+    var r=sec.getBoundingClientRect(), mid=innerHeight/2; if(!(r.top<=mid && r.bottom>=mid)) return;
+    var items=(e.clipboardData && e.clipboardData.items)||[], f=null; for(var i=0;i<items.length;i++){ if(items[i].type && items[i].type.indexOf('image/')===0){ f=items[i].getAsFile(); break; } }
+    if(!f) return; e.preventDefault(); e.stopImmediatePropagation();
+    if(!locked){ readImg(f,setLogo); Live.say('Logo pegado.'); } else { readImg(f,function(d){ add(d); }); Live.say('Carta pegada como opción nueva.'); }
+  },true);
+  /* resultado: tocar la carta grande o una miniatura la abre grande */
+  box.addEventListener('click',function(e){ var im=box.querySelector('img'); if(im) zoom(im.src); else file.click(); });
+  file.addEventListener('change',function(){ readImg(file.files && file.files[0],function(d){ add(d); }); file.value=''; });
+  /* tras la primera opción: nombre, título y logo quedan en gris; la descripción pasa a ser "qué mejoramos" */
+  function lock(on){
+    locked=on; [name,title].forEach(function(i){ i.disabled=on; }); logoBox.classList.toggle('locked',on); logoBox.tabIndex=on?-1:0;
+    if(on){ if(!desc0) desc0=desc.value.trim(); desc.value=''; desc.placeholder='¿Qué mejoramos? Ej.: logo más grande, precios más visibles, menos texto'; descLbl.textContent='Qué mejorar en esta opción'; lbG.textContent='Crear otra desde cero'; }
+    else { desc.value=desc0; desc.placeholder='Ej.: tragos de autor con frutas de estación, pocos ingredientes, nombres cortos en español, precios entre 8.000 y 14.000'; descLbl.textContent='Descripción (cómo son los tragos, bebidas o platos)'; lbG.textContent='Vamos a crear algo fascinante'; }
+    paint();
+  }
+  function paint(){ var n=imgs.length; st.textContent=n? 'opción '+(cur+1)+' de '+n : (locked?'':'todavía sin opciones'); st.className='status '+(n?'on':''); round.textContent=n?String(cur+1):'–'; lbI.textContent='Mejorá la opción '+(cur+1); impB.hidden=!(n && locked); impB.disabled=busy || !desc.value.trim(); dl.disabled=!n; }
+  desc.addEventListener('input',function(){ if(locked) impB.disabled=busy || !desc.value.trim(); });
+  function show(i){ cur=i; box.innerHTML='<img alt="Carta, opción '+(i+1)+'" src="'+imgs[i]+'">'; hist.querySelectorAll('img').forEach(function(h,k){ h.classList.toggle('on',k===i); }); paint(); }
+  function add(data){ imgs.push(data); var idx=imgs.length-1, th=document.createElement('img'); th.src=data; th.alt='opción '+imgs.length; th.title='Opción '+imgs.length+' · tocá para verla grande'; th.addEventListener('click',function(){ show(idx); zoom(imgs[idx]); }); hist.appendChild(th); show(idx); }
+  function base(){
+    return 'Diseñá una carta de una sola hoja, formato vertical, para el restaurante "'+v(name,'[nombre]')+'". Título de la carta: "'+v(title,'[título]')+'". Descripción: '+(locked?(desc0||'[descripción]'):v(desc,'[descripción]'))+'. '
+      +(logo?'Usá el logo adjunto de forma prominente en la parte superior, sin deformarlo ni cambiarle los colores. ':'')
+      +'Inventá entre 6 y 10 ítems coherentes con la descripción, cada uno con nombre, una línea de descripción y precio en pesos argentinos. Diseño elegante y limpio, tipografía grande y legible, todo en español y sin errores de ortografía. Tiene que ser la carta terminada, lista para imprimir.';
+  }
+  function improve(){
+    return 'Mejorá esta carta manteniendo el diseño general y el logo. Cambios pedidos: '+v(desc,'[cambios]')+'. Mantené el restaurante "'+v(name,'[nombre]')+'", el título "'+v(title,'[título]')+'" y la idea original: '+(desc0||'[descripción]')+'. Corregí errores de ortografía y mejorá la legibilidad. Devolvé la carta completa, una sola hoja, formato vertical.';
+  }
+  function friendly(m){
+    m=String(m||'');
+    if(/503|UNAVAILABLE|high demand/i.test(m)) return 'Gemini está saturado en este momento. Probá de nuevo en unos segundos.';
+    if(/429|RESOURCE_EXHAUSTED|quota/i.test(m)) return 'Google no dejó generar: se terminó el saldo o se alcanzó el límite. Revisá el saldo en AI Studio o usá el plan B.';
+    if(/403|billing|PERMISSION/i.test(m)) return 'Google rechazó el pedido (facturación o permisos). Usá el plan B y revisá AI Studio.';
+    if(/Failed to fetch|NetworkError|Load failed/i.test(m)) return 'No hay conexión con el Google Sheet. Revisá internet o usá el plan B.';
+    return m;
+  }
+  function planB(prompt){
+    document.getElementById('ctB1').addEventListener('click',function(){ Charla.close(); Live.openTool('gemini',prompt); });
+    document.getElementById('ctB2').addEventListener('click',function(){ Charla.close(); Live.openTool('chatgpt',prompt); });
+  }
+  function btn(b,c,t){ var lb=b.querySelector('.lb'); b.classList.remove('saving','done','fail'); if(c) b.classList.add(c); if(t) lb.textContent=t; }
+  function generate(kind){
+    if(busy) return;
+    var prompt=kind==='improve'?improve():base(), b=kind==='improve'?impB:genB, label=b.querySelector('.lb').textContent;
+    if(!Charla.hasApi()){ Charla.open('<h3>Falta conectar el Google Sheet</h3><p class="sub">Sin la URL del Apps Script en <code>config.js</code> no se puede generar acá. Plan B (allá adjuntás el logo):</p><div class="row"><button class="btn primary" id="ctB1" type="button">Abrir en Gemini</button><button class="btn" id="ctB2" type="button">Abrir en ChatGPT</button></div>'); planB(prompt); return; }
+    busy=true; genB.disabled=true; impB.disabled=true; btn(b,'',null); void b.offsetWidth; btn(b,'saving',kind==='improve'?'Mejorando…':'Creando…');
+    var prevHtml=box.innerHTML; box.classList.add('wait'); box.innerHTML='<div class="ph">'+(kind==='improve'?'Mejorando la opción '+(cur+1):'Creando la opción '+(imgs.length+1))+'…<br><small>unos 10 a 20 segundos</small></div>';
+    var payload={prompt:prompt,pantalla:'q11b'}; if(kind==='improve' && cur>=0) payload.image=imgs[cur]; else if(logo) payload.image=logo;
+    st.textContent=kind==='improve'?'mejorando la opción '+(cur+1)+'…':'creando…'; st.className='status busy';
+    Charla.api('image',payload).then(function(r){
+      if(!r || r.error || !r.image) throw new Error((r && r.error) || 'Gemini no devolvió imagen.');
+      box.classList.remove('wait'); add(r.image); btn(b,'done','✓ Lista'); if(kind==='improve'){ desc.value=''; } setTimeout(function(){ if(!locked) lock(true); else { btn(genB,'','Crear otra desde cero'); btn(impB,'','Mejorá la opción '+(cur+1)); paint(); } },1800);
+    }).catch(function(e){
+      box.classList.remove('wait'); box.innerHTML=prevHtml; paint();
+      btn(b,'fail','No se pudo'); setTimeout(function(){ btn(genB,'',locked?'Crear otra desde cero':'Vamos a crear algo fascinante'); btn(impB,'','Mejorá la opción '+(cur+1)); paint(); },2500);
+      Charla.open('<h3>No se pudo generar la carta</h3><p class="sub">'+esc(friendly(e && e.message || e))+'</p><p class="sub">Plan B: copiar el pedido y generarla en tu cuenta (allá adjuntás el logo).</p><div class="row"><button class="btn primary" id="ctB1" type="button">Abrir en Gemini</button><button class="btn" id="ctB2" type="button">Abrir en ChatGPT</button></div>');
+      planB(prompt);
+    }).then(function(){ busy=false; genB.disabled=false; paint(); });
+  }
+  /* "Crear otra desde cero": primero destraba los campos; el segundo toque crea */
+  genB.addEventListener('click',function(){ if(locked){ lock(false); Live.say('Campos habilitados: cambiá lo que quieras y tocá el botón de nuevo.'); return; } generate('new'); });
+  impB.addEventListener('click',function(){ generate('improve'); });
+  gem.addEventListener('click',function(){ Live.openTool('gemini',imgs.length?improve():base()); });
+  gpt.addEventListener('click',function(){ Live.openTool('chatgpt',imgs.length?improve():base()); });
+  dl.addEventListener('click',function(){ if(cur<0) return; var a=document.createElement('a'); a.href=imgs[cur]; a.download='carta-opcion-'+(cur+1)+'.png'; document.body.appendChild(a); a.click(); a.remove(); });
   paint();
 })();
 
-/* ---------- 28/50 Flyer con Gemini / ChatGPT de tu cuenta ---------- */
+/* ---------- logos abajo a la derecha: los nuestros + los de esta charla (botón de arriba; se guardan solo en esta PC) ---------- */
 (function(){
-  var sec=document.getElementById('q11b'), f=document.getElementById('flyLogo'); if(!sec || !f) return;
-  var prev=document.getElementById('flyPrev'), promo=document.getElementById('flyPromo'), ctx=document.getElementById('flyCtx');
-  var gem=document.getElementById('flyGemini'), gpt=document.getElementById('flyGpt'), box=document.getElementById('flyImg'), file=document.getElementById('flyFile'), dl=document.getElementById('flyDl'), again=document.getElementById('flyAgain');
-  var last=null;
-  f.addEventListener('change',function(){ var x=f.files && f.files[0]; if(!x) return; var r=new FileReader(); r.onload=function(){ prev.innerHTML='<img alt="logo" src="'+r.result+'">'; }; r.readAsDataURL(x); });
-  function request(){
-    return 'Diseñá un flyer de promoción para redes sociales, formato cuadrado. Usá el logo que te adjunto de forma prominente, sin deformarlo ni cambiarle los colores.\n'
-      +'Promoción: '+(promo.value.trim()||'[completar]')+'\n'
-      +'Contexto del negocio: '+(ctx.value.trim()||'[completar]')+'\n'
-      +'Estilo limpio y elegante, tipografía grande, el texto de la promoción tiene que leerse perfecto y sin errores de ortografía. Idioma: español.';
+  var wrap=document.getElementById('brands'), btn=document.getElementById('logoBtn'); if(!wrap) return;
+  var KEY='charla-logos', FIX=['krovalab','outcomy','modo'], NAMES={krovalab:'KrovaLab',outcomy:'Outcomy',modo:'Modo Comunicación'};
+  var state={off:{},extra:[]};
+  try{ var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv && typeof sv==='object'){ state.off=sv.off||{}; state.extra=Array.isArray(sv.extra)?sv.extra:[]; } }catch(e){}
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(e){ Live.say('No se pudo guardar en esta PC (sin espacio).'); } }
+  function render(){
+    wrap.querySelectorAll('.brand.extra').forEach(function(n){ n.remove(); });
+    FIX.forEach(function(k){ var b=wrap.querySelector('.brand[data-brand="'+k+'"]'); if(b) b.hidden=!!state.off[k]; });
+    state.extra.forEach(function(x){ var sp=document.createElement('span'); sp.className='brand extra'; sp.title=x.name||''; var im=document.createElement('img'); im.alt=x.name||'logo'; im.src=x.data; sp.appendChild(im); wrap.appendChild(sp); });
   }
-  gem.addEventListener('click',function(){ Live.openTool('gemini',request()); });
-  gpt.addEventListener('click',function(){ Live.openTool('chatgpt',request()); });
-  again.addEventListener('click',function(){
-    Charla.open('<h3>Pedir otra versión</h3><p class="sub">Qué cambiamos (opcional).</p><input class="in" id="flyExtra" type="text" placeholder="Ej.: más minimalista, fondo claro"><div class="row" style="margin-top:12px"><button class="btn primary" id="flyOk" type="button">Copiar y abrir Gemini</button><button class="btn" id="flyOk2" type="button">Copiar y abrir ChatGPT</button></div>');
-    var ex=document.getElementById('flyExtra'); ex.focus();
-    function go(tool){ var v=ex.value.trim(); Charla.close(); Live.openTool(tool,'Hacé otra versión distinta del flyer, con el mismo logo y el mismo texto de la promoción.'+(v?' Cambio pedido: '+v+'.':'')); }
-    document.getElementById('flyOk').addEventListener('click',function(){ go('gemini'); });
-    document.getElementById('flyOk2').addEventListener('click',function(){ go('chatgpt'); });
-  });
-  Live.zone(box,file,sec,function(data){ last=data; box.innerHTML='<img alt="Flyer" src="'+data+'">'; dl.disabled=false; });
-  dl.addEventListener('click',function(){ if(!last) return; var a=document.createElement('a'); a.href=last; a.download='flyer.png'; document.body.appendChild(a); a.click(); a.remove(); });
+  /* cualquier imagen → logo blanco sobre transparente (así de día se ve negro y de noche blanco) */
+  function toMask(f,cb){
+    var r=new FileReader(); r.onload=function(){ var im=new Image(); im.onload=function(){
+      var H=120, w=Math.max(1,Math.round(im.naturalWidth*H/im.naturalHeight)); if(w>1400) w=1400;
+      var c=document.createElement('canvas'); c.width=w; c.height=H; var g=c.getContext('2d'); g.drawImage(im,0,0,w,H);
+      var d=g.getImageData(0,0,w,H), px=d.data, i, hasA=false, bg=0;
+      for(i=3;i<px.length;i+=4){ if(px[i]<250){ hasA=true; break; } }
+      [[0,0],[w-1,0],[0,H-1],[w-1,H-1]].forEach(function(q){ var k=(q[1]*w+q[0])*4; bg+=px[k]*.3+px[k+1]*.59+px[k+2]*.11; }); bg/=4;
+      for(i=0;i<px.length;i+=4){ var lum=px[i]*.3+px[i+1]*.59+px[i+2]*.11; px[i+3]=hasA ? px[i+3] : (bg>128 ? 255-lum : lum); px[i]=px[i+1]=px[i+2]=255; }
+      g.putImageData(d,0,0);
+      var x0=w,y0=H,x1=-1,y1=-1,x,y; for(y=0;y<H;y++) for(x=0;x<w;x++){ if(px[(y*w+x)*4+3]>20){ if(x<x0)x0=x; if(x>x1)x1=x; if(y<y0)y0=y; if(y>y1)y1=y; } }
+      if(x1<x0 || y1<y0){ cb(null); return; }
+      var c2=document.createElement('canvas'); c2.width=x1-x0+1; c2.height=y1-y0+1; c2.getContext('2d').drawImage(c,x0,y0,c2.width,c2.height,0,0,c2.width,c2.height);
+      cb(c2.toDataURL('image/png'));
+    }; im.onerror=function(){ cb(null); }; im.src=r.result; }; r.readAsDataURL(f);
+  }
+  function row(k,name,data,isExtra,idx){
+    return '<div class="lgm-row"><label class="lgm-chk"><input type="checkbox" data-k="'+k+'"'+((isExtra||!state.off[k])?' checked':'')+(isExtra?' disabled':'')+'><span class="lgm-chip"><img alt="" src="'+data+'"></span><span class="lgm-name">'+String(name).replace(/</g,'&lt;')+'</span></label>'
+      +(isExtra ? '<span class="row" style="gap:4px;flex:none"><button class="btn ghost sm" type="button" data-mv="'+idx+'" data-d="-1" title="Mover a la izquierda">←</button><button class="btn ghost sm" type="button" data-mv="'+idx+'" data-d="1" title="Mover a la derecha">→</button><button class="btn ghost sm" type="button" data-rm="'+idx+'">Quitar</button></span>' : '')+'</div>';
+  }
+  function paintList(){
+    var fx=document.getElementById('lgmFix'), ex=document.getElementById('lgmExtra'); if(!fx) return;
+    fx.innerHTML='<p class="ft">Nuestros · destildá para ocultar</p>'+FIX.map(function(k){ var im=wrap.querySelector('.brand[data-brand="'+k+'"] img'); return row(k,NAMES[k],im?im.getAttribute('src'):'',false); }).join('');
+    ex.innerHTML='<p class="ft">De esta charla · en esta PC</p>'+(state.extra.length ? state.extra.map(function(x,i){ return row('x'+i,x.name||'logo',x.data,true,i); }).join('') : '<p class="hint">Todavía no agregaste ninguno. Tocá "Agregar logo".</p>');
+    fx.querySelectorAll('input[type=checkbox]').forEach(function(c){ c.addEventListener('change',function(){ state.off[c.getAttribute('data-k')]=!c.checked; save(); render(); }); });
+    ex.querySelectorAll('[data-rm]').forEach(function(b){ b.addEventListener('click',function(){ state.extra.splice(+b.getAttribute('data-rm'),1); save(); render(); paintList(); }); });
+    ex.querySelectorAll('[data-mv]').forEach(function(b){ b.addEventListener('click',function(){ var i=+b.getAttribute('data-mv'), j=i+(+b.getAttribute('data-d')); if(j<0||j>=state.extra.length) return; var t=state.extra[i]; state.extra[i]=state.extra[j]; state.extra[j]=t; save(); render(); paintList(); }); });
+  }
+  function openManager(){
+    Charla.open('<h3>Logos de esta charla</h3><p class="sub">Van abajo a la derecha, de izquierda a derecha: primero los nuestros y después los de esta charla. Se guardan solo en esta PC. Subilos en negro o en blanco (fondo transparente o blanco): de día se ven negros y de noche blancos.</p>'
+      +'<div class="lgm"><div id="lgmFix"></div><div id="lgmExtra"></div></div>'
+      +'<div class="row" style="margin-top:14px"><label class="btn primary" for="lgmFile">Agregar logo</label><input type="file" id="lgmFile" accept="image/*" multiple hidden><span class="hint">PNG o JPG · uno o varios</span></div>');
+    paintList();
+    document.getElementById('lgmFile').addEventListener('change',function(){
+      var fs=Array.prototype.slice.call(this.files||[]); this.value='';
+      (function next(){ var x=fs.shift(); if(!x) return; toMask(x,function(data){ if(data){ state.extra.push({name:x.name.replace(/\.[^.]+$/,''),data:data}); save(); render(); paintList(); } else Live.say('No pude leer '+x.name); next(); }); })();
+    });
+  }
+  if(btn) btn.addEventListener('click',openManager);
+  wrap.querySelectorAll('.brand img').forEach(function(img){ img.addEventListener('error',function(){ img.parentNode.hidden=true; }); });
+  render();
+  /* cada 10 s se agrandan apenas, de a uno: KrovaLab, Outcomy, Modo y después los de la charla */
+  function pulse(){ if(document.hidden) return; var els=Array.prototype.filter.call(wrap.querySelectorAll('.brand'),function(b){ return !b.hidden; }); els.forEach(function(b,i){ setTimeout(function(){ b.classList.add('pulse'); setTimeout(function(){ b.classList.remove('pulse'); },650); }, i*800); }); }
+  setInterval(pulse,10000); setTimeout(pulse,2500);
+})();
+
+/* ---------- música de la charla: botón arriba, coverflow de temas, loop de todos, volumen (config.js → musica, o media/musica/1.mp3, 2.mp3…) ---------- */
+(function(){
+  var btn=document.getElementById('musicBtn'); if(!btn) return;
+  var tracks=[], cur=-1, on=false, audio=new Audio(), vol=0.8, cfEl=null, modalOpen=false;
+  try{ var sv=parseFloat(localStorage.getItem('charla-vol')); if(!isNaN(sv)) vol=Math.min(1,Math.max(0,sv)); }catch(e){}
+  audio.volume=vol; audio.preload='metadata';
+  function esc(t){ return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+  function titleFrom(f){ return decodeURIComponent(String(f).split('/').pop().replace(/\.[^.]+$/,'')).replace(/[_-]+/g,' '); }
+  /* lista: config.js → musica:[{titulo,archivo,tapa}] ; si no hay, busca media/musica/1.mp3 … 12.mp3 (tapa 1.jpg opcional) */
+  var cfg=(window.CHARLA && CHARLA.musica)||[], ready=false, loading=null;
+  function load(cb){
+    if(ready){ cb(); return; } if(loading){ loading.push(cb); return; } loading=[cb];
+    function done(){ ready=true; var l=loading; loading=null; l.forEach(function(f){ f(); }); }
+    if(cfg.length){ tracks=cfg.filter(function(t){ return t && t.archivo; }).map(function(t){ return {titulo:t.titulo||titleFrom(t.archivo), archivo:t.archivo, tapa:t.tapa||''}; }); done(); return; }
+    var i=1, found=[];
+    (function probe(){
+      if(i>12){ tracks=found; done(); return; }
+      var a=document.createElement('audio'); var src='media/musica/'+i+'.mp3', n=i; i++;
+      var fin=false; function ok(){ if(fin) return; fin=true; found.push({titulo:'Tema '+n, archivo:src, tapa:'media/musica/'+n+'.jpg', num:n}); probe(); }
+      function bad(){ if(fin) return; fin=true; probe(); }
+      a.addEventListener('loadedmetadata',ok); a.addEventListener('error',bad); setTimeout(bad,2500); a.src=src;
+    })();
+  }
+  function paintBtn(){ btn.classList.toggle('on',on && !audio.paused); btn.title=on&&cur>=0?'Sonando: '+tracks[cur].titulo:'Música de la charla'; }
+  function play(i){
+    if(!tracks.length) return; cur=((i%tracks.length)+tracks.length)%tracks.length; on=true;
+    audio.src=tracks[cur].archivo; audio.volume=vol; audio.play().catch(function(e){ Live.say('No se pudo reproducir: '+(e && e.message||'')); });
+    paintBtn(); paintCf(); paintNow();
+  }
+  function stop(){ on=false; audio.pause(); try{ audio.currentTime=0; }catch(e){} paintBtn(); paintCf(); paintNow(); }
+  audio.addEventListener('ended',function(){ if(on) play(cur+1); });
+  audio.addEventListener('play',paintBtn); audio.addEventListener('pause',paintBtn);
+  var ducked=false;
+  window.CharlaMusic={ duck:function(){ if(on && !audio.paused){ ducked=true; audio.pause(); } }, restore:function(){ if(ducked){ ducked=false; if(on) audio.play().catch(function(){}); } } };
+  /* coverflow */
+  var sel=0;
+  function paintCf(){
+    if(!cfEl) return;
+    cfEl.querySelectorAll('.c').forEach(function(c,i){
+      var d=i-sel, ad=Math.abs(d), x=d*(ad<2?118:100), rot=d===0?0:(d<0?48:-48), z=-ad*130, sc=d===0?1:0.86;
+      c.style.transform='translate3d('+x+'px,0,'+z+'px) rotateY('+rot+'deg) scale('+sc+')'; c.style.zIndex=String(50-ad); c.style.opacity=ad>3?'0':'1';
+      c.classList.toggle('cur',i===sel); c.classList.toggle('playing',on && i===cur && !audio.paused);
+    });
+  }
+  function paintNow(){ var n=document.getElementById('mpNow'), pp=document.getElementById('mpPlay'); if(!n) return;
+    n.innerHTML=on && cur>=0 ? 'Sonando: <b>'+esc(tracks[cur].titulo)+'</b> · después sigue el próximo, en loop' : 'Apagado · elegí un tema y tocá Reproducir';
+    if(pp) pp.textContent=(on && !audio.paused)?'❚❚':'▶'; }
+  function openPlayer(){
+    load(function(){
+      var h='<h3>Música de la charla</h3>';
+      if(!tracks.length){
+        h+='<p class="sub">Todavía no hay canciones.</p><div class="mp-empty">Poné los archivos MP3 en la carpeta <code>media\\musica\\</code> de la charla con los nombres <code>1.mp3</code>, <code>2.mp3</code>, <code>3.mp3</code>… (y, si querés tapa, <code>1.jpg</code>, <code>2.jpg</code>…). Después recargá la charla. Para ponerles título, listalas en <code>config.js</code> (musica).</div>';
+        Charla.open(h); return;
+      }
+      h+='<p class="sub">Elegí un tema: suena ese y después siguen los demás, en loop, hasta que apagues. Usá las flechas o tocá una tapa.</p>';
+      h+='<div class="mp-cf" id="mpCf">'+tracks.map(function(t,i){ return '<div class="c" data-i="'+i+'">'+(t.tapa?'<img alt="'+esc(t.titulo)+'" src="'+esc(t.tapa)+'" onload="this.parentNode.classList.add(\'hasimg\')" onerror="this.remove()">':'')+'<div><div class="k">♪</div><div class="t">'+esc(t.titulo)+'</div></div></div>'; }).join('')+'</div>';
+      h+='<p class="mp-now" id="mpNow"></p>';
+      h+='<div class="mp-ctl"><button class="btn round" type="button" id="mpPrev" title="Anterior">‹</button><button class="btn primary round" type="button" id="mpPlay" title="Reproducir / pausa">▶</button><button class="btn round" type="button" id="mpNext" title="Siguiente">›</button><button class="btn ghost" type="button" id="mpOff">Apagar</button>'
+        +'<label class="mp-vol" title="Volumen"><span aria-hidden="true">🔈</span><input type="range" id="mpVol" min="0" max="1" step="0.02" value="'+vol+'"><span aria-hidden="true">🔊</span></label></div>';
+      Charla.open(h,function(){ cfEl=null; modalOpen=false; });
+      modalOpen=true; cfEl=document.getElementById('mpCf'); sel=cur>=0?cur:0; paintCf(); paintNow();
+      cfEl.querySelectorAll('.c').forEach(function(c){ c.addEventListener('click',function(){ var i=+c.getAttribute('data-i'); if(i===sel){ play(i); } else { sel=i; paintCf(); } }); });
+      document.getElementById('mpPrev').addEventListener('click',function(){ sel=(sel-1+tracks.length)%tracks.length; paintCf(); if(on) play(sel); });
+      document.getElementById('mpNext').addEventListener('click',function(){ sel=(sel+1)%tracks.length; paintCf(); if(on) play(sel); });
+      document.getElementById('mpPlay').addEventListener('click',function(){ if(on && !audio.paused && sel===cur){ audio.pause(); paintNow(); paintCf(); } else if(on && audio.paused && sel===cur){ audio.play(); paintNow(); paintCf(); } else play(sel); });
+      document.getElementById('mpOff').addEventListener('click',function(){ stop(); });
+      document.getElementById('mpVol').addEventListener('input',function(){ vol=+this.value; audio.volume=vol; try{ localStorage.setItem('charla-vol',String(vol)); }catch(e){} });
+    });
+  }
+  document.addEventListener('keydown',function(e){ if(!modalOpen || !cfEl) return; if(e.key==='ArrowLeft'){ e.preventDefault(); e.stopPropagation(); document.getElementById('mpPrev').click(); } else if(e.key==='ArrowRight'){ e.preventDefault(); e.stopPropagation(); document.getElementById('mpNext').click(); } else if(e.key===' '||e.key==='Enter'){ e.preventDefault(); e.stopPropagation(); document.getElementById('mpPlay').click(); } },true);
+  btn.addEventListener('click',openPlayer);
+  paintBtn();
 })();
 
 /* ---------- Bot de WhatsApp en vivo · sección #q12b (el número N/50 se calcula solo) · CharlaBot en esta PC → http://127.0.0.1:3777 ----------
@@ -3168,7 +3653,7 @@ window.Live = (function(){
       '<li id="wz0" class="now"><span class="n">1</span><div><div class="t">Descargá el programa</div>'+
         '<div style="margin-top:10px"><button class="btn primary" id="wzDl" type="button">Descargar CharlaBot</button></div></div><span class="st" id="wz0s">tocá descargar</span></li>'+
       '<li id="wz1"><span class="n">2</span><div><div class="t">Ejecutá CharlaBot.bat</div>'+
-        '<div class="d" id="wz1d">Tocalo en las descargas de Chrome (arriba a la derecha) o doble clic en tu carpeta <b>Descargas</b>. Si avisa: <b>Conservar</b> y después <b>Más información › Ejecutar de todas formas</b>. Se abre una ventana negra: dejala abierta. Si Chrome pregunta por dispositivos de la red local: <b>Permitir</b>.</div></div><span class="st" id="wz1s">—</span></li>'+
+        '<div class="d" id="wz1d">Tocalo en las descargas de Chrome (arriba a la derecha) o doble clic en tu carpeta <b>Descargas</b>. Si avisa: <b>Conservar</b> y después <b>Más información › Ejecutar de todas formas</b>. Se abre una ventana negra: dejala abierta. Si Chrome pregunta por dispositivos de la red local: <b>Permitir</b>.<br>Si Windows dice <b>No se pueden abrir estos archivos</b>: en Descargas, clic derecho en CharlaBot.bat &rsaquo; <b>Propiedades</b> &rsaquo; tildá <b>Desbloquear</b> &rsaquo; <b>Aceptar</b>, y abrilo de nuevo.</div></div><span class="st" id="wz1s">—</span></li>'+
       '<li id="wz2"><span class="n">3</span><div><div class="t">Escaneá el QR con el celular</div>'+
         '<div class="d">WhatsApp &rsaquo; <b>Dispositivos vinculados</b> &rsaquo; <b>Vincular un dispositivo</b>.</div><div id="wz2q"></div></div><span class="st" id="wz2s">—</span></li>'+
       '<li id="wz3"><span class="n">4</span><div><div class="t">Gemini (la IA que responde)</div><div class="d" id="wz3d">Se conecta solo con tu Google Sheet.</div></div><span class="st" id="wz3s">revisando</span></li>'+
@@ -3245,6 +3730,35 @@ window.Live = (function(){
     status().then(function(s){ if(s.ready){ if(window.Live) Live.say('WhatsApp en vivo: conectado ('+phone(s.number)+')'); } else openWizard(); }).catch(openWizard);
   }
   if(document.readyState==='complete') setTimeout(autoCheck,1200); else window.addEventListener('load',function(){ setTimeout(autoCheck,1200); });
+})();
+</script>
+<script>
+/* idioma de la charla (por ahora solo español argentino), hora actual y cronómetro */
+(function(){
+  var html=document.documentElement;
+  html.setAttribute('data-lang','es');
+  document.querySelectorAll('#langs .lg').forEach(function(b){
+    b.addEventListener('click',function(){
+      if(b.disabled) return; var l=b.getAttribute('data-lang'); html.setAttribute('data-lang',l);
+      document.querySelectorAll('#langs .lg').forEach(function(o){ var on=o===b; o.classList.toggle('on',on); o.setAttribute('aria-pressed',on?'true':'false'); });
+      b.blur();
+    });
+  });
+  var ck=document.getElementById('clock');
+  function tickClock(){ if(!ck) return; var d=new Date(), h=d.getHours(), m=d.getMinutes(); ck.textContent=(h<10?'0':'')+h+':'+(m<10?'0':'')+m; }
+  tickClock(); setInterval(tickClock,5000);
+  var tm=document.getElementById('timer'), tt=document.getElementById('tmTime'), pb=document.getElementById('tmPlay'), rb=document.getElementById('tmReset');
+  if(!tm||!tt||!pb||!rb) return;
+  var KEY='charla-timer', acc=0, t0=null;
+  try{ var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv && typeof sv.acc==='number'){ acc=sv.acc; t0=(typeof sv.t0==='number')?sv.t0:null; } }catch(e){}
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify({acc:acc,t0:t0})); }catch(e){} }
+  function ms(){ return acc+(t0?Date.now()-t0:0); }
+  function two(n){ return (n<10?'0':'')+n; }
+  function fmt(v){ var s=Math.floor(v/1000), h=Math.floor(s/3600), m=Math.floor((s%3600)/60), r=s%60; return h? h+':'+two(m)+':'+two(r) : two(m)+':'+two(r); }
+  function paint(){ tt.textContent=fmt(ms()); var run=!!t0; tm.classList.toggle('run',run); pb.setAttribute('aria-label',run?'Pausar el cronómetro':'Iniciar el cronómetro'); }
+  pb.addEventListener('click',function(){ if(t0){ acc+=Date.now()-t0; t0=null; } else { t0=Date.now(); } save(); paint(); pb.blur(); });
+  rb.addEventListener('click',function(){ acc=0; t0=null; save(); paint(); rb.blur(); });
+  paint(); setInterval(paint,250);
 })();
 </script>
 <script src="hero-header.js" defer></script>
