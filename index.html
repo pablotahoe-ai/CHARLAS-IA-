@@ -204,8 +204,8 @@
   /* en la portada no se muestran ni los logos ni la barra lateral */
   #rail,#mobilelbl,#brands{transition:opacity .3s ease}
   html.on-hero #rail,html.on-hero #mobilelbl,html.on-hero #brands{opacity:0;visibility:hidden;pointer-events:none}
-  #themeBtn,#fsBtn{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:var(--g-text);padding:0;font:inherit}
-  #themeBtn svg,#fsBtn svg{width:18px;height:18px;display:block}
+  #themeBtn,#fsBtn,#slidesBtn{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:var(--g-text);padding:0;font:inherit}
+  #themeBtn svg,#fsBtn svg,#slidesBtn svg{width:18px;height:18px;display:block}
   #fsBtn .comp{display:none}#fsBtn.is-fs .comp{display:block}#fsBtn.is-fs .exp{display:none}
   #themeBtn .sun{display:none}#themeBtn .moon{display:block}
   html[data-theme="day"] #themeBtn .sun{display:block}html[data-theme="day"] #themeBtn .moon{display:none}
@@ -876,6 +876,147 @@
   .file .prev{width:54px;height:54px;border-radius:10px;background:var(--g-fill2);border:1px solid var(--g-stroke);display:grid;place-items:center;overflow:hidden;font-size:10px;color:var(--g-dim)}
   .file .prev img{width:100%;height:100%;object-fit:contain}
 
+  /* ---------- 12/50 (#q4): calculadora a la izquierda + video vertical a la derecha ---------- */
+  #q4 .q4lay{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(16px,2.6vw,44px);align-items:center}
+  #q4 .q4main{display:flex;flex-direction:column;gap:clamp(12px,2.6vh,30px);min-width:0;min-height:0;max-height:100%}
+  #q4 .tcalc textarea.in{resize:none;min-height:0}
+  #q4 .tcalc .tokview{max-height:43px}
+  #q4 .tcalc .tokview span{line-height:16px;padding:1px 5px}
+  #q4 .tres{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1fr) minmax(0,1.3fr) minmax(0,1fr);margin-top:clamp(10px,1.6vh,16px);border:1px solid var(--g-stroke);border-radius:var(--r2);background:var(--g-fill2);overflow:hidden}
+  #q4 .tres .r{padding:clamp(9px,1.4vh,14px) clamp(10px,1vw,16px);border-left:1px solid var(--g-stroke);min-width:0}
+  #q4 .tres .r:first-child{border-left:0}
+  #q4 .tres .v{font-size:clamp(20px,3.2vh,32px);font-weight:300;line-height:1.15;font-variant-numeric:tabular-nums;white-space:nowrap}
+  #q4 .tres .v small{font-size:.5em;color:var(--g-muted)}
+  #q4 .tres .big .v{color:var(--g-accent);font-weight:400}
+  #q4 .tres .l{font-size:clamp(9.5px,1.15vh,11px);letter-spacing:.13em;text-transform:uppercase;color:var(--g-dim);font-weight:500;margin-top:3px;line-height:1.35}
+  #q4 .tres .win{grid-column:1/-1;border-top:1px solid var(--g-stroke);padding:clamp(9px,1.4vh,14px) clamp(10px,1vw,16px)}
+  #q4 .tres .win .l{margin:0}
+  #q4 .tres .bar{height:10px;border-radius:99px;background:var(--g-stroke);overflow:hidden;margin:8px 0 2px}
+  #q4 .tres .bar i{display:block;height:100%;width:0;background:var(--g-accent);border-radius:99px;transition:width .5s}
+  #q4 .tcalc .ref{margin:clamp(8px,1.2vh,12px) 0 0;font-size:clamp(11px,1.3vh,12.5px);color:var(--g-dim);font-weight:300;line-height:1.45}
+  #q4 .tcalc .ref b{color:var(--g-muted);font-weight:500}
+  #q4 .q4vid{padding:clamp(8px,1.2vh,14px);justify-self:end}
+  #q4 .q4vid .vid{aspect-ratio:480/816;width:auto;max-height:none;margin:0;height:clamp(300px,min(calc(100svh - 150px),62vw),860px);border-radius:calc(var(--r) - 6px);cursor:pointer;background:#000}
+  #q4 .q4vid .vid video{object-fit:cover;-webkit-mask-image:none;mask-image:none}
+  #q4 .q4vid .vid.paused::after{content:"\25B6";position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;background:rgba(0,0,0,.5);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:#fff;font-size:22px;line-height:64px;text-align:center;text-indent:4px;pointer-events:none}
+  @media (max-width:1200px){
+    #q4 .tres{grid-template-columns:1fr 1fr}
+    #q4 .tres .r:nth-child(3){border-left:0}
+    #q4 .tres .r:nth-child(n+3){border-top:1px solid var(--g-stroke)}
+  }
+
+  /* ---------- pantallas apagadas desde ⚙ ---------- */
+  main > section.off{display:none!important}
+  .slp h3{margin:0 0 6px;font-weight:400}
+  .slp-top{justify-content:space-between;margin:0 0 6px}
+  #slCount{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--g-accent);font-weight:500}
+  .sl-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 22px}
+  .sl-blk{grid-column:1/-1;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--g-dim);font-weight:500;margin:12px 0 4px;padding-bottom:4px;border-bottom:1px solid var(--g-stroke)}
+  .sl-it{position:relative;display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:10px;align-items:center;padding:6px 8px;border-radius:10px;cursor:pointer;font-size:13.5px;font-weight:300}
+  .sl-it:hover{background:var(--g-fill2)}
+  .sl-it .no{font-variant-numeric:tabular-nums;color:var(--g-accent);font-size:12px;font-weight:500}
+  .sl-it .tt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sl-it.off .tt,.sl-it.off .no{opacity:.4}
+  .sl-it input{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none}
+  .sl-it .sw{width:34px;height:20px;border-radius:99px;background:var(--g-stroke);position:relative;transition:background .2s}
+  .sl-it .sw::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
+  .sl-it input:checked + .sw{background:var(--g-accent)}
+  .sl-it input:checked + .sw::after{transform:translateX(14px)}
+  .sl-it input:disabled + .sw{opacity:.45}
+  .sl-it input:focus-visible + .sw{outline:2px solid var(--g-accent);outline-offset:2px}
+
+  /* ---------- barras de probabilidad (13/50 y 14) ---------- */
+  .pbars{display:grid;gap:clamp(6px,1vh,10px)}
+  .pbars .pb{display:grid;grid-template-columns:minmax(92px,150px) minmax(0,1fr) 46px var(--chw,0px);gap:12px;align-items:center;font-size:clamp(13px,1.6vh,15.5px);font-weight:300}
+  .pbars .pb .t{height:clamp(8px,1.2vh,12px);border-radius:99px;background:var(--g-stroke);overflow:hidden}
+  .pbars .pb .t i{display:block;height:100%;width:var(--p,0%);border-radius:99px;background:color-mix(in srgb,var(--g-text) 32%,transparent);transition:width .9s cubic-bezier(.2,.8,.2,1)}
+  .pbars .pb .n{text-align:right;font-variant-numeric:tabular-nums;color:var(--g-muted)}
+  .pbars .pb .chs{display:flex;flex-wrap:wrap;gap:4px 6px;min-width:0}
+  .pbars .pb .ch{display:none;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:99px;white-space:nowrap;font-weight:500}
+  .pbars .pb .ch.m{color:var(--g-accent);background:color-mix(in srgb,var(--g-accent) 14%,transparent);border:1px solid color-mix(in srgb,var(--g-accent) 38%,transparent)}
+  .pbars .pb .ch.y{color:var(--g-amber);background:color-mix(in srgb,var(--g-amber) 14%,transparent);border:1px solid color-mix(in srgb,var(--g-amber) 40%,transparent)}
+  .pbars .pb.win .w{color:var(--g-accent);font-weight:500}
+  .pbars .pb.win .t i{background:var(--g-accent);box-shadow:0 0 14px color-mix(in srgb,var(--g-accent) 55%,transparent)}
+  .pbars .pb.win .n{color:var(--g-accent);font-weight:500}
+  .pbars .pb.win .ch.m{display:inline-block}
+  .pbars .pb.you .ch.y{display:inline-block}
+  .pbars .pb.you .w{color:var(--g-amber)}
+  .pbars .pb.you:not(.win) .t i{background:var(--g-amber)}
+  .remate{margin:0;text-align:center;font-weight:300;font-size:clamp(17px,2.6vh,28px);line-height:1.3;color:var(--g-text);text-wrap:balance}
+  .remate b{color:var(--g-accent);font-weight:400}
+  .pg-res{min-height:2.9em;margin:clamp(8px,1.2vh,12px) 0 0;font-size:clamp(13px,1.7vh,16px);font-weight:300;color:var(--g-muted);line-height:1.45;opacity:0;transform:translateY(4px);transition:opacity .4s,transform .4s}
+  .pg-res.show{opacity:1;transform:none}
+  .pg-res b{color:var(--g-text);font-weight:500}
+  .pg-res.ok b{color:var(--g-ok)}
+  .pg-res.warn{color:var(--g-amber)}
+
+  /* ---------- 13/50 (#q4b): responder es predecir + juego ---------- */
+  #q4b .pred{display:grid;grid-template-columns:minmax(180px,.7fr) minmax(0,1.6fr);gap:clamp(12px,1.6vh,18px) clamp(14px,2.4vw,40px);align-items:center}
+  #q4b .pred-q .bx{font-size:clamp(16px,2.4vh,24px);font-weight:300;padding:clamp(14px,2.2vh,22px) clamp(16px,1.6vw,24px)}
+  #q4b .pred .pb .t i{width:0}
+  #q4b.go .pred .pb .t i{width:var(--p)}
+  #q4b .pred .pb:nth-child(2) .t i{transition-delay:.12s}
+  #q4b .pred .pb:nth-child(3) .t i{transition-delay:.24s}
+  #q4b .pred .pb:nth-child(4) .t i{transition-delay:.36s}
+  #q4b .pred .pb:nth-child(5) .t i{transition-delay:.48s}
+  #q4b .pred .pbars{--chw:168px}
+  #q4b .pgame .pbars{--chw:112px}
+  #q4b .hd h2{max-width:none}
+  #q4b .pred-msg{grid-column:1/-1;margin:0;padding-top:clamp(8px,1.4vh,14px);border-top:1px dashed var(--g-stroke);font-size:clamp(14px,1.9vh,18px);font-weight:300;color:var(--g-muted)}
+  #q4b .pred-msg b{color:var(--g-text);font-weight:500}
+  #q4b .pgame{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(14px,2.4vw,40px);align-items:start}
+  #q4b .pg-q{font-size:clamp(15px,2.1vh,20px);margin:0 0 clamp(8px,1.2vh,12px)}
+  #q4b .pg-in{flex-wrap:nowrap}
+  #q4b .pg-in .in{flex:1 1 auto;min-width:0}
+  #q4b .pg-r{padding-top:clamp(4px,1vh,10px)}
+  #q4b .pg-wait{margin:clamp(6px,1.4vh,14px) 0 0;padding:clamp(14px,2.4vh,26px) 18px;border:1px dashed var(--g-stroke);border-radius:var(--r2);font-size:clamp(13px,1.6vh,15px);font-weight:300;color:var(--g-dim);text-align:center}
+  #q4b .pg-r:not(.on) .pbars,#q4b .pg-r:not(.on) .pg-note{display:none}
+  #q4b .pg-r.on .pg-wait{display:none}
+  #q4b .pg-r.on .pbars{animation:pgIn .45s ease both}
+  @keyframes pgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .pbars .pb .w small{font-size:.8em;color:var(--g-muted);font-weight:300}
+  #q4b .pg-note{font-size:11.5px;margin-top:clamp(8px,1.2vh,12px);color:var(--g-dim)}
+
+  /* ---------- 14 (#q4img): cómo genera una imagen (ruido → imagen) ---------- */
+  #q4img .ig-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(14px,2.4vw,40px);align-items:end}
+  #q4img .ig-same{padding:clamp(10px,1.6vh,16px) clamp(14px,1.4vw,20px);max-width:340px}
+  #q4img .ig-same .ft{margin:0 0 6px;color:var(--g-accent)}
+  #q4img .ig-same p:not(.ft){margin:2px 0 0;font-size:clamp(12px,1.5vh,14px);font-weight:300;color:var(--g-muted);line-height:1.4}
+  #q4img .ig-same b{color:var(--g-text);font-weight:500}
+  #q4img .ig-seq{display:grid;grid-template-columns:minmax(170px,.95fr) auto minmax(0,1.78fr) auto minmax(0,.62fr) auto minmax(0,1.78fr);gap:clamp(6px,.8vw,12px);align-items:start}
+  #q4img .ig-seq .ar{color:var(--g-dim);font-size:20px;line-height:1;padding-top:calc(var(--arw,120px) / 2 - 10px)}
+  #q4img .st{min-width:0}
+  #q4img .st p{margin:8px 0 0;font-size:clamp(11.5px,1.45vh,13.5px);line-height:1.4;color:var(--g-muted);font-weight:300;text-align:center}
+  #q4img .st-txt{display:flex;flex-direction:column;justify-content:center;min-height:var(--arw,auto)}
+  #q4img .st-txt p{margin:5px 0 0}
+  #q4img .st-txt .dn{text-align:center;color:var(--g-dim);font-size:16px;line-height:1;margin:clamp(4px,.8vh,8px) 0}
+  #q4img .ig-prompt{background:var(--g-fill2);border:1px solid var(--g-stroke);border-radius:12px;padding:clamp(8px,1.4vh,14px) 12px;text-align:center}
+  #q4img .ig-prompt .q{font-size:clamp(12.5px,1.7vh,16px);line-height:1.35;font-weight:300}
+  #q4img .ig-chips{display:flex;flex-wrap:wrap;gap:5px;justify-content:center}
+  #q4img .ig-chips span{padding:3px 9px;border-radius:99px;font-size:clamp(11px,1.4vh,13px);background:color-mix(in srgb,var(--g-accent) 14%,transparent);border:1px solid color-mix(in srgb,var(--g-accent) 32%,transparent)}
+  #q4img .vis{aspect-ratio:16/9;width:100%;border-radius:12px;position:relative;overflow:hidden}
+  #q4img .ig-pic{background:#0d0f14;border:1px solid var(--g-stroke)}
+  #q4img .ig-pic.big{box-shadow:var(--g-shadow)}
+  #q4img .ig-pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;user-select:none}
+  #q4img .nz{position:absolute;inset:0;background-repeat:repeat;background-size:240px 135px}
+  #q4img .ig-steps{display:flex;flex-direction:column;justify-content:space-between;align-items:center;gap:6px;height:var(--arw,auto)}
+  #q4img .ig-steps .ig-pic{flex:none;height:calc((var(--arw,120px) - 12px) / 3);width:auto;max-width:100%;border-radius:8px}
+  #q4img .ig-game{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,1.05fr);gap:clamp(14px,2.4vw,40px);align-items:center;padding-top:clamp(12px,1.8vh,18px);padding-bottom:clamp(12px,1.8vh,18px)}
+  #q4img .ig-go{font-size:clamp(13px,1.6vh,15px);padding:clamp(12px,1.8vh,16px) clamp(18px,1.8vw,26px);letter-spacing:.08em;font-weight:500}
+  #q4img .ig-slh{display:flex;justify-content:space-between;align-items:baseline}
+  #q4img .ig-slh .ft,#q4img .ig-bw .ft{margin:0}
+  #q4img .ig-pct{font-variant-numeric:tabular-nums;color:var(--g-accent);font-size:clamp(14px,1.8vh,18px);font-weight:500}
+  #igRange{width:100%;margin:10px 0 4px;-webkit-appearance:none;appearance:none;height:12px;border-radius:99px;background:linear-gradient(90deg,var(--g-accent) var(--v,0%),var(--g-stroke) var(--v,0%));outline:none;cursor:pointer}
+  #igRange::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:2px solid var(--g-accent);box-shadow:0 2px 10px rgba(0,0,0,.35);cursor:grab}
+  #igRange::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:2px solid var(--g-accent);cursor:grab}
+  #igRange:focus-visible{outline:2px solid var(--g-accent);outline-offset:4px}
+  #q4img .ig-ticks{display:flex;justify-content:space-between;font-size:11px;color:var(--g-dim);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+  #q4img .pbars.sm{margin-top:clamp(6px,1vh,10px);gap:4px}
+  #q4img .pbars.sm .pb{grid-template-columns:minmax(140px,230px) minmax(0,1fr) 40px;font-size:clamp(11.5px,1.4vh,13.5px);gap:10px}
+  #q4img .pbars.sm .pb .t{height:6px}
+  #q4img .pbars.sm .pb .t i{transition:width .2s linear}
+  #q4img .ig-end .cap{margin:4px 0 0;text-align:center;font-size:12px;color:var(--g-dim)}
+
   /* ---------- Responsive ---------- */
   @media (max-height:820px) and (min-width:821px){
     .hd h2{font-size:clamp(22px,2.6vw,34px)}
@@ -920,6 +1061,22 @@
     #equipo .pcard,#equipo .pcard.rev{flex-direction:column}
     #equipo .pcard .vid{height:min(62svh,520px)}
     #q2 .grid.c2{grid-template-columns:1fr}
+    .sl-list{grid-template-columns:1fr}
+    #q4b .pred,#q4b .pgame,#q4img .ig-top,#q4img .ig-game{grid-template-columns:1fr}
+    .pbars .pb{grid-template-columns:96px minmax(0,1fr) 40px}
+    .pbars .pb .chs{grid-column:1/-1}
+    #q4b .pg-in{flex-wrap:wrap}
+    #q4img .ig-seq{grid-template-columns:1fr}
+    #q4img .ig-seq .ar{transform:rotate(90deg);justify-self:center;padding:0}
+    #q4img .st{max-width:440px;width:100%;justify-self:center}
+    #q4img .st-txt{min-height:0}
+    #q4img .ig-steps{height:auto;flex-direction:row}
+    #q4img .ig-steps .ig-pic{flex:1 1 0;width:auto;height:auto}
+    #q4img .pbars.sm .pb{grid-template-columns:130px minmax(0,1fr) 40px}
+    #q4 .q4lay{grid-template-columns:1fr}
+    #q4 .q4vid{justify-self:center}
+    #q4 .q4vid .vid{height:min(70svh,560px)}
+    #q4 .tres .v{font-size:22px}
     .cf .cfc{width:70vw}
     .hexes{grid-template-columns:1fr;justify-items:center}.hexes .subs{grid-template-columns:repeat(3,1fr);justify-items:center}.subs .s::before{display:none}
     .m2 .cells{grid-template-columns:1fr}
@@ -1106,6 +1263,9 @@
   <button id="logoBtn" class="glass" type="button" aria-label="Logos de esta charla" title="Logos de esta charla">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 9"/></svg>
   </button>
+  <button id="slidesBtn" class="glass" type="button" aria-label="Pantallas de la charla" title="Pantallas: prender o apagar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+  </button>
   <button id="fsBtn" class="glass" type="button" aria-label="Pantalla completa">
     <svg class="exp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
     <svg class="comp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>
@@ -1164,7 +1324,7 @@
           <div class="ini">PP</div>
           <div>
             <p class="name">Pablo Pellizzoni</p>
-            <p class="role">Diseñador industrial · Docente e investigador UNMdP · Cofundador de Outcomy y Kexen · Cofundador de la consultora KrovaLab</p>
+            <p class="role">Diseñador industrial · Docente e investigador UNMdP · Cofundador de Outcomy, KrovaLab y Kexen</p>
             <p class="focus">Implementación técnica · herramientas · automatización</p>
           </div>
         </div>
@@ -1260,7 +1420,7 @@
             <div class="vid"><video muted playsinline preload="metadata" loop src="Peli saludando.mp4"></video></div>
             <div class="ptxt">
               <h3>Pablo Pellizzoni</h3>
-              <p class="role">Diseñador industrial · Docente e investigador UNMdP · Cofundador de Outcomy y Kexen · Cofundador de la consultora KrovaLab</p>
+              <p class="role">Diseñador industrial · Docente e investigador UNMdP · Cofundador de Outcomy, KrovaLab y Kexen</p>
               <p class="cap">Distinguido con el Sello Buen Diseño y el premio Innovar. Su especialidad abarca la implementación técnica de la inteligencia artificial, la configuración operativa de herramientas digitales y la automatización de procesos cotidianos.</p>
             </div>
           </div>
@@ -1560,79 +1720,125 @@
   <!-- ============ Q4 ============ -->
   <section id="q4" class="screen" data-block="Bloque 2" data-point="04 · ¿Cómo funciona la IA por dentro?" aria-label="Pregunta 4">
     <div class="wrap">
-      <header class="hd">
-        <span class="tag">Bloque 2 · Pregunta 04</span>
-        <h2>¿Cómo funciona la inteligencia artificial por dentro?</h2>
-        <p class="sub">Los modelos piensan en relaciones matemáticas, no en palabras. El texto se parte en fragmentos (tokens) y cada fragmento se elige por su probabilidad.</p>
-      </header>
-      <div class="bd">
-        <div class="g">
-          <p class="ft">De las letras a los tokens</p>
-          <div class="tokens3">
-            <div><div class="glyph">A B C</div><div class="lbl"><b>Alfabeto occidental</b><small>Unidades aisladas sin significado propio</small></div></div>
-            <div class="arrow">→</div>
-            <div><div class="glyph cjk">木 森</div><div class="lbl"><b>Ideogramas</b><small>Conceptos que cambian según su combinación (árbol → bosque)</small></div></div>
-            <div class="arrow">→</div>
-            <div><div class="glyph"><div class="tk"><span>des</span><i>↔</i><span>ayu</span><i>↔</i><span>no</span></div></div><div class="lbl"><b>Tokens de IA</b><small>Fragmentos matemáticos vinculados por contexto</small></div></div>
-          </div>
-        </div>
-        <div class="g">
-          <p class="ft">Calculadora en vivo · ¿cuántos tokens gasta esto?</p>
-          <div class="calc">
-            <div>
-              <textarea class="in" id="tokIn" rows="5" placeholder="Pegá acá un texto real: una reseña, un correo a un huésped, la descripción de un plato…"></textarea>
+      <div class="q4lay">
+        <div class="q4main">
+          <header class="hd">
+            <span class="tag">Bloque 2 · Pregunta 04</span>
+            <h2>¿Cómo funciona la inteligencia artificial por dentro?</h2>
+            <p class="sub">Los modelos piensan en relaciones matemáticas, no en palabras. El texto se parte en fragmentos (tokens) y cada fragmento se elige por su probabilidad.</p>
+          </header>
+          <div class="bd">
+            <div class="g tcalc">
+              <p class="ft">Calculadora en vivo · ¿cuántos tokens gasta esto?</p>
+              <textarea class="in" id="tokIn" rows="3" placeholder="Pegá acá un texto real: una reseña, un correo a un huésped, la descripción de un plato…"></textarea>
               <div class="tokview" id="tokView"></div>
-              <div class="cfg">
-                <div><label>Plan de referencia</label><input class="in" id="cfgPlan" type="text" value="Claude Max USD 100" readonly></div>
-                <div><label>Tokens por ventana de 5 h (estimación)</label><input class="in" id="cfgWin" type="number" value="340000" min="1000" step="1000"></div>
-                <div><label>USD por millón de tokens (API, ref.)</label><input class="in" id="cfgPrice" type="number" value="5" min="0.1" step="0.1"></div>
-              </div>
-            </div>
-            <div>
-              <div class="res">
-                <div class="r"><div class="v" id="tokN">0</div><div class="l">tokens (≈ 1,3 por palabra)</div></div>
-                <div class="r"><div class="v" id="tokMsg">0</div><div class="l">"mensajes" equivalentes</div></div>
-                <div class="r"><div class="v" id="tokUsd">$0<small> USD</small></div><div class="l">costo por API (ref.)</div></div>
+              <div class="tres">
+                <div class="r big"><div class="v" id="tokN">0</div><div class="l">tokens (≈ 1,3 por palabra)</div></div>
+                <div class="r"><div class="v" id="tokMsg">0</div><div class="l">mensajes como este que podés enviar en 5 h</div></div>
+                <div class="r"><div class="v" id="tokUsd">$0<small> USD</small></div><div class="l">costo por API</div></div>
                 <div class="r"><div class="v" id="tokTime">0<small> min</small></div><div class="l">tiempo humano de escribirlo</div></div>
+                <div class="win"><div class="l">Uso de la ventana de 5 horas · <span id="tokPct">0%</span> · se renueva sola al cumplirse</div><div class="bar"><i id="tokBar"></i></div></div>
               </div>
-              <div class="r" style="margin-top:10px"><div class="l">Uso de la ventana de 5 horas · <span id="tokPct">0%</span> · se renueva sola al cumplirse</div><div class="bar"><i id="tokBar"></i></div><div class="hint">Max USD 100 ≈ 225 mensajes cortos por ventana de 5 h (orientativo; mensajes largos y modelos grandes consumen mucho más).</div></div>
+              <p class="ref"><b>Referencia fija</b> · Claude Max US$100 · ≈ 340.000 tokens por ventana de 5 h (estimado) · API ≈ US$5 por millón de tokens</p>
             </div>
+            <div class="note">El significado no reside en la unidad aislada, sino en la red de combinaciones. <b>Las palabras son una ilusión; la máquina procesa tokens.</b></div>
           </div>
         </div>
-        <div class="note">El significado no reside en la unidad aislada, sino en la red de combinaciones. <b>Las palabras son una ilusión; la máquina procesa tokens.</b></div>
+        <div class="g q4vid">
+          <div class="vid" title="Clic: pausa / sigue"><video muted playsinline preload="metadata" loop src="media/q04-tokens.mp4" aria-label="Video: cómo la IA parte el texto en tokens"></video></div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ============ Q4b ============ -->
-  <section id="q4b" class="screen" data-block="Bloque 2" data-point="04 · Un árbol de decisiones estadísticas" aria-label="Pregunta 4 · continuación">
+  <section id="q4b" class="screen" data-block="Bloque 2" data-point="04 · Responder es predecir" aria-label="Pregunta 4 · continuación">
     <div class="wrap">
       <header class="hd">
         <span class="tag">Bloque 2 · Pregunta 04 · continuación</span>
-        <h2>La generación de lenguaje es un árbol de decisiones estadísticas</h2>
+        <h2>Responder es predecir: la IA elige qué palabra sigue</h2>
       </header>
       <div class="bd">
-        <div class="g">
-          <div class="tree">
-            <div class="root"><div class="bx">Para un buen asado hace falta…</div></div>
-            <svg viewBox="0 0 80 300" preserveAspectRatio="none" aria-hidden="true">
-              <path d="M0,150 C40,150 40,50 80,50" fill="none" style="stroke:var(--g-accent)" stroke-width="3"/>
-              <path d="M0,150 C40,150 40,150 80,150" fill="none" style="stroke:var(--g-stroke)" stroke-width="1.5"/>
-              <path d="M0,150 C40,150 40,250 80,250" fill="none" style="stroke:var(--g-stroke)" stroke-width="1.2" stroke-dasharray="4 4"/>
-            </svg>
-            <div class="opts">
-              <div class="opt"><div class="bx">…paciencia</div><div class="pct">58%</div></div>
-              <div class="opt w"><div class="bx">…buena carne</div><div class="pct">27%</div></div>
-              <div class="opt w"><div class="bx">…un buen vino</div><div class="pct">6%</div></div>
+        <div class="g pred">
+          <div class="pred-q"><div class="bx">Para un buen asado hace falta…</div></div>
+          <div class="pbars">
+            <div class="pb win"><span class="w">paciencia</span><span class="t"><i style="--p:58%"></i></span><span class="n">58%</span><span class="chs"><span class="ch m">elegida por el modelo</span></span></div>
+            <div class="pb"><span class="w">buena carne</span><span class="t"><i style="--p:27%"></i></span><span class="n">27%</span><span class="chs"><span class="ch m">elegida por el modelo</span></span></div>
+            <div class="pb"><span class="w">un buen vino</span><span class="t"><i style="--p:6%"></i></span><span class="n">6%</span><span class="chs"><span class="ch m">elegida por el modelo</span></span></div>
+            <div class="pb"><span class="w">fuego</span><span class="t"><i style="--p:4%"></i></span><span class="n">4%</span><span class="chs"><span class="ch m">elegida por el modelo</span></span></div>
+            <div class="pb"><span class="w">amigos</span><span class="t"><i style="--p:3%"></i></span><span class="n">3%</span><span class="chs"><span class="ch m">elegida por el modelo</span></span></div>
+          </div>
+          <p class="pred-msg">La IA no elige la respuesta correcta: <b>elige la continuación más probable.</b></p>
+        </div>
+        <div class="g pgame">
+          <div class="pg-l">
+            <p class="ft">¿Podés pensar como una IA?</p>
+            <div class="bx pg-q">El mejor futbolista argentino es…</div>
+            <div class="row pg-in"><input class="in" id="pgIn" type="text" maxlength="40" placeholder="Escribí tu respuesta" autocomplete="off"><button class="btn primary" id="pgBtn" type="button">PROBAR PREDICCIÓN</button></div>
+            <p class="pg-res" id="pgRes" aria-live="polite"></p>
+          </div>
+          <div class="pg-r" id="pgR">
+            <p class="pg-wait">Las probabilidades aparecen cuando pruebes tu predicción.</p>
+            <div class="pbars" id="pgBars">
+              <div class="pb" data-k="messi"><span class="w">Messi</span><span class="t"><i></i></span><span class="n">–</span><span class="chs"><span class="ch m">el modelo</span><span class="ch y">tu respuesta</span></span></div>
+              <div class="pb" data-k="maradona"><span class="w">Maradona</span><span class="t"><i></i></span><span class="n">–</span><span class="chs"><span class="ch m">el modelo</span><span class="ch y">tu respuesta</span></span></div>
+              <div class="pb" data-k="dimaria"><span class="w">Di María</span><span class="t"><i></i></span><span class="n">–</span><span class="chs"><span class="ch m">el modelo</span><span class="ch y">tu respuesta</span></span></div>
+              <div class="pb" data-k="otros"><span class="w" id="pgOtros">Otros</span><span class="t"><i></i></span><span class="n">–</span><span class="chs"><span class="ch m">el modelo</span><span class="ch y">tu respuesta</span></span></div>
             </div>
+            <p class="cap pg-note">Simulación didáctica de probabilidades. Valores ilustrativos para comprender cómo un modelo pondera posibles continuaciones.</p>
           </div>
-          <div class="messi">
-            <div class="bx">El mejor futbolista argentino es…</div>
-            <div class="arrow">➜</div>
-            <div class="bx solid big">[Messi]</div>
-            <p class="nt"><b>Falsa inteligencia:</b> al responder "Messi" el modelo no analiza fútbol; reproduce el patrón estadísticamente dominante en sus datos de entrenamiento.</p>
+        </div>
+        <p class="remate">Vos elegís por criterio. <b>La IA elige por probabilidad.</b></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ¿Y cómo genera una imagen? · ruido → imagen + juego ============ -->
+  <section id="q4img" class="screen" data-block="Bloque 2" data-point="04 · ¿Y cómo genera una imagen?" aria-label="Pregunta 4 · imágenes">
+    <div class="wrap">
+      <div class="ig-top">
+        <header class="hd">
+          <span class="tag">Bloque 2 · Pregunta 04 · imágenes</span>
+          <h2>¿Y cómo genera una imagen?</h2>
+          <p class="sub">En texto predice qué sigue. En imagen parte de ruido y lo transforma paso a paso según lo que pedimos.</p>
+        </header>
+        <div class="g ig-same">
+          <p class="ft">Misma lógica, otro medio</p>
+          <p><b>Texto:</b> probabilidad sobre tokens</p>
+          <p><b>Imagen:</b> reducción progresiva de ruido guiada por el prompt</p>
+        </div>
+      </div>
+      <div class="bd">
+        <div class="ig-seq">
+          <div class="st st-txt">
+            <div class="ig-prompt"><span class="q">“Habitación de hotel frente al mar al amanecer”</span></div>
+            <p>La instrucción define qué queremos ver.</p>
+            <div class="dn" aria-hidden="true">↓</div>
+            <div class="ig-chips"><span>hotel</span><span>habitación</span><span>mar</span><span>amanecer</span><span>ventana</span><span>luz cálida</span></div>
+            <p>El modelo relaciona conceptos aprendidos.</p>
           </div>
-          <p class="cap">Valores ilustrativos. La opción más frecuente en los datos gana: eso es "consenso cultural", no entendimiento.</p>
+          <div class="ar" aria-hidden="true">→</div>
+          <div class="st"><div class="vis ig-pic big"><div class="nz"></div></div><p>La imagen empieza como ruido.</p></div>
+          <div class="ar" aria-hidden="true">→</div>
+          <div class="st st-steps"><div class="ig-steps"><div class="vis ig-pic sm" data-t=".35"><img src="media/q04-hotel.jpg" alt="" draggable="false"><div class="nz"></div></div><div class="vis ig-pic sm" data-t=".65"><img src="media/q04-hotel.jpg" alt="" draggable="false"><div class="nz"></div></div><div class="vis ig-pic sm" data-t=".9"><img src="media/q04-hotel.jpg" alt="" draggable="false"><div class="nz"></div></div></div><p>En cada paso elimina ruido y refina la escena.</p></div>
+          <div class="ar" aria-hidden="true">→</div>
+          <div class="st"><div class="vis ig-pic big fin" data-t="1"><img src="media/q04-hotel.jpg" alt="Habitación de hotel frente al mar al amanecer, generada por IA" draggable="false"><div class="nz"></div></div><p>Resultado generado, no una foto recuperada.</p></div>
+        </div>
+        <div class="g ig-game">
+          <button class="btn primary ig-go" id="igBtn" type="button">▶ VER EL PROCESO</button>
+          <div class="ig-sl">
+            <div class="ig-slh"><span class="ft">De ruido a imagen</span><span class="ig-pct" id="igPct">0%</span></div>
+            <input type="range" id="igRange" min="0" max="100" step="1" value="0" aria-label="Ver el proceso, de ruido a imagen">
+            <div class="ig-ticks"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
+          </div>
+          <div class="ig-bw">
+            <p class="ft">Qué ve el modelo en cada paso</p>
+            <div class="pbars sm" id="igBars"></div>
+          </div>
+        </div>
+        <div class="ig-end">
+          <p class="remate">No dibuja como una persona. <b>Va encontrando una imagen coherente dentro del ruido.</b></p>
+          <p class="cap">Cada iteración acerca el resultado a lo que describe el prompt.</p>
         </div>
       </div>
     </div>
@@ -2864,13 +3070,15 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   paint();
 })();
 
-/* ---------- Rail lateral · contador · navegación ---------- */
+/* ---------- Rail lateral · contador · navegación (las pantallas apagadas desde ⚙ no cuentan) ---------- */
 (function(){
-  var secs=Array.prototype.slice.call(document.querySelectorAll('main > section'));
-  if(!secs.length) return;
+  var KEY='charla-ocultas';
+  var all=Array.prototype.slice.call(document.querySelectorAll('main > section'));
+  if(!all.length) return;
+  var off={}; try{ var sv=JSON.parse(localStorage.getItem(KEY)||'[]'); if(Array.isArray(sv)) sv.forEach(function(id){ if(id && id!=='hero') off[id]=1; }); }catch(e){}
   var track=document.getElementById('track'), mk=document.getElementById('railmk'), tip=document.getElementById('railtip');
   var lbl=document.getElementById('raillbl'), mlbl=document.getElementById('mobilelbl'), ctr=document.getElementById('counter');
-  var cur=-1, n=secs.length, segH=100/n;
+  var secs=[], cur=-1, n=0, segH=100, io=null;
 
   function text(i){
     var s=secs[i], blk=s.getAttribute('data-block')||'', pt=s.getAttribute('data-point')||s.getAttribute('aria-label')||'';
@@ -2882,24 +3090,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     return '<b>'+(i+1)+'/'+n+'</b><span class="sep">·</span>'+pt;
   }
 
-  /* segmentos invisibles sobre la línea: hover muestra el nombre, click navega */
-  var lastBlock=null;
-  secs.forEach(function(s,i){
-    var blk=s.getAttribute('data-block')||'';
-    var seg=document.createElement('i');
-    seg.style.top=(i*segH)+'%'; seg.style.height=segH+'%';
-    if(blk!==lastBlock && i>0) seg.className='blk';
-    lastBlock=blk;
-    seg.setAttribute('aria-label',(blk?blk+' · ':'')+(s.getAttribute('data-point')||''));
-    seg.addEventListener('mouseenter',function(){ if(!tip) return; tip.innerHTML=tipText(i); tip.style.top=((i+0.5)*segH)+'%'; tip.classList.add('show'); });
-    seg.addEventListener('mouseleave',function(){ if(tip) tip.classList.remove('show'); });
-    seg.addEventListener('click',function(){ go(i); });
-    if(track) track.appendChild(seg);
-  });
-  if(mk){ mk.style.height='max(14px,'+segH+'%)'; }
-
   function setCur(i){
-    if(i===cur) return;
+    if(i===cur || i<0) return;
     cur=i;
     if(mk) mk.style.top='min(calc(100% - max(14px,'+segH+'%)),'+(i*segH)+'%)';
     if(ctr) ctr.textContent=(i+1)+' / '+n;
@@ -2910,13 +3102,37 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   function invFor(sec){ if(sec.id==='hero') return document.documentElement.getAttribute('data-theme')==='day'; return sec.classList.contains('divider'); }
   try{ new MutationObserver(function(){ if(cur>=0 && secs[cur]) document.documentElement.classList.toggle('inv', invFor(secs[cur])); }).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']}); }catch(e){}
   function go(i){ i=Math.max(0,Math.min(n-1,i)); secs[i].scrollIntoView({behavior:'smooth',block:'start'}); }
-
-  /* sección actual */
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && e.intersectionRatio>=0.5) setCur(secs.indexOf(e.target)); }); },{threshold:[0.5]});
-    secs.forEach(function(s){ io.observe(s); });
-  }
   function fallback(){ var y=window.scrollY+window.innerHeight*0.45, idx=0; for(var i=0;i<secs.length;i++){ if(secs[i].offsetTop<=y) idx=i; } setCur(idx); }
+
+  /* arma la barra lateral y el contador con las pantallas encendidas */
+  function build(){
+    all.forEach(function(s){ s.classList.toggle('off', !!off[s.id]); });
+    secs=all.filter(function(s){ return !off[s.id]; });
+    n=secs.length; segH=100/n; cur=-1;
+    if(track) Array.prototype.slice.call(track.querySelectorAll('i')).forEach(function(x){ track.removeChild(x); });
+    /* segmentos invisibles sobre la línea: hover muestra el nombre, click navega */
+    var lastBlock=null;
+    secs.forEach(function(s,i){
+      var blk=s.getAttribute('data-block')||'';
+      var seg=document.createElement('i');
+      seg.style.top=(i*segH)+'%'; seg.style.height=segH+'%';
+      if(blk!==lastBlock && i>0) seg.className='blk';
+      lastBlock=blk;
+      seg.setAttribute('aria-label',(blk?blk+' · ':'')+(s.getAttribute('data-point')||''));
+      seg.addEventListener('mouseenter',function(){ if(!tip) return; tip.innerHTML=tipText(i); tip.style.top=((i+0.5)*segH)+'%'; tip.classList.add('show'); });
+      seg.addEventListener('mouseleave',function(){ if(tip) tip.classList.remove('show'); });
+      seg.addEventListener('click',function(){ go(i); });
+      if(track) track.appendChild(seg);
+    });
+    if(mk){ mk.style.height='max(14px,'+segH+'%)'; }
+    /* sección actual */
+    if(io) io.disconnect();
+    if('IntersectionObserver' in window){
+      io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && e.intersectionRatio>=0.5){ var k=secs.indexOf(e.target); if(k>=0) setCur(k); } }); },{threshold:[0.5]});
+      secs.forEach(function(s){ io.observe(s); });
+    }
+    fallback();
+  }
   window.addEventListener('scroll',fallback,{passive:true});
   window.addEventListener('resize',fallback);
 
@@ -2930,7 +3146,25 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     else if(k==='Home'){ e.preventDefault(); go(0); }
     else if(k==='End'){ e.preventDefault(); go(n-1); }
   });
-  fallback();
+
+  /* prender / apagar pantallas (lo usa el panel ⚙): se guarda en este navegador */
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(Object.keys(off))); }catch(e){} }
+  function rebuild(){
+    var c=secs[cur]; build();
+    if(!c) return;
+    var tgt=c;
+    if(off[c.id]){ var k=all.indexOf(c), j; tgt=null; for(j=k+1;j<all.length;j++){ if(!off[all[j].id]){ tgt=all[j]; break; } } if(!tgt){ for(j=k-1;j>=0;j--){ if(!off[all[j].id]){ tgt=all[j]; break; } } } }
+    if(tgt){ tgt.scrollIntoView({block:'start'}); fallback(); }
+  }
+  window.Slides={
+    all:function(){ return all.slice(); },
+    isOff:function(id){ return !!off[id]; },
+    set:function(id,on){ if(id==='hero') return; if(on) delete off[id]; else off[id]=1; save(); rebuild(); },
+    reset:function(){ off={}; save(); rebuild(); },
+    number:function(s){ var i=secs.indexOf(s); return i<0?0:i+1; },
+    total:function(){ return n; }
+  };
+  build();
 })();
 </script>
 <script>
@@ -3117,11 +3351,11 @@ window.Charla = (function(){
   var sec=document.getElementById('q2'); if(sec && 'IntersectionObserver' in window){ new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && !el.children.length) run(); }); },{threshold:.5}).observe(sec); }
 })();
 
-/* ---------- 13/50 Calculadora de tokens ---------- */
+/* ---------- 12/50 Calculadora de tokens ---------- */
 (function(){
   var ta=document.getElementById('tokIn'); if(!ta) return;
   var view=document.getElementById('tokView'), N=document.getElementById('tokN'), M=document.getElementById('tokMsg'), U=document.getElementById('tokUsd'), T=document.getElementById('tokTime'), P=document.getElementById('tokPct'), B=document.getElementById('tokBar');
-  var win=document.getElementById('cfgWin'), price=document.getElementById('cfgPrice');
+  var W=340000, PR=5; /* referencia fija: Claude Max US$100 (estimado) y API ≈ US$5 por millón */
   function pieces(word){ /* corte aproximado tipo BPE para visualizar */
     if(word.length<=5) return [word]; var out=[], i=0; while(i<word.length){ var len= i===0 ? Math.min(4,word.length) : Math.min(3+(word.charCodeAt(i)%2),word.length-i); out.push(word.slice(i,i+len)); i+=len; } return out;
   }
@@ -3130,17 +3364,137 @@ window.Charla = (function(){
     var toks=0, html=''; words.slice(0,120).forEach(function(w){ var ps=pieces(w.replace(/[.,;:!?¿¡()"']/g,'')); toks+=ps.length; html+=ps.map(function(p){ return '<span>'+p.replace(/</g,'&lt;')+'</span>'; }).join(''); });
     if(words.length>120){ toks+=Math.round((words.length-120)*1.3); }
     toks+=punct;
-    var W=parseFloat(win.value)||340000, PR=parseFloat(price.value)||5;
     if(view) view.innerHTML=html;
     if(N) N.textContent=Charla.fmt(toks);
-    if(M) M.textContent=Charla.fmt(toks/1500,2);
+    if(M) M.textContent=toks? Charla.fmt(Math.floor(W/toks)) : '–';
     if(U) U.innerHTML='$'+Charla.fmt(toks/1e6*PR,4)+'<small> USD</small>';
     if(T) T.innerHTML=Charla.fmt(words.length/40,1)+'<small> min</small>';
     var pct=Math.min(100,toks/W*100); if(P) P.textContent=Charla.fmt(pct,2)+'%'; if(B) B.style.width=Math.max(0.5,pct)+'%';
   }
-  ['input','change'].forEach(function(ev){ ta.addEventListener(ev,calc); win.addEventListener(ev,calc); price.addEventListener(ev,calc); });
+  ['input','change'].forEach(function(ev){ ta.addEventListener(ev,calc); });
   if(!ta.value){ ta.value='Hola, buenas tardes. Quería saber si tienen disponibilidad para una mesa de 6 personas el sábado a la noche, cerca de las 21. Dos de los chicos son celíacos, ¿tienen opciones sin TACC? Gracias.'; }
   calc();
+})();
+
+/* ---------- 12/50 video de tokens: clic = pausa / sigue ---------- */
+(function(){
+  var w=document.querySelector('#q4 .q4vid .vid'), v=w&&w.querySelector('video'); if(!v) return;
+  w.addEventListener('click',function(){ if(v.paused){ v.play().catch(function(){}); } else { v.pause(); } });
+  v.addEventListener('pause',function(){ w.classList.add('paused'); });
+  v.addEventListener('play',function(){ w.classList.remove('paused'); });
+})();
+
+/* ---------- 13/50 (#q4b): barras del asado al llegar + juego "¿Podés pensar como una IA?" ---------- */
+(function(){
+  var sec=document.getElementById('q4b'); if(!sec) return;
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) sec.classList.add('go'); }); },{threshold:.35}).observe(sec); } else sec.classList.add('go');
+  var inp=document.getElementById('pgIn'), btn=document.getElementById('pgBtn'), res=document.getElementById('pgRes'), bars=document.getElementById('pgBars'), box=document.getElementById('pgR'), oth=document.getElementById('pgOtros'); if(!inp||!btn||!bars) return;
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function cap(s){ s=String(s||'').trim().replace(/\s+/g,' '); return s.charAt(0).toUpperCase()+s.slice(1); }
+  var P={messi:72,maradona:21,dimaria:3,otros:4};
+  function norm(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim(); }
+  function who(s){
+    var t=' '+norm(s)+' '; if(!t.trim()) return '';
+    if(/ (messi|mesi|leo|lio|lionel|pulga) /.test(t)) return 'messi';
+    if(/ (maradona|diego|pelusa|d10s|dios|diez) /.test(t)) return 'maradona';
+    if(/ (di maria|dimaria|fideo|angel) /.test(t)) return 'dimaria';
+    return 'otros';
+  }
+  var rows=[].slice.call(bars.querySelectorAll('.pb'));
+  function show(k){
+    if(oth) oth.innerHTML= k==='otros' ? esc(cap(inp.value))+' <small>y otros</small>' : 'Otros';
+    rows.forEach(function(r){ var kk=r.getAttribute('data-k'); r.classList.toggle('win',kk==='messi'); r.classList.toggle('you',kk===k); r.querySelector('i').style.setProperty('--p',P[kk]+'%'); r.querySelector('.n').textContent=P[kk]+'%'; });
+    var m;
+    if(k==='messi') m='Tu respuesta coincidió con la predicción más probable: <b>72%</b>.';
+    else if(k==='otros') m='“'+esc(cap(inp.value))+'” entra en “otros”: entre todos los demás nombres suman un <b>4%</b>. El modelo habría elegido <b>Messi</b> con 72%.';
+    else m='Tu respuesta tenía una probabilidad estimada del <b>'+P[k]+'%</b>. El modelo habría elegido <b>Messi</b> con 72%.';
+    res.innerHTML=m; res.className='pg-res show'+(k==='messi'?' ok':'');
+  }
+  function go(){
+    var k=who(inp.value);
+    if(!k){ res.innerHTML='Escribí primero tu respuesta.'; res.className='pg-res show warn'; inp.focus(); return; }
+    rows.forEach(function(r){ r.classList.remove('win','you'); r.querySelector('i').style.setProperty('--p','0%'); r.querySelector('.n').textContent='–'; });
+    res.className='pg-res'; if(box) box.classList.add('on');
+    setTimeout(function(){ show(k); },120);
+  }
+  btn.addEventListener('click',go);
+  inp.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); go(); } });
+})();
+
+/* ---------- 14 (#q4img): de ruido a imagen · botón "VER EL PROCESO" + deslizador · simulación didáctica ---------- */
+(function(){
+  var sec=document.getElementById('q4img'); if(!sec) return;
+  var range=document.getElementById('igRange'), pct=document.getElementById('igPct'), bars=document.getElementById('igBars'), btn=document.getElementById('igBtn');
+  if(!range||!bars) return;
+  /* textura de ruido: se genera una sola vez */
+  var cv=document.createElement('canvas'); cv.width=240; cv.height=135;
+  var cx=cv.getContext('2d'), im=cx.createImageData(240,135), d=im.data;
+  for(var i=0;i<d.length;i+=4){ var v=30+Math.random()*195; d[i]=v+(Math.random()-.5)*60; d[i+1]=v+(Math.random()-.5)*60; d[i+2]=v+(Math.random()-.5)*60; d[i+3]=255; }
+  cx.putImageData(im,0,0);
+  var url='url('+cv.toDataURL()+')', nzs=[].slice.call(sec.querySelectorAll('.nz'));
+  nzs.forEach(function(nz){ nz.style.backgroundImage=url; });
+  var pics=[].slice.call(sec.querySelectorAll('.ig-pic[data-t]'));
+  /* lo que el modelo "ve" en cada paso (valores ilustrativos) */
+  var H=['Habitación de hotel frente al mar','Playa al amanecer','Living con ventanal','Restaurante con vista','Paisaje de montaña'];
+  var KF=[[0,[20,20,20,20,20]],[.25,[30,28,18,14,10]],[.5,[55,22,12,8,3]],[.75,[82,10,5,2,1]],[1,[97,2,1,0,0]]];
+  bars.innerHTML=H.map(function(x){ return '<div class="pb"><span class="w">'+x+'</span><span class="t"><i></i></span><span class="n">20%</span></div>'; }).join('');
+  var rows=[].slice.call(bars.querySelectorAll('.pb'));
+  function probs(t){ for(var k=1;k<KF.length;k++){ if(t<=KF[k][0]){ var a=KF[k-1], b=KF[k], f=(t-a[0])/(b[0]-a[0]); return a[1].map(function(x,j){ return x+(b[1][j]-x)*f; }); } } return KF[KF.length-1][1]; }
+  function look(p,c){
+    var img=p.querySelector('img'), nz=p.querySelector('.nz');
+    if(img){ img.style.opacity=Math.min(1,c*2.2).toFixed(3); img.style.filter='blur('+(Math.pow(1-c,1.3)*18).toFixed(1)+'px) saturate('+(0.4+0.6*c).toFixed(2)+')'; }
+    if(nz) nz.style.opacity=Math.pow(1-c,3).toFixed(3);
+  }
+  var t=0, anim=null;
+  function label(){ if(!btn) return; btn.textContent= anim ? 'Generando…' : (t>=1 ? '↺ VER DE NUEVO' : '▶ VER EL PROCESO'); btn.disabled=!!anim; }
+  function paint(){
+    var v=Math.round(t*100); range.value=v; range.style.setProperty('--v',v+'%'); if(pct) pct.textContent=v+'%';
+    pics.forEach(function(p){ look(p, Math.min(parseFloat(p.getAttribute('data-t'))||0, t)); });
+    var pr=probs(t), mx=Math.max.apply(null,pr), uniq=pr.filter(function(x){ return x===mx; }).length===1;
+    rows.forEach(function(r,i){ r.querySelector('i').style.setProperty('--p',pr[i].toFixed(1)+'%'); r.querySelector('.n').textContent=Math.round(pr[i])+'%'; r.classList.toggle('win', uniq && pr[i]===mx); });
+  }
+  function stop(){ if(anim){ cancelAnimationFrame(anim); anim=null; } label(); }
+  range.addEventListener('input',function(){ stop(); t=(+range.value)/100; paint(); label(); });
+  function run(){
+    stop(); t=0; paint();
+    var t0=null, D=6500;
+    function step(ts){ if(t0===null) t0=ts; var f=Math.min(1,(ts-t0)/D); t=f<.5? 2*f*f : 1-Math.pow(-2*f+2,2)/2; paint(); if(f<1) anim=requestAnimationFrame(step); else { anim=null; label(); } }
+    anim=requestAnimationFrame(step); label();
+  }
+  if(btn) btn.addEventListener('click',run);
+  /* flechas centradas con las imágenes + ruido "vivo" solo con la pantalla a la vista */
+  var ref=sec.querySelector('.ig-seq .ig-pic.fin');
+  function arw(){ if(ref) sec.style.setProperty('--arw',ref.getBoundingClientRect().height+'px'); }
+  window.addEventListener('resize',arw);
+  var live=null;
+  function jitter(){ nzs.forEach(function(nz){ if(nz.style.opacity!=='0.000') nz.style.backgroundPosition=((Math.random()*240)|0)+'px '+((Math.random()*135)|0)+'px'; }); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ arw(); if(!live) live=setInterval(jitter,90); } else if(live){ clearInterval(live); live=null; } }); },{threshold:.1}).observe(sec); }
+  arw(); paint(); label();
+})();
+
+/* ---------- ⚙ Pantallas: prender / apagar (el contador se rehace solo; se guarda en este navegador) ---------- */
+(function(){
+  var b=document.getElementById('slidesBtn'); if(!b || !window.Slides || !window.Charla) return;
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function list(){
+    var h='', last=null;
+    Slides.all().forEach(function(s){
+      var blk=s.getAttribute('data-block')||'Portada', t=s.getAttribute('data-point')||s.getAttribute('aria-label')||s.id, off=Slides.isOff(s.id), k=Slides.number(s), lock=s.id==='hero';
+      if(blk!==last){ h+='<div class="sl-blk">'+esc(blk)+'</div>'; last=blk; }
+      h+='<label class="sl-it'+(off?' off':'')+'"><span class="no">'+(k||'–')+'</span><span class="tt" title="'+esc(t)+'">'+esc(t)+'</span><input type="checkbox" data-id="'+esc(s.id)+'"'+(off?'':' checked')+(lock?' disabled':'')+'><i class="sw" aria-hidden="true"></i></label>';
+    });
+    return h;
+  }
+  function paint(){
+    var l=document.getElementById('slList'), c=document.getElementById('slCount'); if(!l) return;
+    l.innerHTML=list(); if(c) c.textContent=Slides.total()+' de '+Slides.all().length+' encendidas';
+  }
+  b.addEventListener('click',function(){
+    Charla.open('<div class="slp"><h3>Pantallas de la charla</h3><p class="sub">Apagá las que no quieras mostrar: desaparecen y el contador se rehace solo. No se borra nada y las podés volver a prender. Queda guardado en este navegador.</p><div class="row slp-top"><span id="slCount"></span><button class="btn sm" id="slAll" type="button">Prender todas</button></div><div class="sl-list" id="slList"></div></div>');
+    paint();
+    document.getElementById('slList').addEventListener('change',function(e){ var c=e.target, id=c && c.getAttribute('data-id'); if(!id) return; Slides.set(id, c.checked); paint(); });
+    document.getElementById('slAll').addEventListener('click',function(){ Slides.reset(); paint(); });
+  });
 })();
 
 /* ---------- Herramientas compartidas: copiar, abrir Gemini/ChatGPT, pegar imagen ---------- */
@@ -3645,7 +3999,7 @@ window.Live = (function(){
 
   /* ---------- cartel "Preparar WhatsApp en vivo" ---------- */
   var wizOn=false, wizT=null, wizDoneT=null, wizCfgT=0;
-  function screenNo(){ var all=Array.prototype.slice.call(document.querySelectorAll('main > section')), i=all.indexOf(sec); return i<0?'':(i+1)+'/'+all.length; }
+  function screenNo(){ if(window.Slides){ var k=Slides.number(sec); return k? k+'/'+Slides.total() : ''; } var all=Array.prototype.slice.call(document.querySelectorAll('main > section')), i=all.indexOf(sec); return i<0?'':(i+1)+'/'+all.length; }
   function wizHtml(){
     return '<div class="wiz"><h3>Preparar WhatsApp en vivo</h3>'+
       '<p class="sub">Para la pantalla '+screenNo()+' (bot de WhatsApp). Hacelo antes de empezar, en la PC donde presentás: el resto lo detecto solo.</p>'+

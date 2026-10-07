@@ -41,7 +41,7 @@
 
   const txt = (sel) => hero.querySelector(sel)?.textContent?.trim() || '';
   const euge = makePresenter('euge', txt('.speaker:not(.alt) .name') || 'María Eugenia Dicándilo', 'Fundadora y directora de Modo Comunicación', 'Euge se mueve.mp4');
-  const peli = makePresenter('peli', txt('.speaker.alt .name') || 'Pablo Pellizzoni', 'Diseñador industrial. Fundador de Outcomy y Kexen y cofundador de KrovaLab Consultora. Docente investigador de la Universidad Nacional de Mar del Plata.', 'Peli saludando.mp4');
+  const peli = makePresenter('peli', txt('.speaker.alt .name') || 'Pablo Pellizzoni', 'Diseñador industrial. Cofundador de Outcomy, KrovaLab y Kexen. Docente investigador de la Universidad Nacional de Mar del Plata.', 'Peli saludando.mp4');
   hero.insertBefore(euge.figure, inner);
   hero.insertBefore(peli.figure, inner);
   hero.classList.add('hero-with-presenters');
