@@ -917,6 +917,7 @@
   .sl-it .no{font-variant-numeric:tabular-nums;color:var(--g-accent);font-size:12px;font-weight:500}
   .sl-it .tt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .sl-it.off .tt,.sl-it.off .no{opacity:.4}
+  .sl-it .sl-def{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--g-amber);margin-left:6px}
   .sl-it input{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none}
   .sl-it .sw{width:34px;height:20px;border-radius:99px;background:var(--g-stroke);position:relative;transition:background .2s}
   .sl-it .sw::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
@@ -1017,6 +1018,24 @@
   #q4img .pbars.sm .pb .t i{transition:width .2s linear}
   #q4img .ig-end .cap{margin:4px 0 0;text-align:center;font-size:12px;color:var(--g-dim)}
 
+  /* ---------- cambios de Euge ---------- */
+  .uses4{display:grid;grid-template-columns:1fr 1fr;gap:clamp(8px,1.4vh,14px);align-content:start}
+  .uses4 .ft{grid-column:1/-1;margin:0}
+  .uses4 .u{display:flex;flex-direction:column;gap:6px;padding:clamp(12px,1.8vh,18px) clamp(14px,1.4vw,18px);border-radius:var(--r2);background:var(--g-fill2);border:1px solid var(--g-stroke)}
+  .uses4 .u b{font-size:clamp(15px,2.1vh,20px);font-weight:500;color:var(--g-accent)}
+  .uses4 .u span{font-size:clamp(12.5px,1.6vh,15px);line-height:1.45;font-weight:300;color:var(--g-muted)}
+  #tesis .hd .sub + .sub{margin-top:4px}
+  .hitl-cycle{display:flex;flex-direction:column;justify-content:center;min-height:0}
+  .hitl-cycle .ft{margin:0 0 8px}
+  .loop.vert{grid-template-columns:1fr;gap:4px}
+  .loop.vert .arrow{text-align:center;color:var(--g-dim);line-height:1;font-size:16px}
+  .loop.vert .node{min-height:0;padding:clamp(8px,1.3vh,13px) 14px}
+  .loop.vert .node ul{font-size:clamp(12px,1.5vh,14px);line-height:1.45}
+  .loop.vert .back{margin-top:4px}
+  #argentina .arg-extra{margin:8px 0 0;font-size:12px;line-height:1.4}
+  #argentina .arg-extra b{color:var(--g-accent);font-weight:500}
+  .q6b-one,.q7b-one{grid-template-columns:minmax(0,1fr);max-width:980px}
+
   /* ---------- Responsive ---------- */
   @media (max-height:820px) and (min-width:821px){
     .hd h2{font-size:clamp(22px,2.6vw,34px)}
@@ -1061,6 +1080,7 @@
     #equipo .pcard,#equipo .pcard.rev{flex-direction:column}
     #equipo .pcard .vid{height:min(62svh,520px)}
     #q2 .grid.c2{grid-template-columns:1fr}
+    .uses4{grid-template-columns:1fr}
     .sl-list{grid-template-columns:1fr}
     #q4b .pred,#q4b .pgame,#q4img .ig-top,#q4img .ig-game{grid-template-columns:1fr}
     .pbars .pb{grid-template-columns:96px minmax(0,1fr) 40px}
@@ -1316,7 +1336,7 @@
           <div class="ini">ME</div>
           <div>
             <p class="name">María Eugenia Dicándilo</p>
-            <p class="role">Fundadora y directora de Modo Comunicación · Cofundadora de la consultora KrovaLab</p>
+            <p class="role">Abogada · Comunicadora · Cofundadora de Modo Comunicación y de KrovaLab Consultora</p>
             <p class="focus">Encuadre estratégico · instrucciones efectivas · uso responsable</p>
           </div>
         </div>
@@ -1338,7 +1358,6 @@
       <header class="hd">
         <span class="tag">Presentación</span>
         <h2>¿Cuál es el objetivo de este encuentro?</h2>
-        <p class="sub">La inteligencia artificial está transformando la manera de trabajar en todo el mundo. Esta propuesta acerca ese conocimiento a los sectores que generan valor en la ciudad, donde la gastronomía y la hotelería cumplen un rol central. Tocá cada tarjeta para ver el ejemplo.</p>
       </header>
       <div class="bd">
         <div class="grid c3">
@@ -1367,7 +1386,7 @@
   </section>
 
   <!-- ============ 5 · PROPUESTA ============ -->
-  <section id="propuesta" class="screen" data-block="Apertura" data-point="La propuesta" aria-label="Propuesta">
+  <section id="propuesta" data-oculta class="screen" data-block="Apertura" data-point="La propuesta" aria-label="Propuesta">
     <div class="wrap">
       <header class="hd">
         <span class="tag">La propuesta</span>
@@ -1400,7 +1419,7 @@
   </section>
 
   <!-- ============ 6 · EQUIPO ============ -->
-  <section id="equipo" class="screen" data-block="Apertura" data-point="El equipo" aria-label="Equipo">
+  <section id="equipo" data-oculta class="screen" data-block="Apertura" data-point="El equipo" aria-label="Equipo">
     <div class="wrap">
       <header class="hd">
         <span class="tag">El equipo</span>
@@ -1412,7 +1431,7 @@
             <div class="vid"><video muted playsinline preload="metadata" loop src="Euge se mueve.mp4"></video></div>
             <div class="ptxt">
               <h3>María Eugenia Dicándilo</h3>
-              <p class="role">Fundadora y directora de Modo Comunicación · Cofundadora de la consultora KrovaLab</p>
+              <p class="role">Abogada · Comunicadora · Cofundadora de Modo Comunicación y de KrovaLab Consultora</p>
               <p class="cap">Referente en el desarrollo de planes de comunicación de posicionamiento para empresas e instituciones. En este ciclo aborda el encuadre estratégico, la confección de instrucciones efectivas y el uso responsable de la tecnología en la gestión institucional.</p>
             </div>
           </div>
@@ -1430,7 +1449,7 @@
   </section>
 
   <!-- ============ 7 · PROGRAMA · coverflow ============ -->
-  <section id="programa" class="screen" data-block="Apertura" data-point="Programa · cinco bloques" aria-label="Programa">
+  <section id="programa" data-oculta class="screen" data-block="Apertura" data-point="Programa · cinco bloques" aria-label="Programa">
     <div class="wrap">
       <header class="hd">
         <span class="tag">Módulo general · Programa</span>
@@ -1439,8 +1458,8 @@
       <div class="bd">
         <div class="cf" id="cf">
           <div class="cfc" data-i="0"><div class="n">1</div><h3>Encuadre e historia</h3><p>Qué es la IA, para qué sirve y cómo llegó hasta acá.</p><div class="refl"></div></div>
-          <div class="cfc" data-i="1"><div class="n">2</div><h3>Arquitectura y conceptos base</h3><p>Cómo funciona por dentro, qué es un modelo, qué es la IA generativa.</p><div class="refl"></div></div>
-          <div class="cfc" data-i="2"><div class="n">3</div><h3>Interacción y control operativo</h3><p>Cómo hablarle, cuánto cuesta, por qué inventa y cómo se controla.</p><div class="refl"></div></div>
+          <div class="cfc" data-i="1"><div class="n">2</div><h3>Arquitectura y conceptos base</h3><p>Cómo funciona por dentro, qué es un modelo, qué es la IA generativa y qué es un token.</p><div class="refl"></div></div>
+          <div class="cfc" data-i="2"><div class="n">3</div><h3>Interacción y control operativo</h3><p>Cómo hablarle, por qué inventa y cómo se controla.</p><div class="refl"></div></div>
           <div class="cfc" data-i="3"><div class="n">4</div><h3>Implementación, herramientas y procesos</h3><p>Usos, chatbots, automatización, funciones, medir y acompañar al equipo.</p><div class="refl"></div></div>
           <div class="cfc" data-i="4"><div class="n">5</div><h3>Gobernanza y ética</h3><p>Sesgos, datos personales y regulación en la Argentina.</p><div class="refl"></div></div>
         </div>
@@ -1491,15 +1510,12 @@
               </div>
             </div>
           </div>
-          <div class="g">
-            <p class="ft">Por qué no razona · mirá cómo "piensa"</p>
-            <div class="typing" id="typing"></div>
-            <div class="row" style="margin:8px 0 12px"><button class="btn" id="typingBtn" type="button">Repetir</button><span class="hint">Cada palabra es una apuesta estadística sobre la anterior. Nada más.</span></div>
-            <div class="why" id="why">
-              <div class="w"><b>Razonar</b> es tener un objetivo propio y evaluar caminos para llegar.</div>
-              <div class="w"><b>Comprender</b> es conectar lo que se dice con una experiencia vivida.</div>
-              <div class="w"><b>Decidir</b> es hacerse cargo de la consecuencia. Eso es humano.</div>
-            </div>
+          <div class="g uses4">
+            <p class="ft">Para qué sirve · en un hotel o un restaurante</p>
+            <div class="u"><b>Producir</b><span>Respuestas a reseñas, posteos, descripciones de platos y habitaciones.</span></div>
+            <div class="u"><b>Resumir</b><span>Las reseñas del mes, un reglamento largo, lo que se habló en la reunión.</span></div>
+            <div class="u"><b>Clasificar</b><span>Consultas por tema y urgencia: reservas, quejas, pedidos especiales.</span></div>
+            <div class="u"><b>Traducir</b><span>La carta, los mensajes y las indicaciones para huéspedes de otros países.</span></div>
           </div>
         </div>
         <div class="note">La IA contemporánea opera mediante mecanismos de predicción condicionada. <b>No es una entidad; es un motor estadístico altamente sofisticado.</b> Sirve para producir, resumir, clasificar y traducir a una velocidad imposible para una persona.</div>
@@ -1541,14 +1557,21 @@
       <header class="hd">
         <span class="tag">Bloque 1 · Pregunta 03</span>
         <h2>El humano en el centro del algoritmo</h2>
-        <p class="sub">La IA no reemplaza; <strong>extiende</strong>. El primer resultado es lo mediocre de todos: lo que vale es la vuelta humana. No temer ni venerar a la IA: operarla.</p>
+        <p class="sub">La IA no reemplaza, <strong>extiende las posibilidades operativas del ser humano.</strong></p>
+        <p class="sub">El primer resultado que arroja es el básico o esperable. <strong>El agregado de valor lo aporta el ser humano.</strong></p>
       </header>
       <div class="bd">
         <div class="hitl-body">
-          <div class="hitl-claims">
-            <div class="g bx ink"><span><span class="kk">1 — Primer resultado</span>La IA entrega lo que estadísticamente cree que querés.<br><b>El resultado promedio.</b></span></div>
-            <div class="g bx"><span><span class="kk">2 — La vuelta humana</span>Cada intervención humana corrige, orienta y empuja el resultado hacia algo más propio.<br><b>Ahí aparece la diferencia.</b></span></div>
-            <div class="g bx amber"><span><span class="kk">3 — Decisión final</span><b>La IA propone.</b><br>La decisión de seguir, cambiar o quedarse es siempre humana.</span></div>
+          <div class="g hitl-cycle">
+            <p class="ft">Human in the loop · el ciclo</p>
+            <div class="loop vert">
+              <div class="node"><span class="k">Humano</span><ul><li>Define objetivos</li><li>Formula instrucciones precisas</li><li>Provee contexto y datos</li></ul></div>
+              <div class="arrow" aria-hidden="true">↓</div>
+              <div class="node ia"><span class="k">IA</span><ul><li>Procesa el contexto</li><li>Genera variaciones probabilísticas</li><li>Propone borradores</li></ul></div>
+              <div class="arrow" aria-hidden="true">↓</div>
+              <div class="node"><span class="k">Humano</span><ul><li>Evalúa resultados</li><li>Corrige y ajusta la instrucción</li><li>Toma la decisión final</li></ul></div>
+              <div class="back">vuelve a empezar con una instrucción mejor</div>
+            </div>
           </div>
         <div class="g hitl-loop">
           <div class="row" style="justify-content:space-between;margin-bottom:4px"><p class="ft" style="margin:0">Human in the loop · tocá la rueda</p><span class="status" id="hitlLoopSt">sin intervención</span></div>
@@ -1682,7 +1705,7 @@
         </div>
         <div class="g arg-exercise">
           <div class="row" style="justify-content:space-between;margin-bottom:10px">
-            <p class="ft" style="margin:0">Para qué la usan (uso personal)</p>
+            <p class="ft" style="margin:0">Para qué la usan · los usos más comunes</p>
             <div class="row">
               <button class="btn" id="scatterBtn" type="button">Ordenar</button>
               <button class="btn primary" id="cloudBtn" type="button">¿Y ustedes? · QR</button>
@@ -1692,8 +1715,8 @@
             <div class="it" style="--x:38%;--y:10px;--r:-4deg"><span>Buscar información y resolver tareas diarias</span><span class="n">1º</span></div>
             <div class="it" style="--x:4%;--y:-4px;--r:3deg"><span>Generar contenidos creativos y entretenimiento</span><span class="n">2º</span></div>
             <div class="it" style="--x:120%;--y:-50px;--r:5deg"><span>Traducir, interpretar o resumir textos</span><span class="n">3º</span></div>
-            <div class="it" style="--x:70%;--y:-12px;--r:-6deg"><span>Conversación libre o apoyo emocional</span><span class="n">20,3%</span></div>
           </div>
+          <p class="hint arg-extra">Además, 1 de cada 5 encuestados (<b>20,3%</b>) la usa para conversar o como apoyo emocional.</p>
         </div>
       </div>
     </div>
@@ -1711,6 +1734,7 @@
             <li><span>04</span>¿Cómo funciona la inteligencia artificial por dentro?</li>
             <li><span>05</span>¿Qué son los modelos de inteligencia artificial?</li>
             <li><span>06</span>¿Qué es la inteligencia artificial generativa?</li>
+            <li><span>07</span>¿Cuánto cuesta usar inteligencia artificial y qué es un token?</li>
           </ol>
         </div>
       </div>
@@ -1964,19 +1988,7 @@
         <h2>Cómo "crea" sin entender</h2>
       </header>
       <div class="bd">
-        <div class="grid c2">
-          <div class="g">
-            <p class="ft">La anatomía de la creatividad · diagnóstico operativo</p>
-            <table class="tbl">
-              <thead><tr><th>Dimensión</th><th>Cómo opera la IA</th><th>Cómo opera el humano</th></tr></thead>
-              <tbody>
-                <tr><td class="lb">Base de conocimiento</td><td class="dim">Procesamiento de datos preexistentes</td><td class="hi">Integración de experiencias de vida</td></tr>
-                <tr><td class="lb">Impulso</td><td class="dim">Sin intención ni estados emocionales</td><td class="hi">Influencia emocional y contextual</td></tr>
-                <tr><td class="lb">Trayectoria</td><td class="dim">Tiende al consenso y al promedio estadístico</td><td class="hi">Búsqueda activa de disrupción y rareza</td></tr>
-                <tr><td class="lb">Mecanismo</td><td class="dim">Combinación probabilística optimizada</td><td class="hi">Saltos conceptuales interdisciplinares inéditos</td></tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="grid q6b-one">
           <div class="g">
             <p class="ft">Lo que cambia para un hotel o un restaurante</p>
             <ul class="ls">
@@ -1985,122 +1997,18 @@
               <li>Mantener un tono consistente en todos los canales con una sola instrucción bien escrita.</li>
               <li>Convertir datos sueltos (reseñas, planillas, mensajes) en decisiones.</li>
             </ul>
-            <div class="warn" style="margin-top:12px"><b>Atención:</b> genera contenido <em>plausible</em>, no necesariamente <em>verdadero</em>. Lo que produce se revisa antes de salir (preguntas 09 y 10).</div>
+            <div class="warn" style="margin-top:12px"><b>Atención:</b> genera contenido <em>plausible</em>, no necesariamente <em>verdadero</em>. Lo que produce se revisa antes de salir.</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ BLOQUE 3 ============ -->
-  <section id="bloque-3" class="screen divider" data-block="Bloque 3" data-point="Técnicas de interacción y control operativo" aria-label="Bloque 3">
-    <div class="wrap">
-      <div class="big">
-        <div class="num">3</div>
-        <div>
-          <div class="kicker">Bloque 3 de 5</div>
-          <h2>Técnicas de interacción y control operativo</h2>
-          <ol>
-            <li><span>07</span>¿Cómo hablarle a la IA? Contexto, memoria, temperatura y los cuatro pilares del prompting</li>
-            <li><span>08</span>¿Cuánto cuesta usar inteligencia artificial y qué es un token?</li>
-            <li><span>09</span>¿Qué son las alucinaciones y por qué la IA inventa datos?</li>
-            <li><span>10</span>¿Por qué resulta necesario probar e inspeccionar las respuestas de la IA?</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ Q7 ============ -->
-  <section id="q7" class="screen" data-block="Bloque 3" data-point="07 · ¿Cómo hablarle a la IA?" aria-label="Pregunta 7">
+  <!-- ============ Q7 (token) ============ -->
+  <section id="q8" class="screen" data-block="Bloque 2" data-point="07 · ¿Cuánto cuesta y qué es un token?" aria-label="Pregunta 7">
     <div class="wrap">
       <header class="hd">
-        <span class="tag">Bloque 3 · Pregunta 07</span>
-        <h2>¿Cómo hablarle a la IA?</h2>
-        <p class="sub">Un prompting efectivo es el que logra resultados de alta calidad. La IA generativa predice resultados matemáticos: para guiarla, requiere estructura. Cuatro pilares: especificidad, ejemplos, contexto y formato.</p>
-      </header>
-      <div class="bd">
-        <div class="g">
-          <p class="ft">Los cuatro pilares del prompt perfecto</p>
-          <div class="pillars">
-            <div class="pillar"><div class="bx ink">[ ESPECIFICIDAD ]</div><p>Qué querés exactamente, para quién y con qué objetivo. "Respondé esta reseña de 2 estrellas", no "ayudame con las reseñas".</p></div>
-            <div class="plus">+</div>
-            <div class="pillar"><div class="bx">[ EJEMPLOS ]</div><p>Una o dos muestras de lo que te gusta. Una respuesta anterior que salió bien vale más que diez adjetivos.</p></div>
-            <div class="plus">+</div>
-            <div class="pillar"><div class="bx amber">[ CONTEXTO ]</div><p>Quiénes somos, qué pasó, qué datos importan, con qué rol habla. Establece los límites de la memoria operativa.</p></div>
-            <div class="plus">+</div>
-            <div class="pillar"><div class="bx ghost">[ FORMATO ]</div><p>La estructura de salida deseada. Largo, tono, idioma, lista o párrafo, qué no incluir.</p></div>
-          </div>
-        </div>
-        <div class="g">
-          <p class="ft">Ejemplo real · responder una reseña</p>
-          <div class="prompt"><span class="p3">Sos el encargado de atención al cliente de una parrilla familiar de Mar del Plata. Un cliente dejó 2 estrellas en Google porque esperó 40 minutos la mesa un sábado a la noche y el mozo no le avisó la demora. La comida le gustó. Nuestro tono es cercano, sin exagerar disculpas.</span>
-<span class="p1">Redactá una respuesta pública que agradezca, reconozca la demora sin excusas, explique una medida concreta (aviso de espera estimada) y lo invite a volver.</span>
-<span class="p2">Ejemplo de respuesta que nos gusta: "Gracias por contarnos, Martín. Tenés razón con la espera del sábado: ya estamos avisando el tiempo estimado al llegar. Nos alegra que la comida haya valido la pena; te esperamos."</span>
-<span class="p4">Formato: máximo 4 líneas, español rioplatense, sin emojis, sin ofrecer descuentos.</span></div>
-          <p class="cap">Cada color es un pilar: contexto (ámbar), especificidad (sólido), ejemplos (gris), formato (recuadro). Sacá cualquiera y la respuesta se vuelve genérica.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ Q7b ============ -->
-  <section id="q7b" class="screen" data-block="Bloque 3" data-point="07 · Contexto, memoria y temperatura" aria-label="Pregunta 7 · continuación">
-    <div class="wrap">
-      <header class="hd">
-        <span class="tag">Bloque 3 · Pregunta 07 · continuación</span>
-        <h2>Contexto, memoria y el tablero de control</h2>
-        <p class="sub">La IA posee un volumen masivo de información, pero carece de contexto del mundo real (quién sos, dónde estás, qué querés). El operador provee el encuadre para alterar el resultado.</p>
-      </header>
-      <div class="bd">
-        <div class="grid c2">
-          <div class="g">
-            <p class="ft">El significado es un contenedor vacío sin el contexto</p>
-            <div class="ctx">
-              <div class="word">RESERVA</div>
-              <div class="rows">
-                <div class="r"><div class="bx ghost">Contexto: hotel</div><div class="bx solid">Habitación, check-in, noches, huésped</div></div>
-                <div class="r"><div class="bx ghost">Contexto: restaurante</div><div class="bx solid">Mesa, horario, cubiertos, comensales</div></div>
-                <div class="r"><div class="bx ghost">Sin contexto</div><div class="bx">Definición genérica de diccionario</div></div>
-              </div>
-            </div>
-            <div class="note" style="margin-top:14px"><b>Memoria:</b> el modelo solo "recuerda" lo que entra en la ventana de contexto de esa conversación. Lo que no está escrito, no existe. Por eso los proyectos e instrucciones fijas (pregunta 15) importan tanto.</div>
-          </div>
-          <div class="g">
-            <p class="ft">El tablero de control · temperatura y Top-P</p>
-            <div class="grid c2 tight">
-              <div class="gauge">
-                <svg viewBox="0 0 200 118" aria-label="Indicador de temperatura">
-                  <path d="M20,100 A80,80 0 0 1 100,20" fill="none" style="stroke:var(--g-accent)" stroke-width="14" stroke-linecap="round"/>
-                  <path d="M100,20 A80,80 0 0 1 180,100" fill="none" style="stroke:var(--g-amber)" stroke-width="14" stroke-linecap="round"/>
-                  <line x1="100" y1="100" x2="76" y2="26" style="stroke:var(--g-text)" stroke-width="2.5" stroke-linecap="round"/>
-                  <circle cx="100" cy="100" r="5" style="fill:var(--g-text)"/>
-                  <text x="128" y="86" font-size="10" letter-spacing="1" font-family="Inter, sans-serif" style="fill:var(--g-muted)">T = 0.8</text>
-                </svg>
-                <div class="gl"><span>Determinista</span><span>Caótico</span></div>
-                <p class="cap">Controla la aleatoriedad. Baja = respuestas precisas y predecibles (políticas, precios, horarios). Alta = diversidad, variabilidad y riesgo de alucinación (ideas para un evento).</p>
-              </div>
-              <div>
-                <div class="funnel">
-                  <div class="fl"><span>Más opciones</span><span></span></div>
-                  <i style="width:100%"></i><i style="width:72%"></i><i style="width:48%"></i><i style="width:26%"></i>
-                  <div class="fl"><span></span><span>Menos opciones</span></div>
-                </div>
-                <p class="cap">Top-P limita el universo estadístico de tokens candidatos. En los chats comunes no se toca; en herramientas y automatizaciones, sí.</p>
-              </div>
-            </div>
-            <div class="warn" style="margin-top:12px"><b>Atención:</b> mayor exploración (alta T / alto Top-P) = mayor consumo de recursos y dinero, y más riesgo de datos inventados. Los tokens son la moneda de esfuerzo de la IA.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ Q8 ============ -->
-  <section id="q8" class="screen" data-block="Bloque 3" data-point="08 · ¿Cuánto cuesta y qué es un token?" aria-label="Pregunta 8">
-    <div class="wrap">
-      <header class="hd">
-        <span class="tag">Bloque 3 · Pregunta 08</span>
+        <span class="tag">Bloque 2 · Pregunta 07</span>
         <h2>¿Cuánto cuesta usar inteligencia artificial y qué es un token?</h2>
         <p class="sub">Se paga por tokens procesados: los que entran (tu instrucción + contexto) y los que salen (la respuesta). Un token es, en español, más o menos tres cuartos de una palabra. Saberlo sirve para elegir modelo y controlar el gasto.</p>
       </header>
@@ -2132,6 +2040,84 @@
               <li>No arrastrar conversaciones eternas: cada mensaje reenvía todo el historial.</li>
               <li>Adjuntar solo lo necesario; pedir respuestas cortas y precisas.</li>
             </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BLOQUE 3 ============ -->
+  <section id="bloque-3" class="screen divider" data-block="Bloque 3" data-point="Técnicas de interacción y control operativo" aria-label="Bloque 3">
+    <div class="wrap">
+      <div class="big">
+        <div class="num">3</div>
+        <div>
+          <div class="kicker">Bloque 3 de 5</div>
+          <h2>Técnicas de interacción y control operativo</h2>
+          <ol>
+            <li><span>08</span>¿Cómo hablarle a la IA? Contexto, memoria y los cuatro pilares del prompting</li>
+            <li><span>09</span>¿Qué son las alucinaciones y por qué la IA inventa datos?</li>
+            <li><span>10</span>¿Por qué resulta necesario probar e inspeccionar las respuestas de la IA?</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q7 ============ -->
+  <section id="q7" class="screen" data-block="Bloque 3" data-point="08 · ¿Cómo hablarle a la IA?" aria-label="Pregunta 8">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 3 · Pregunta 08</span>
+        <h2>¿Cómo hablarle a la IA?</h2>
+        <p class="sub">Un prompting efectivo es el que logra resultados de alta calidad. La IA generativa predice resultados matemáticos: para guiarla, requiere estructura. Cuatro pilares: especificidad, ejemplos, contexto y formato.</p>
+      </header>
+      <div class="bd">
+        <div class="g">
+          <p class="ft">Los cuatro pilares del prompt perfecto</p>
+          <div class="pillars">
+            <div class="pillar"><div class="bx ink">[ ESPECIFICIDAD ]</div><p>Qué querés exactamente, para quién y con qué objetivo. "Respondé esta reseña de 2 estrellas", no "ayudame con las reseñas".</p></div>
+            <div class="plus">+</div>
+            <div class="pillar"><div class="bx">[ EJEMPLOS ]</div><p>Una o dos muestras de lo que te gusta. Una respuesta anterior que salió bien vale más que diez adjetivos.</p></div>
+            <div class="plus">+</div>
+            <div class="pillar"><div class="bx amber">[ CONTEXTO ]</div><p>Quiénes somos, qué pasó, qué datos importan, con qué rol habla. Establece los límites de la memoria operativa.</p></div>
+            <div class="plus">+</div>
+            <div class="pillar"><div class="bx ghost">[ FORMATO ]</div><p>La estructura de salida deseada. Largo, tono, idioma, lista o párrafo, qué no incluir.</p></div>
+          </div>
+        </div>
+        <div class="g">
+          <p class="ft">Ejemplo real · responder una reseña</p>
+          <div class="prompt"><span class="p3">Sos el encargado de atención al cliente de una parrilla familiar de Mar del Plata. Un cliente dejó 2 estrellas en Google porque esperó 40 minutos la mesa un sábado a la noche y el mozo no le avisó la demora. La comida le gustó. Nuestro tono es cercano, sin exagerar disculpas.</span>
+<span class="p1">Redactá una respuesta pública que agradezca, reconozca la demora sin excusas, explique una medida concreta (aviso de espera estimada) y lo invite a volver.</span>
+<span class="p2">Ejemplo de respuesta que nos gusta: "Gracias por contarnos, Martín. Tenés razón con la espera del sábado: ya estamos avisando el tiempo estimado al llegar. Nos alegra que la comida haya valido la pena; te esperamos."</span>
+<span class="p4">Formato: máximo 4 líneas, español rioplatense, sin emojis, sin ofrecer descuentos.</span></div>
+          <p class="cap">Cada color es un pilar: contexto (ámbar), especificidad (sólido), ejemplos (gris), formato (recuadro). Sacá cualquiera y la respuesta se vuelve genérica.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q7b ============ -->
+  <section id="q7b" class="screen" data-block="Bloque 3" data-point="08 · Contexto y memoria" aria-label="Pregunta 8 · continuación">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 3 · Pregunta 08 · continuación</span>
+        <h2>Contexto y memoria</h2>
+        <p class="sub">La IA posee un volumen masivo de información, pero carece de contexto del mundo real (quién sos, dónde estás, qué querés). El operador provee el encuadre para alterar el resultado.</p>
+      </header>
+      <div class="bd">
+        <div class="grid q7b-one">
+          <div class="g">
+            <p class="ft">El significado es un contenedor vacío sin el contexto</p>
+            <div class="ctx">
+              <div class="word">RESERVA</div>
+              <div class="rows">
+                <div class="r"><div class="bx ghost">Contexto: hotel</div><div class="bx solid">Habitación, check-in, noches, huésped</div></div>
+                <div class="r"><div class="bx ghost">Contexto: restaurante</div><div class="bx solid">Mesa, horario, cubiertos, comensales</div></div>
+                <div class="r"><div class="bx ghost">Sin contexto</div><div class="bx">Definición genérica de diccionario</div></div>
+              </div>
+            </div>
+            <div class="note" style="margin-top:14px"><b>Memoria:</b> el modelo solo "recuerda" lo que entra en la ventana de contexto de esa conversación. Lo que no está escrito, no existe. Por eso los proyectos e instrucciones fijas importan tanto.</div>
           </div>
         </div>
       </div>
@@ -2188,20 +2174,8 @@
       <header class="hd">
         <span class="tag">Bloque 3 · Pregunta 10</span>
         <h2>¿Por qué resulta necesario probar e inspeccionar las respuestas de la IA?</h2>
-        <p class="sub">Human in the loop: el estándar operativo. El humano no es un operador reemplazado, es el director del sistema. La calidad del resultado es directamente proporcional a la calidad de la intervención humana.</p>
       </header>
       <div class="bd">
-        <div class="g">
-          <p class="ft">Human in the loop · el ciclo</p>
-          <div class="loop">
-            <div class="node"><span class="k">Humano</span><ul><li>Define objetivos</li><li>Formula instrucciones precisas</li><li>Provee contexto y datos</li></ul></div>
-            <div class="arrow">→</div>
-            <div class="node ia"><span class="k">IA</span><ul><li>Procesa el contexto</li><li>Genera variaciones probabilísticas</li><li>Propone borradores</li></ul></div>
-            <div class="arrow">→</div>
-            <div class="node"><span class="k">Humano</span><ul><li>Evalúa resultados</li><li>Corrige y ajusta la instrucción</li><li>Toma la decisión final</li></ul></div>
-            <div class="back">vuelve a empezar con una instrucción mejor</div>
-          </div>
-        </div>
         <div class="grid c3">
           <div class="tile"><span class="k">Pruebas · modelos</span><h3>Comparar con resultados conocidos</h3><p>Dale 10 reseñas que ya respondiste y mirá cuánto se parece a lo que hubieras escrito.</p></div>
           <div class="tile"><span class="k">Pruebas · automatizaciones y chatbots</span><h3>Simular recorridos reales de usuario</h3><p>El cliente apurado, el que escribe mal, el que pregunta algo que no está en la carta.</p></div>
@@ -2212,7 +2186,7 @@
   </section>
 
   <!-- ============ Q10b ============ -->
-  <section id="q10b" class="screen" data-block="Bloque 3" data-point="10 · Antes de publicar" aria-label="Pregunta 10 · continuación">
+  <section id="q10b" data-oculta class="screen" data-block="Bloque 3" data-point="10 · Antes de publicar" aria-label="Pregunta 10 · continuación">
     <div class="wrap">
       <header class="hd">
         <span class="tag">Bloque 3 · Pregunta 10 · continuación</span>
@@ -2445,7 +2419,7 @@ Somos "La Marea", parrilla familiar frente al mar en Mar del Plata. Abrimos de 1
   </section>
 
   <!-- ============ Q13b ============ -->
-  <section id="q13b" class="screen" data-block="Bloque 4" data-point="13 · De operador a director" aria-label="Pregunta 13 · continuación">
+  <section id="q13b" data-oculta class="screen" data-block="Bloque 4" data-point="13 · De operador a director" aria-label="Pregunta 13 · continuación">
     <div class="wrap">
       <header class="hd">
         <span class="tag">Bloque 4 · Pregunta 13 · continuación</span>
@@ -2593,13 +2567,9 @@ Somos "La Marea", parrilla familiar frente al mar en Mar del Plata. Abrimos de 1
       <div class="bd">
         <div class="grid c4 tight">
           <div class="tile hl"><span class="k">Proyectos</span><h3>Carpetas con memoria</h3><p>Instrucciones fijas + archivos (carta, tarifas, políticas, tono). "Reseñas del restaurante", "Temporada 2027".</p></div>
-          <div class="tile hl"><span class="k">Conectores</span><h3>La IA lee tus datos</h3><p>Google Drive, Gmail, Calendar, Sheets, WhatsApp Business. Consulta la planilla de ocupación sin copiar y pegar.</p></div>
+          <div class="tile hl"><span class="k">Conectores</span><h3>La IA lee tus datos</h3><p>Google Drive, Gmail, Calendar, Sheets y otras apps. Consulta la planilla de ocupación sin copiar y pegar.</p></div>
           <div class="tile hl"><span class="k">Acciones programadas</span><h3>Tareas que se repiten solas</h3><p>"Todos los días a las 9, resumime las reseñas nuevas y proponé respuestas." Llega al correo, listo para aprobar.</p></div>
-          <div class="tile hl"><span class="k">GPTs / asistentes propios</span><h3>Tu asistente con tu voz</h3><p>"El asistente del hotel": sabe tus políticas, tu tono y tus servicios. Lo usa todo el equipo de la misma manera.</p></div>
-          <div class="tile"><span class="k">Memoria</span><h3>Recuerda entre chats</h3><p>Preferencias y datos del negocio que no hace falta repetir. Conviene revisar qué guarda.</p></div>
-          <div class="tile"><span class="k">Búsqueda web</span><h3>Datos actuales</h3><p>Precios de competencia, eventos de la ciudad, feriados, clima del fin de semana largo.</p></div>
-          <div class="tile"><span class="k">Voz y dictado</span><h3>Manos libres</h3><p>Dictar la respuesta a una reseña desde la cocina; transcribir audios de WhatsApp de huéspedes.</p></div>
-          <div class="tile"><span class="k">Análisis de datos</span><h3>Planillas que explican</h3><p>Subir el Excel de ventas y preguntar: "¿qué plato cayó en septiembre y por qué?"</p></div>
+          <div class="tile hl"><span class="k">Asistentes propios · GPTs, Gems</span><h3>Tu asistente con tu voz</h3><p>"El asistente del hotel": sabe tus políticas, tu tono y tus servicios. Lo usa todo el equipo de la misma manera.</p></div>
         </div>
         <div class="g">
           <p class="ft">Combinación mínima recomendada para empezar</p>
@@ -2616,7 +2586,7 @@ Somos "La Marea", parrilla familiar frente al mar en Mar del Plata. Abrimos de 1
   </section>
 
   <!-- ============ Q15b ============ -->
-  <section id="q15b" class="screen" data-block="Bloque 4" data-point="15 · Caso: el ecosistema Gemini" aria-label="Pregunta 15 · Gemini">
+  <section id="q15b" data-oculta class="screen" data-block="Bloque 4" data-point="15 · Caso: el ecosistema Gemini" aria-label="Pregunta 15 · Gemini">
     <div class="wrap">
       <header class="hd">
         <span class="tag">Bloque 4 · Pregunta 15 · caso</span>
@@ -2639,7 +2609,7 @@ Somos "La Marea", parrilla familiar frente al mar en Mar del Plata. Abrimos de 1
   </section>
 
   <!-- ============ Q15c ============ -->
-  <section id="q15c" class="screen" data-block="Bloque 4" data-point="15 · Canvas vs. NotebookLM" aria-label="Pregunta 15 · Canvas y NotebookLM">
+  <section id="q15c" data-oculta class="screen" data-block="Bloque 4" data-point="15 · Canvas vs. NotebookLM" aria-label="Pregunta 15 · Canvas y NotebookLM">
     <div class="wrap">
       <header class="hd">
         <span class="tag">Bloque 4 · Pregunta 15 · caso</span>
@@ -2830,9 +2800,9 @@ Somos "La Marea", parrilla familiar frente al mar en Mar del Plata. Abrimos de 1
             <p class="cap">El cumplimiento implica un procesamiento legal de los datos, un seguimiento transparente del consentimiento y un almacenamiento seguro. Autoridad de aplicación: AAIP. (En Europa, el equivalente es el RGPD.)</p>
           </div>
           <div class="g">
-            <p class="ft">Tus datos no entrenan la IA general</p>
-            <p class="cap" style="margin:0 0 10px">Las APIs de OpenAI, Anthropic y Google, los servicios de AWS y los planes de empresa (Team / Business / Enterprise) ofrecen opciones que <b>impiden entrenar modelos con los datos del usuario</b>. En las cuentas personales gratuitas, conviene revisar la configuración de privacidad y desactivar el uso de datos para entrenamiento.</p>
-            <div class="warn"><b>Verificar:</b> nota pendiente: "Sandbox · Anthropic (dieron de baja marca de agua)". Confirmar a qué se refiere antes de incluirlo.</div>
+            <p class="ft">¿Tus datos entrenan a la IA?</p>
+            <p class="cap" style="margin:0 0 10px">Con las APIs y los planes de empresa (Team / Business / Enterprise) de OpenAI, Anthropic y Google, <b>tus datos no se usan para entrenar los modelos</b>. En las cuentas personales (gratis o pagas), revisá la configuración de privacidad: en varias el uso para entrenamiento viene activado y hay que apagarlo.</p>
+            
           </div>
         </div>
       </div>
@@ -2888,18 +2858,18 @@ Somos "La Marea", parrilla familiar frente al mar en Mar del Plata. Abrimos de 1
         <div class="grid c3 tight">
           <div class="tile hl"><span class="k">Vigente · datos</span><h3>Ley 25.326 de Protección de Datos Personales</h3><p>Consentimiento, finalidad, seguridad y confidencialidad de los datos de clientes y huéspedes. Autoridad: AAIP. Hay proyectos de reforma en el Congreso.</p></div>
           <div class="tile hl"><span class="k">Vigente · lineamientos</span><h3>Recomendaciones para una IA fiable</h3><p>Lineamientos del Estado nacional (2023) para el uso responsable de IA en el sector público: transparencia, supervisión humana, no discriminación. Guía también para privados.</p></div>
-          <div class="tile"><span class="k">Vigente · AAIP</span><h3>Programa de transparencia y protección de datos en el uso de IA</h3><p>Guías sobre el impacto de la IA en los datos personales y el deber de informar a las personas.</p></div>
-          <div class="tile"><span class="k">En trámite</span><h3>Proyectos de ley de IA</h3><p>Varias iniciativas en el Congreso con enfoques por nivel de riesgo, inspiradas en la regulación europea. Ninguna sancionada a la fecha.</p></div>
+          <div class="tile"><span class="k">Vigente · AAIP</span><h3>Programa y guía de la AAIP para una IA responsable</h3><p>Transparencia y protección de datos en el uso de IA: informar a las personas y cuidar sus datos.</p></div>
+          <div class="tile"><span class="k">En trámite</span><h3>Proyectos de ley de IA</h3><p>Varias iniciativas en el Congreso con enfoques por nivel de riesgo, inspiradas en la regulación europea. Ninguna sancionada a octubre de 2026.</p></div>
           <div class="tile"><span class="k">Referencia internacional</span><h3>Reglamento de IA de la Unión Europea (2024)</h3><p>Clasifica usos por riesgo y exige transparencia en chatbots: avisar que se habla con una máquina.</p></div>
           <div class="tile"><span class="k">Siempre aplica</span><h3>Consumidor y lealtad comercial</h3><p>Lo que publica tu chatbot te obliga: precios, promociones y condiciones informadas por un asistente automático son oferta vinculante.</p></div>
         </div>
-        <div class="warn"><b>Verificar antes de la charla:</b> estado de los proyectos de ley y novedades de la AAIP a la fecha del encuentro.</div>
+        
       </div>
     </div>
   </section>
 
   <!-- ============ Q20b ============ -->
-  <section id="q20b" class="screen" data-block="Bloque 5" data-point="20 · ¿Un estado de espionaje en Argentina?" aria-label="Pregunta 20 · vigilancia">
+  <section id="q20b" data-oculta class="screen" data-block="Bloque 5" data-point="20 · ¿Un estado de espionaje en Argentina?" aria-label="Pregunta 20 · vigilancia">
     <div class="wrap">
       <header class="hd">
         <span class="tag">Bloque 5 · Pregunta 20 · el debate abierto</span>
@@ -2927,7 +2897,7 @@ Somos "La Marea", parrilla familiar frente al mar en Mar del Plata. Abrimos de 1
   </section>
 
   <!-- ============ Q20c ============ -->
-  <section id="q20c" class="screen" data-block="Bloque 5" data-point="20 · La tecnología no es el enemigo" aria-label="Pregunta 20 · cierre del debate">
+  <section id="q20c" data-oculta class="screen" data-block="Bloque 5" data-point="20 · La tecnología no es el enemigo" aria-label="Pregunta 20 · cierre del debate">
     <div class="wrap">
       <header class="hd">
         <span class="tag">Bloque 5 · Pregunta 20 · el debate abierto</span>
@@ -2962,7 +2932,7 @@ Somos "La Marea", parrilla familiar frente al mar en Mar del Plata. Abrimos de 1
   </section>
 
   <!-- ============ TALLER · GASTRONÓMICOS ============ -->
-  <section id="taller-gastronomicos" class="screen" data-block="Talleres" data-point="Taller aplicado · Gastronómicos" aria-label="Taller gastronómicos">
+  <section id="taller-gastronomicos" data-oculta class="screen" data-block="Talleres" data-point="Taller aplicado · Gastronómicos" aria-label="Taller gastronómicos">
     <div class="wrap">
       <header class="hd">
         <span class="tag">Taller aplicado · Gastronómicos</span>
@@ -2982,7 +2952,7 @@ Somos "La Marea", parrilla familiar frente al mar en Mar del Plata. Abrimos de 1
   </section>
 
   <!-- ============ TALLER · HOTELEROS ============ -->
-  <section id="taller-hoteleros" class="screen" data-block="Talleres" data-point="Taller aplicado · Hoteleros" aria-label="Taller hoteleros">
+  <section id="taller-hoteleros" data-oculta class="screen" data-block="Talleres" data-point="Taller aplicado · Hoteleros" aria-label="Taller hoteleros">
     <div class="wrap">
       <header class="hd">
         <span class="tag">Taller aplicado · Hoteleros</span>
@@ -3006,7 +2976,6 @@ Somos "La Marea", parrilla familiar frente al mar en Mar del Plata. Abrimos de 1
     <div class="wrap">
       <span class="tag">Ciclo de formación · AEHG Mar del Plata</span>
       <p class="big">Gracias.<br><em>¿Preguntas?</em></p>
-      <p class="sub">Quedamos a disposición para presentar la propuesta en detalle y definir el cronograma de trabajo.</p>
       <div class="names">
         <div class="g"><b>María Eugenia Dicándilo</b><span>Modo Comunicación · KrovaLab</span></div>
         <div class="g"><b>Pablo Pellizzoni</b><span>Outcomy · Kexen · KrovaLab · UNMdP</span></div>
@@ -3070,12 +3039,16 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   paint();
 })();
 
-/* ---------- Rail lateral · contador · navegación (las pantallas apagadas desde ⚙ no cuentan) ---------- */
+/* ---------- Rail lateral · contador · navegación (las pantallas apagadas no cuentan) ----------
+   Apagadas por defecto: las <section data-oculta>. Desde ⚙ se prenden o apagan; eso se guarda en este navegador. */
 (function(){
-  var KEY='charla-ocultas';
+  var KEY='charla-pantallas';
   var all=Array.prototype.slice.call(document.querySelectorAll('main > section'));
   if(!all.length) return;
-  var off={}; try{ var sv=JSON.parse(localStorage.getItem(KEY)||'[]'); if(Array.isArray(sv)) sv.forEach(function(id){ if(id && id!=='hero') off[id]=1; }); }catch(e){}
+  var def={}; all.forEach(function(s){ if(s.hasAttribute('data-oculta') && s.id!=='hero') def[s.id]=1; });
+  var ov={}; try{ var sv=JSON.parse(localStorage.getItem(KEY)||'{}'); if(sv && typeof sv==='object' && !Array.isArray(sv)) ov=sv; }catch(e){}
+  try{ var old=JSON.parse(localStorage.getItem('charla-ocultas')||'null'); if(Array.isArray(old)){ old.forEach(function(id){ if(id && !(id in ov)) ov[id]=false; }); localStorage.removeItem('charla-ocultas'); localStorage.setItem(KEY,JSON.stringify(ov)); } }catch(e){}
+  function isOff(id){ if(id==='hero') return false; if(Object.prototype.hasOwnProperty.call(ov,id)) return !ov[id]; return !!def[id]; }
   var track=document.getElementById('track'), mk=document.getElementById('railmk'), tip=document.getElementById('railtip');
   var lbl=document.getElementById('raillbl'), mlbl=document.getElementById('mobilelbl'), ctr=document.getElementById('counter');
   var secs=[], cur=-1, n=0, segH=100, io=null;
@@ -3106,8 +3079,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
 
   /* arma la barra lateral y el contador con las pantallas encendidas */
   function build(){
-    all.forEach(function(s){ s.classList.toggle('off', !!off[s.id]); });
-    secs=all.filter(function(s){ return !off[s.id]; });
+    all.forEach(function(s){ s.classList.toggle('off', isOff(s.id)); });
+    secs=all.filter(function(s){ return !isOff(s.id); });
     n=secs.length; segH=100/n; cur=-1;
     if(track) Array.prototype.slice.call(track.querySelectorAll('i')).forEach(function(x){ track.removeChild(x); });
     /* segmentos invisibles sobre la línea: hover muestra el nombre, click navega */
@@ -3148,19 +3121,21 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   });
 
   /* prender / apagar pantallas (lo usa el panel ⚙): se guarda en este navegador */
-  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(Object.keys(off))); }catch(e){} }
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(ov)); }catch(e){} }
   function rebuild(){
     var c=secs[cur]; build();
     if(!c) return;
     var tgt=c;
-    if(off[c.id]){ var k=all.indexOf(c), j; tgt=null; for(j=k+1;j<all.length;j++){ if(!off[all[j].id]){ tgt=all[j]; break; } } if(!tgt){ for(j=k-1;j>=0;j--){ if(!off[all[j].id]){ tgt=all[j]; break; } } } }
+    if(isOff(c.id)){ var k=all.indexOf(c), j; tgt=null; for(j=k+1;j<all.length;j++){ if(!isOff(all[j].id)){ tgt=all[j]; break; } } if(!tgt){ for(j=k-1;j>=0;j--){ if(!isOff(all[j].id)){ tgt=all[j]; break; } } } }
     if(tgt){ tgt.scrollIntoView({block:'start'}); fallback(); }
   }
   window.Slides={
     all:function(){ return all.slice(); },
-    isOff:function(id){ return !!off[id]; },
-    set:function(id,on){ if(id==='hero') return; if(on) delete off[id]; else off[id]=1; save(); rebuild(); },
-    reset:function(){ off={}; save(); rebuild(); },
+    isOff:isOff,
+    isDefaultOff:function(id){ return !!def[id]; },
+    set:function(id,on){ if(id==='hero') return; if(!!on === !def[id]) delete ov[id]; else ov[id]=!!on; save(); rebuild(); },
+    reset:function(){ ov={}; save(); rebuild(); },
+    allOn:function(){ ov={}; all.forEach(function(s){ if(def[s.id]) ov[s.id]=true; }); save(); rebuild(); },
     number:function(s){ var i=secs.indexOf(s); return i<0?0:i+1; },
     total:function(){ return n; }
   };
@@ -3481,7 +3456,7 @@ window.Charla = (function(){
     Slides.all().forEach(function(s){
       var blk=s.getAttribute('data-block')||'Portada', t=s.getAttribute('data-point')||s.getAttribute('aria-label')||s.id, off=Slides.isOff(s.id), k=Slides.number(s), lock=s.id==='hero';
       if(blk!==last){ h+='<div class="sl-blk">'+esc(blk)+'</div>'; last=blk; }
-      h+='<label class="sl-it'+(off?' off':'')+'"><span class="no">'+(k||'–')+'</span><span class="tt" title="'+esc(t)+'">'+esc(t)+'</span><input type="checkbox" data-id="'+esc(s.id)+'"'+(off?'':' checked')+(lock?' disabled':'')+'><i class="sw" aria-hidden="true"></i></label>';
+      h+='<label class="sl-it'+(off?' off':'')+'"><span class="no">'+(k||'–')+'</span><span class="tt" title="'+esc(t)+'">'+esc(t)+(Slides.isDefaultOff(s.id)?' <small class="sl-def">oculta en la charla</small>':'')+'</span><input type="checkbox" data-id="'+esc(s.id)+'"'+(off?'':' checked')+(lock?' disabled':'')+'><i class="sw" aria-hidden="true"></i></label>';
     });
     return h;
   }
@@ -3490,10 +3465,11 @@ window.Charla = (function(){
     l.innerHTML=list(); if(c) c.textContent=Slides.total()+' de '+Slides.all().length+' encendidas';
   }
   b.addEventListener('click',function(){
-    Charla.open('<div class="slp"><h3>Pantallas de la charla</h3><p class="sub">Apagá las que no quieras mostrar: desaparecen y el contador se rehace solo. No se borra nada y las podés volver a prender. Queda guardado en este navegador.</p><div class="row slp-top"><span id="slCount"></span><button class="btn sm" id="slAll" type="button">Prender todas</button></div><div class="sl-list" id="slList"></div></div>');
+    Charla.open('<div class="slp"><h3>Pantallas de la charla</h3><p class="sub">Apagá las que no quieras mostrar: desaparecen y el contador se rehace solo. No se borra nada y las podés volver a prender. Lo que cambies acá queda guardado en este navegador.</p><div class="row slp-top"><span id="slCount"></span><span class="row" style="gap:8px"><button class="btn sm ghost" id="slDef" type="button" title="Volver a como viene la charla">Restablecer</button><button class="btn sm" id="slAll" type="button">Prender todas</button></span></div><div class="sl-list" id="slList"></div></div>');
     paint();
     document.getElementById('slList').addEventListener('change',function(e){ var c=e.target, id=c && c.getAttribute('data-id'); if(!id) return; Slides.set(id, c.checked); paint(); });
-    document.getElementById('slAll').addEventListener('click',function(){ Slides.reset(); paint(); });
+    document.getElementById('slAll').addEventListener('click',function(){ Slides.allOn(); paint(); });
+    document.getElementById('slDef').addEventListener('click',function(){ Slides.reset(); paint(); });
   });
 })();
 
