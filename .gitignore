@@ -1,0 +1,17 @@
+# --- no se publica (queda solo en la PC) ---
+Assets/
+Claude outputs/
+apps-script/
+Flyer muestra.jfif
+Imagen peurta 1.png
+Logo 3d asociación empresaria.png
+WhatsApp Video *.mp4
+# --- del bot de WhatsApp (local) ---
+config.json
+node_modules/
+.wwebjs_auth/
+.wwebjs_cache/
+# --- sistema ---
+desktop.ini
+Thumbs.db
+.DS_Store

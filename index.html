@@ -1036,6 +1036,313 @@
   #argentina .arg-extra b{color:var(--g-accent);font-weight:500}
   .q6b-one,.q7b-one{grid-template-columns:minmax(0,1fr);max-width:980px}
 
+  /* ---------- 29 (#q14b): ¿Es lo mismo? API, webhook y MCP ---------- */
+  #q14b .hd h2 .ah-h2s{color:var(--g-accent)}
+  .ah{display:flex;flex-direction:column;gap:clamp(10px,1.6vh,16px);min-height:0}
+  .ah [data-k=api],.ah .v-api,.ah-tab[data-go=api]{--c:var(--g-accent)}
+  .ah [data-k=hook],.ah .v-hook,.ah-tab[data-go=hook]{--c:var(--g-amber)}
+  .ah [data-k=mcp],.ah .v-mcp,.ah-tab[data-go=mcp]{--c:var(--g-ok)}
+  .ah-tab[data-go=rule]{--c:var(--g-text)}
+  .ah-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .ah-bar button{font:inherit;cursor:pointer;border:1px solid var(--g-stroke);background:var(--g-fill);color:var(--g-muted);border-radius:999px;padding:7px 16px 7px 7px;display:inline-flex;align-items:center;gap:10px;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;transition:color .3s,border-color .3s,box-shadow .3s,background .3s;-webkit-backdrop-filter:var(--g-blur);backdrop-filter:var(--g-blur)}
+  .ah-bar button b{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12.5px;background:var(--g-fill2);color:var(--g-text);letter-spacing:0;transition:background .3s,color .3s}
+  .ah-bar .ah-home{padding:7px 13px;font-size:15px;letter-spacing:0}
+  .ah-bar button:hover{color:var(--g-text)}
+  .ah-bar button.on{color:var(--g-text);border-color:var(--c);box-shadow:0 0 0 1px var(--c) inset,0 0 18px color-mix(in srgb,var(--c) 30%,transparent)}
+  .ah-bar button.on b{background:var(--c);color:var(--g-on-ink)}
+  .ah-stage{position:relative;height:clamp(320px,calc(100svh - 300px),680px);border-radius:var(--r);border:1px solid var(--g-stroke);background:var(--g-fill);-webkit-backdrop-filter:var(--g-blur);backdrop-filter:var(--g-blur);box-shadow:var(--g-shadow),inset 0 1px 0 var(--g-hi);overflow:hidden}
+  .ah-stage::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(var(--g-stroke) 1px,transparent 1px),linear-gradient(90deg,var(--g-stroke) 1px,transparent 1px);background-size:38px 38px;opacity:.45;-webkit-mask-image:radial-gradient(70% 70% at 60% 45%,#000,transparent);mask-image:radial-gradient(70% 70% at 60% 45%,#000,transparent)}
+  .ah-view{position:absolute;inset:0;padding:clamp(16px,2.8vh,32px) clamp(18px,2.6vw,40px);opacity:0;visibility:hidden;transform:translateY(16px);transition:opacity .45s ease,transform .55s cubic-bezier(.22,.8,.2,1),visibility 0s linear .55s}
+  .ah-view.on{opacity:1;visibility:visible;transform:none;transition:opacity .5s ease,transform .6s cubic-bezier(.22,.8,.2,1),visibility 0s}
+  .ah button{-webkit-tap-highlight-color:transparent}
+
+  /* robotito */
+  .ah-bot{display:inline-block;width:clamp(52px,7vh,84px);flex:none;line-height:0}
+  .ah-bot svg{width:100%;height:auto;overflow:visible;display:block}
+  .ah-bot .b-head{fill:var(--g-accent)}
+  .ah-bot .b-ear,.ah-bot .b-body{fill:var(--g-accent);opacity:.75}
+  .ah-bot .b-face{fill:#0b1020}
+  .ah-bot .b-ant{stroke:var(--g-accent);stroke-width:3;stroke-linecap:round}
+  .ah-bot .b-bulb{fill:var(--g-amber);transition:fill .3s}
+  .ah-bot .b-eyes ellipse{fill:#eaf2ff;transform-box:fill-box;transform-origin:center;animation:ahBlink 4.6s infinite}
+  .ah-bot .b-mouth{fill:none;stroke:#eaf2ff;stroke-width:2.6;stroke-linecap:round;transition:d .35s ease}
+  .ah-bot .b-q,.ah-bot .b-z{font:700 17px Inter,system-ui,sans-serif;fill:var(--g-text);opacity:0;transition:opacity .3s}
+  .ah-bot[data-mood=think] .b-q{opacity:1;animation:ahBob 1.6s ease-in-out infinite}
+  .ah-bot[data-mood=think] .b-mouth{d:path("M35 47 Q40 45 45 47")}
+  .ah-bot[data-mood=sleep] .b-eyes ellipse{transform:scaleY(.14);animation:none}
+  .ah-bot[data-mood=sleep] .b-z{opacity:1;animation:ahZz 1.8s ease-in-out infinite}
+  .ah-bot[data-mood=sleep] .b-mouth{d:path("M36 47 Q40 47 44 47")}
+  .ah-bot[data-mood=happy] .b-mouth{d:path("M30 44 Q40 55 50 44")}
+  .ah-bot[data-mood=happy] svg{animation:ahHop .6s ease}
+  .ah-bot[data-mood=zap] .b-bulb{fill:var(--g-ok);filter:drop-shadow(0 0 6px var(--g-ok))}
+  @keyframes ahBlink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+  @keyframes ahBob{50%{transform:translateY(-3px)}}
+  @keyframes ahZz{0%{opacity:0;transform:translate(0,0)}40%{opacity:1}100%{opacity:0;transform:translate(7px,-12px)}}
+  @keyframes ahHop{40%{transform:translateY(-7px)}}
+
+  /* inicio: ¿es lo mismo? */
+  .v-home{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(18px,4vh,40px)}
+  .ah-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.8vw,30px);width:min(1180px,100%)}
+  .ah-card{font:inherit;color:var(--g-text);cursor:pointer;border-radius:var(--r);border:1px solid var(--g-stroke);background:var(--g-fill2);padding:clamp(18px,4vh,40px) 18px;display:flex;flex-direction:column;align-items:center;gap:clamp(8px,1.4vh,14px);box-shadow:var(--g-shadow);transition:transform .5s cubic-bezier(.22,.8,.2,1),opacity .4s ease,box-shadow .3s,border-color .3s}
+  .ah-card .ic{color:var(--c);line-height:0}
+  .ah-card .ic svg{width:clamp(34px,7vh,74px);height:auto}
+  .ah-card b{font-size:clamp(22px,4.6vh,50px);font-weight:500;letter-spacing:.04em}
+  .ah-card small{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--g-dim)}
+  .ah-card:hover{transform:translateY(-5px);border-color:var(--c);box-shadow:var(--g-shadow),0 0 26px color-mix(in srgb,var(--c) 32%,transparent)}
+  .v-home.on .ah-card{animation:ahCardIn .7s cubic-bezier(.22,.8,.2,1) both}
+  .v-home.on .ah-card:nth-child(2){animation-delay:.1s}
+  .v-home.on .ah-card:nth-child(3){animation-delay:.2s}
+  @keyframes ahCardIn{from{opacity:0;transform:translateY(24px) scale(.96)}}
+  .v-home.pick .ah-card{animation:none;opacity:0}
+  .v-home.pick .ah-card:nth-child(1):not(.chosen){transform:translateX(-130%) rotate(-6deg)}
+  .v-home.pick .ah-card:nth-child(2):not(.chosen){transform:translateY(120%)}
+  .v-home.pick .ah-card:nth-child(3):not(.chosen){transform:translateX(130%) rotate(6deg)}
+  .v-home.pick .ah-card.chosen{transform:scale(1.15) translateY(-12px);transition-duration:.45s}
+  .ah-warn{display:flex;align-items:center;gap:16px;opacity:0;animation:ahFade .6s ease .5s forwards}
+  .ah-warn p{margin:0;font-size:clamp(16px,2.8vh,28px);font-weight:300}
+  .ah-warn .a{color:var(--g-amber);font-weight:600}
+  .ah-warn .r{color:var(--g-no);font-weight:600}
+  @keyframes ahFade{to{opacity:1}}
+
+  /* explicaciones */
+  .ah-x{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(16px,3vw,48px);align-items:center}
+  .ah-txt .ah-num{width:42px;height:42px;border-radius:50%;background:var(--c);color:var(--g-on-ink);display:grid;place-items:center;font-weight:600;font-size:18px;box-shadow:0 0 22px color-mix(in srgb,var(--c) 45%,transparent)}
+  .ah-txt h3{margin:clamp(8px,1.4vh,14px) 0 clamp(8px,1.4vh,12px);font-size:clamp(30px,5.6vh,62px);font-weight:500;line-height:1;letter-spacing:.01em}
+  .ah-txt h3 em{font-style:normal;color:var(--c);font-weight:400}
+  .ah-txt p{margin:0 0 clamp(8px,1.4vh,12px);font-size:clamp(14px,2vh,19px);line-height:1.5;color:var(--g-muted);font-weight:300;max-width:46ch}
+  .ah-txt .ah-sm{font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--g-dim);margin-top:-4px}
+  .ah-txt .ah-ex{font-size:clamp(13px,1.8vh,16.5px);color:var(--g-text);border-left:2px solid var(--c);padding-left:12px}
+  .ah-txt .ah-ex b{color:var(--c);font-weight:500}
+  .ah-view.on .ah-txt > *{animation:ahUp .6s cubic-bezier(.22,.8,.2,1) both}
+  .ah-view.on .ah-txt > :nth-child(2){animation-delay:.06s}
+  .ah-view.on .ah-txt > :nth-child(3){animation-delay:.12s}
+  .ah-view.on .ah-txt > :nth-child(4){animation-delay:.18s}
+  .ah-view.on .ah-txt > :nth-child(5){animation-delay:.24s}
+  .ah-view.on .ah-txt > :nth-child(6){animation-delay:.3s}
+  @keyframes ahUp{from{opacity:0;transform:translateY(12px)}}
+  .ah-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:clamp(6px,1.4vh,14px)}
+  .pl{--pc:var(--c);position:relative;display:inline-flex;align-items:center;gap:8px;padding:8px 15px;border-radius:999px;border:1px solid var(--g-stroke);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--g-muted);transition:color .4s,background .4s,border-color .4s,box-shadow .4s}
+  .pl .pi{line-height:0}.pl .pi svg{width:20px;height:auto}
+  .pl.lit{color:var(--g-on-ink);background:var(--pc);border-color:transparent;box-shadow:0 0 18px color-mix(in srgb,var(--pc) 45%,transparent)}
+  .pl.strike::after{content:"";position:absolute;left:10px;right:10px;top:50%;height:2px;margin-top:-1px;background:var(--g-no);transform:scaleX(0);transform-origin:left;transition:transform .6s ease}
+  .pl.strike.go::after{transform:scaleX(1)}
+  .pl.strike.go{color:var(--g-dim)}
+
+  /* diagramas */
+  .ah-dia{position:relative;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center}
+  .ah-dia .node{position:relative;display:flex;align-items:center;gap:14px;width:min(clamp(320px,26vw,480px),100%);padding:clamp(12px,2.2vh,20px) clamp(14px,1.4vw,22px);border-radius:var(--r2);border:1px solid var(--g-stroke);background:var(--g-fill2);box-shadow:var(--g-shadow);transition:border-color .4s,box-shadow .4s}
+  .ah-dia .ic{color:var(--c);line-height:0}
+  .ah-dia .ic svg{width:clamp(28px,4.4vh,40px);height:auto}
+  .ah-dia .col{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .ah-dia .col b{font-size:clamp(14px,2.1vh,19px);font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+  .ah-dia code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:clamp(11px,1.5vh,13px);color:var(--g-dim)}
+  .ah-dia .node.glow{border-color:var(--c);box-shadow:var(--g-shadow),0 0 0 1px var(--c) inset,0 0 26px color-mix(in srgb,var(--c) 38%,transparent)}
+  .ah-dia .ok{margin-left:auto;flex:none;width:30px;height:30px;border-radius:50%;background:var(--g-ok);color:#0b1020;display:grid;place-items:center;font-weight:700;font-size:15px;transform:scale(0);transition:transform .45s cubic-bezier(.3,1.7,.5,1)}
+  .ah-dia .ok.on{transform:scale(1)}
+  .ah-dia .n-app .ah-bot{position:absolute;right:calc(100% + 12px);bottom:-6px;width:clamp(52px,8vh,72px)}
+  .wires{position:relative;height:clamp(70px,16vh,180px);width:min(clamp(320px,26vw,480px),100%)}
+  .wire{--wc:var(--c);position:absolute;top:8px;bottom:8px;width:4px;margin-left:-2px;border-radius:4px;background:var(--g-stroke)}
+  .wire.up{left:36%;--wc:var(--g-amber)}
+  .wire.down{left:64%;--wc:var(--g-accent)}
+  .wire.solo{left:50%;--wc:var(--g-amber)}
+  .wire::before{content:"";position:absolute;inset:0;border-radius:4px;background:var(--wc);transform:scaleY(0);transition:transform .9s cubic-bezier(.5,0,.3,1)}
+  .wire.up::before{transform-origin:bottom}
+  .wire.down::before,.wire.solo::before{transform-origin:top}
+  .wire.go::before{transform:scaleY(1)}
+  .wire::after{content:"";position:absolute;left:50%;margin-left:-7px;border:7px solid transparent;opacity:0;transition:opacity .3s ease .75s}
+  .wire.up::after{top:-10px;border-bottom:10px solid var(--wc);border-top:0}
+  .wire.down::after,.wire.solo::after{bottom:-10px;border-top:10px solid var(--wc);border-bottom:0}
+  .wire.go::after{opacity:1}
+  .wire .dot{position:absolute;left:50%;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--wc);box-shadow:0 0 14px var(--wc);opacity:0}
+  .wire.up.go .dot{animation:ahDotUp .9s cubic-bezier(.5,0,.3,1) both}
+  .wire.down.go .dot{animation:ahDotDown .9s cubic-bezier(.5,0,.3,1) both}
+  @keyframes ahDotUp{0%{bottom:-7px;opacity:1}90%{opacity:1}100%{bottom:calc(100% - 7px);opacity:0}}
+  @keyframes ahDotDown{0%{top:-7px;opacity:1}90%{opacity:1}100%{top:calc(100% - 7px);opacity:0}}
+  .wire .wl{position:absolute;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--wc);font-weight:600;opacity:0;transition:opacity .4s ease .5s}
+  .wire.up .wl{right:16px}
+  .wire.down .wl{left:16px}
+  .wire.go .wl{opacity:1}
+  .wire .env{position:absolute;left:50%;width:38px;height:38px;margin-left:-19px;border-radius:50%;background:var(--g-amber);color:#1a1205;display:grid;place-items:center;opacity:0;line-height:0;box-shadow:0 0 18px color-mix(in srgb,var(--g-amber) 55%,transparent)}
+  .wire .env svg{width:20px;height:auto}
+  .wire.solo.go .env{animation:ahEnv 1s cubic-bezier(.5,0,.3,1) both}
+  @keyframes ahEnv{0%{top:-19px;opacity:0;transform:scale(.6)}15%{opacity:1;transform:scale(1)}85%{opacity:1}100%{top:calc(100% - 19px);opacity:0;transform:scale(.7)}}
+  .evt{padding:7px 16px;border-radius:999px;background:var(--g-amber);color:#1a1205;font-weight:700;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;opacity:0;transform:translateY(-34px)}
+  .evt.go{animation:ahDrop .75s cubic-bezier(.3,1.5,.5,1) both}
+  @keyframes ahDrop{from{opacity:0;transform:translateY(-34px)}to{opacity:1;transform:none}}
+  .bell{margin-left:auto;color:var(--g-amber);line-height:0;transform-origin:50% 10%}
+  .bell svg{width:28px;height:auto}
+  .bell.ring{animation:ahRing .9s ease}
+  @keyframes ahRing{15%{transform:rotate(18deg)}30%{transform:rotate(-16deg)}45%{transform:rotate(12deg)}60%{transform:rotate(-8deg)}75%{transform:rotate(4deg)}}
+  .rcv{margin-left:auto;flex:none;padding:6px 12px;border-radius:999px;background:var(--g-ok);color:#0b1020;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;transform:scale(0);transition:transform .45s cubic-bezier(.3,1.7,.5,1)}
+  .rcv.on{transform:scale(1)}
+
+  /* MCP */
+  .mcp-dia{display:grid;grid-template-columns:auto minmax(40px,1fr) auto;align-items:center;justify-items:start}
+  .mcp-dia .mcp-ai{grid-column:1;display:flex;align-items:center;gap:6px;position:relative;z-index:1}
+  .mcp-ai .ah-bot{width:clamp(66px,12vh,112px)}
+  .mcp-ai .plug{color:var(--g-ok);line-height:0}
+  .mcp-ai .plug svg{width:clamp(30px,5.4vh,50px);height:auto;transform:rotate(90deg)}
+  .mcp-dia .tools{grid-column:3;display:flex;flex-direction:column;gap:clamp(10px,2.2vh,20px);position:relative;z-index:1}
+  .mcp-dia .tool{display:flex;align-items:center;gap:12px;width:clamp(210px,19vw,330px);padding:clamp(10px,1.8vh,18px) 16px;border-radius:var(--r2);border:1px solid var(--g-stroke);background:var(--g-fill2);box-shadow:var(--g-shadow);transition:border-color .4s,box-shadow .4s;--c:var(--g-ok)}
+  .mcp-dia .tool.lit{border-color:var(--g-ok);box-shadow:var(--g-shadow),0 0 0 1px var(--g-ok) inset,0 0 24px color-mix(in srgb,var(--g-ok) 35%,transparent)}
+  .mcp-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+  .mcp-lines path{fill:none;stroke:var(--g-ok);stroke-width:2.6;stroke-dasharray:2 9;stroke-linecap:round;opacity:0;transition:opacity .5s}
+  .v-mcp.s1 .mcp-lines path{opacity:.9;animation:ahDash 1s linear infinite}
+  @keyframes ahDash{to{stroke-dashoffset:-22}}
+  .mcp-lines circle{fill:var(--g-ok);opacity:0;filter:drop-shadow(0 0 6px var(--g-ok))}
+
+  /* la regla (juego) */
+  .v-rule{display:flex;flex-direction:column;gap:clamp(10px,2vh,18px)}
+  .rule-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .rule-head h3{margin:0;font-size:clamp(24px,4.2vh,42px);font-weight:500}
+  .rule-head h3 em{font-style:normal;font-weight:300;color:var(--g-muted);font-size:.6em}
+  .rule-head .hint{margin:0}
+  .rule-head .rule-bot{margin-left:auto;width:clamp(48px,7.5vh,68px)}
+  .rule-board{position:relative;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(60px,.7fr) minmax(0,.7fr);align-items:center;flex:1 1 auto;min-height:0}
+  .rq-col,.ra-col{display:flex;flex-direction:column;gap:clamp(10px,2.2vh,20px);position:relative;z-index:1}
+  .rq-col{grid-column:1}.ra-col{grid-column:3}
+  .rq,.ra{font:inherit;cursor:pointer;border-radius:var(--r2);border:1px solid var(--g-stroke);background:var(--g-fill2);color:var(--g-text);padding:clamp(12px,2.2vh,20px) 18px;text-align:left;font-size:clamp(14px,2.1vh,20px);font-weight:500;letter-spacing:.05em;text-transform:uppercase;box-shadow:var(--g-shadow);transition:border-color .3s,box-shadow .3s,background .3s,color .3s,transform .2s}
+  .ra{border-radius:999px;text-align:center;font-weight:700;letter-spacing:.1em}
+  .rq:hover,.ra:hover{transform:translateY(-2px)}
+  .rq.sel,.ra.sel{border-color:var(--g-text);box-shadow:var(--g-shadow),0 0 0 2px color-mix(in srgb,var(--g-text) 35%,transparent)}
+  .rq.done,.ra.done{border-color:var(--c);box-shadow:var(--g-shadow),0 0 0 1px var(--c) inset,0 0 22px color-mix(in srgb,var(--c) 32%,transparent);cursor:default;transform:none}
+  .ra.done{background:var(--c);color:var(--g-on-ink)}
+  .rq.bad,.ra.bad{animation:ahShake .45s ease;border-color:var(--g-no)}
+  @keyframes ahShake{20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
+  .rule-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+  .rule-lines path{fill:none;stroke-width:3;stroke-linecap:round;stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:ahDraw .6s ease forwards}
+  .rule-lines path[data-k=api]{stroke:var(--g-accent)}
+  .rule-lines path[data-k=hook]{stroke:var(--g-amber)}
+  .rule-lines path[data-k=mcp]{stroke:var(--g-ok)}
+  @keyframes ahDraw{to{stroke-dashoffset:0}}
+  .rule-combo{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:clamp(10px,1.8vh,16px) 18px;border-radius:var(--r2);border:1px solid var(--g-stroke);background:var(--g-fill2);opacity:0;visibility:hidden;transform:translateY(14px);transition:opacity .6s ease,transform .6s cubic-bezier(.22,.8,.2,1),visibility 0s linear .6s}
+  .rule-combo.on{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+  .rule-combo .cb-tag{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--g-ok);font-weight:600}
+  .rule-combo .cb-bell{color:var(--g-amber);line-height:0}
+  .rule-combo .cb-bell svg{width:28px;height:auto}
+  .rule-combo.on .cb-bell{animation:ahRing 1s ease .3s}
+  .rule-combo b{font-size:clamp(13px,1.9vh,17px);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+  .rule-combo .cb-a{color:var(--g-amber)}
+  .rule-combo .cb-b{color:var(--g-ok)}
+  .rule-combo .cb-line{flex:1 1 60px;min-width:40px;height:0;border-top:2px dashed var(--g-muted);opacity:.7;background:none}
+  .rule-combo.on .cb-line{animation:ahFlow 1s linear infinite;border-top-color:var(--g-ok)}
+  @keyframes ahFlow{50%{opacity:.35}}
+  .rule-combo .ah-bot{width:44px}
+
+  /* ---------- 23 (#q11): flujo convencional vs. potenciado por IA · ilustraciones con texto encima ---------- */
+  .wf{position:relative;aspect-ratio:1672/941;width:100%;border-radius:var(--r);overflow:hidden;border:1px solid var(--g-stroke);box-shadow:var(--g-shadow);background:#0d1733;cursor:pointer;container-type:inline-size;user-select:none;-webkit-tap-highlight-color:transparent;outline:none}
+  .wf:focus-visible{box-shadow:var(--g-shadow),0 0 0 2px var(--g-accent)}
+  .wf img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;filter:blur(7px) brightness(.45) saturate(.7);transform:scale(1.04);transition:filter 1s ease,transform 1s ease}
+  .wf.on img{filter:none;transform:none}
+  .wf-title{position:absolute;left:5.2%;top:6.3%;height:5.6%;display:flex;align-items:center;font-size:clamp(9px,2.05cqw,24px);font-weight:700;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;color:#ff8080;text-shadow:0 1px 10px rgba(0,0,0,.6);z-index:2}
+  .wf-ok .wf-title{color:#6fe6cc}
+  .wf-row{position:absolute;left:4.3%;width:91.5%;height:14.9%;top:calc(var(--c) - 7.45%);display:flex;align-items:center;pointer-events:none;z-index:2}
+  .wf-row:nth-child(3){--c:20.6%}.wf-row:nth-child(4){--c:37.2%}.wf-row:nth-child(5){--c:53.4%}.wf-row:nth-child(6){--c:70.5%}.wf-row:nth-child(7){--c:86.8%}
+  .wf-t{position:absolute;left:7%;width:28%;color:#fff;font-size:clamp(7.5px,1.62cqw,19px);line-height:1.3;font-weight:400;letter-spacing:.005em;text-shadow:0 1px 8px rgba(0,0,0,.7);opacity:0;transform:translateX(-10px);transition:opacity .5s ease,transform .6s cubic-bezier(.22,.8,.2,1)}
+  .wf-ok .wf-t{width:38%}
+  .wf.on .wf-t{opacity:1;transform:none;transition-delay:calc(.35s + var(--i) * .22s)}
+  .wf-row::after{content:"";position:absolute;inset:0;border-radius:14px;background:linear-gradient(100deg,transparent 25%,rgba(255,255,255,.32) 50%,transparent 75%);background-size:260% 100%;background-position:120% 0;opacity:0;mix-blend-mode:screen}
+  .wf.on .wf-row::after{animation:wfShine 1.15s ease-out both;animation-delay:calc(.3s + var(--i) * .22s)}
+  @keyframes wfShine{0%{opacity:0;background-position:120% 0}15%{opacity:1}100%{opacity:0;background-position:-120% 0}}
+  .wf::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.18) 50%,transparent 65%);background-size:300% 100%;background-position:150% 0;opacity:0}
+  .wf.on::before{animation:wfSweep 1.5s ease-out both}
+  @keyframes wfSweep{0%{opacity:0;background-position:150% 0}20%{opacity:1}100%{opacity:0;background-position:-150% 0}}
+  .wf-hint{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);z-index:4;padding:9px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(8,14,32,.55);color:#fff;font-size:clamp(9px,1.5cqw,14px);letter-spacing:.2em;text-transform:uppercase;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:opacity .4s ease,transform .4s ease;animation:wfPulse 2.4s ease-in-out infinite}
+  .wf.on .wf-hint{opacity:0;transform:translate(-50%,-50%) scale(.8);animation:none;pointer-events:none}
+  @keyframes wfPulse{50%{box-shadow:0 0 0 10px rgba(255,255,255,0)}0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.25)}}
+  .wf:hover:not(.on) img{filter:blur(5px) brightness(.55) saturate(.8)}
+  @media (prefers-reduced-motion:reduce){.wf img,.wf-t{transition:none}.wf.on .wf-row::after,.wf.on::before,.wf-hint{animation:none}}
+
+  /* ---------- 31 y 32 (#q15, #q15v): cover flow de programas y de las piezas (vibe coding) ---------- */
+  .cfx-lay{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(14px,2.4vw,40px);align-items:center;min-height:0}
+  .cfx{position:relative;height:clamp(280px,52vh,560px);perspective:1500px;perspective-origin:50% 45%;display:flex;align-items:center;justify-content:center;overflow:visible;outline:none;cursor:grab;touch-action:pan-y}
+  .cfx:focus-visible{outline:2px solid var(--g-accent);outline-offset:8px;border-radius:var(--r)}
+  .cfx .cfi{position:absolute;border-radius:var(--r);overflow:hidden;border:1px solid var(--g-stroke);background:var(--g-fill);box-shadow:var(--g-shadow),inset 0 1px 0 var(--g-hi);transition:transform .65s cubic-bezier(.22,.8,.2,1),opacity .5s,filter .5s;cursor:pointer;user-select:none;-webkit-user-select:none}
+  .cfx .cfi.on{box-shadow:0 30px 60px rgba(0,0,0,.4),inset 0 1px 0 var(--g-hi)}
+  .cfx .cfi .refl{position:absolute;left:0;right:0;top:100%;height:50%;transform:scaleY(-1);transform-origin:top;opacity:.22;pointer-events:none;-webkit-mask-image:linear-gradient(rgba(0,0,0,.75),transparent 70%);mask-image:linear-gradient(rgba(0,0,0,.75),transparent 70%)}
+  .cfx .cfi .refl img{width:100%;height:100%;object-fit:cover;display:block}
+  .cfx.vibe .cfi{width:clamp(118px,17vh,236px);aspect-ratio:9/16;background:#120f0c}
+  #q15v .cfx{height:clamp(280px,calc(100svh - 430px),660px)}
+  #q15v .cfx-lay{grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr)}
+  .cfx.vibe .cfi img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+  .cfx.vibe .cfi .refl{top:calc(100% + 2px)}
+  .cfx.apps .cfi{width:clamp(170px,22vh,280px);aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(8px,1.6vh,16px);padding:16px;background:color-mix(in srgb,var(--ac,var(--g-accent)) 14%,var(--g-fill));border-color:color-mix(in srgb,var(--ac,var(--g-accent)) 40%,var(--g-stroke))}
+  .cfx.apps .cfi .lg{width:clamp(64px,11vh,112px);height:clamp(64px,11vh,112px);border-radius:28%;display:grid;place-items:center;background:var(--ac,var(--g-accent));color:#fff;font-family:var(--font-display);font-size:clamp(34px,6vh,60px);font-weight:500;box-shadow:0 10px 30px color-mix(in srgb,var(--ac,var(--g-accent)) 45%,transparent);overflow:hidden}
+  .cfx.apps .cfi .lg{position:relative}
+  .cfx.apps .cfi .lg img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;opacity:0;background:#fff;padding:17%;box-sizing:border-box}
+  .cfx.apps .cfi .lg img.ok{opacity:1}
+  .cfx-row{justify-content:space-between;align-items:center;gap:10px}
+  .cfx-go{margin-left:auto;text-decoration:none}
+  .cfx-info .cfx-row .tags{flex:1 1 auto}
+  .cfx.apps .cfi b{font-size:clamp(16px,2.6vh,26px);font-weight:500;letter-spacing:.02em;text-align:center}
+  .cfx.apps .cfi small{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--g-muted)}
+  .cfx.apps .cfi .refl{background:color-mix(in srgb,var(--ac,var(--g-accent)) 14%,var(--g-fill));top:calc(100% + 2px)}
+  .cfx-nav{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:clamp(8px,1.5vh,16px)}
+  .cfx-count{font-size:12px;letter-spacing:.16em;color:var(--g-dim);font-variant-numeric:tabular-nums;min-width:52px;text-align:center}
+  .cfx-info{min-height:clamp(220px,40vh,420px);display:flex;flex-direction:column;justify-content:center;gap:clamp(8px,1.4vh,14px)}
+  .cfx-info > *{animation:cfxIn .5s cubic-bezier(.22,.8,.2,1) both}
+  .cfx-info > :nth-child(2){animation-delay:.06s}.cfx-info > :nth-child(3){animation-delay:.12s}.cfx-info > :nth-child(4){animation-delay:.18s}.cfx-info > :nth-child(5){animation-delay:.24s}
+  @keyframes cfxIn{from{opacity:0;transform:translateY(10px)}}
+  .cfx-info .k{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ac,var(--g-accent));font-weight:600;display:flex;align-items:center;gap:10px}
+  .cfx-info .k::before{content:"";width:28px;height:1px;background:var(--ac,var(--g-accent))}
+  .cfx-info h3{margin:0;font-size:clamp(24px,4.4vh,46px);font-weight:400;line-height:1.05;letter-spacing:-.01em}
+  .cfx-info h3 em{font-style:normal;color:var(--g-muted);font-weight:300;font-size:.62em;display:block;margin-top:4px}
+  .cfx-info p{margin:0;font-size:clamp(13.5px,1.9vh,18px);line-height:1.5;font-weight:300;color:var(--g-muted)}
+  .cfx-info p b{color:var(--g-text);font-weight:500}
+  .cfx-info .ex{padding:clamp(10px,1.6vh,14px) 16px;border-radius:var(--r2);background:var(--g-fill2);border:1px solid var(--g-stroke);font-size:clamp(12.5px,1.7vh,16px)}
+  .cfx-info .ex b{color:var(--ac,var(--g-accent))}
+  .cfx-info .tags{display:flex;flex-wrap:wrap;gap:6px}
+  .cfx-info .tags span{padding:5px 11px;border-radius:999px;border:1px solid var(--g-stroke);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--g-muted)}
+  #q15v .vb-hl{color:var(--g-accent)}
+  #q15v .vb-foot{justify-content:space-between;margin-top:clamp(6px,1.2vh,12px)}
+  #q15v .vb-foot .cfx-nav{margin:0}
+  #q15v .vb-made{margin:0;font-size:clamp(12px,1.55vh,14.5px);color:var(--g-dim);font-weight:300}
+  #q15v .vb-made b{color:var(--g-accent);font-weight:500}
+
+  /* cuadraditos de apps (pantalla 23): arriba del panel derecho */
+  .wf-apps{display:flex;justify-content:flex-end;gap:10px;margin:0 0 calc(-1 * clamp(4px,1vh,10px));padding-right:2px}
+  .wf-app{width:clamp(40px,6.2vh,54px);height:clamp(40px,6.2vh,54px);border-radius:12px;border:1px dashed var(--g-stroke);background:var(--g-fill);display:grid;place-items:center;color:var(--g-dim);font-size:18px;text-decoration:none;overflow:hidden;transition:transform .2s,border-color .2s,box-shadow .2s;-webkit-backdrop-filter:var(--g-blur);backdrop-filter:var(--g-blur)}
+  .wf-app img{width:100%;height:100%;object-fit:cover;display:block}
+  .wf-app.has{border-style:solid;color:var(--g-text);font-size:13px;font-weight:500;cursor:pointer}
+  .wf-app.has:hover{transform:translateY(-3px);border-color:var(--g-accent);box-shadow:0 8px 22px color-mix(in srgb,var(--g-accent) 30%,transparent)}
+  .wf-app:not(.has){cursor:default;opacity:.6}
+
+  /* ---------- pantalla 32 (#q15m): ¿qué modelo conviene? ---------- */
+  .md-tabs{display:flex;gap:10px;flex-wrap:wrap}
+  .md-tab{font:inherit;cursor:pointer;display:flex;align-items:center;gap:12px;padding:8px 18px 8px 8px;border-radius:999px;border:1px solid var(--g-stroke);background:var(--g-fill);color:var(--g-text);-webkit-backdrop-filter:var(--g-blur);backdrop-filter:var(--g-blur);transition:border-color .3s,box-shadow .3s,background .3s,opacity .3s;opacity:.72}
+  .md-tab img{width:40px;height:40px;border-radius:12px;background:#fff;padding:7px;box-sizing:border-box;object-fit:contain}
+  .md-tab span{display:flex;flex-direction:column;align-items:flex-start;line-height:1.15}
+  .md-tab b{font-size:clamp(14px,1.9vh,17px);font-weight:500}
+  .md-tab small{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--g-dim)}
+  .md-tab:hover{opacity:1}
+  .md-tab.on{opacity:1;border-color:var(--g-accent);box-shadow:0 0 0 1px var(--g-accent) inset,0 0 20px color-mix(in srgb,var(--g-accent) 28%,transparent)}
+  .md-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.6vw,22px);perspective:1400px}
+  .md-card{position:relative;display:flex;flex-direction:column;gap:clamp(6px,1vh,10px);padding:clamp(14px,2.2vh,24px) clamp(14px,1.4vw,22px);border-radius:var(--r);border:1px solid var(--g-stroke);background:var(--g-fill);-webkit-backdrop-filter:var(--g-blur);backdrop-filter:var(--g-blur);box-shadow:var(--g-shadow),inset 0 1px 0 var(--g-hi);animation:mdIn .55s cubic-bezier(.22,.8,.2,1) both}
+  .md-card:nth-child(2){animation-delay:.08s}.md-card:nth-child(3){animation-delay:.16s}
+  @keyframes mdIn{from{opacity:0;transform:translateY(18px) rotateX(-12deg)}}
+  .md-card.mid{border-color:var(--g-accent);box-shadow:var(--g-shadow),0 0 0 1px var(--g-accent) inset,0 0 26px color-mix(in srgb,var(--g-accent) 22%,transparent)}
+  .md-card .md-lv{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--g-dim);font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .md-card .start{padding:3px 9px;border-radius:999px;background:var(--g-accent);color:var(--g-on-ink);letter-spacing:.12em}
+  .md-card h3{margin:0;font-size:clamp(22px,4vh,40px);font-weight:400;line-height:1.05}
+  .md-card h3 small{font-size:.42em;color:var(--g-dim);font-weight:400;letter-spacing:.06em;margin-left:6px}
+  .md-card .tg{margin:0;color:var(--g-accent);font-size:clamp(13px,1.8vh,16px);font-weight:500}
+  .md-card p{margin:0;font-size:clamp(12.5px,1.65vh,15px);line-height:1.45;font-weight:300;color:var(--g-muted)}
+  .md-card .ex{margin-top:auto;padding:clamp(8px,1.2vh,12px) 12px;border-radius:var(--r2);background:var(--g-fill2);border:1px solid var(--g-stroke);color:var(--g-text)}
+  .md-card .ex b{color:var(--g-accent);font-weight:500}
+  .md-card .plan{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--g-dim)}
+  .md-meters{display:grid;gap:5px;margin:2px 0}
+  .md-meters .m{display:grid;grid-template-columns:78px 1fr;align-items:center;gap:8px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--g-dim)}
+  .md-meters .d{display:flex;gap:4px}
+  .md-meters .d i{width:22px;height:6px;border-radius:99px;background:var(--g-stroke)}
+  .md-meters .d i.on{background:var(--mc,var(--g-accent))}
+  .md-meters .m.c{--mc:var(--g-amber)}
+  .md-foot{display:grid;grid-template-columns:1.3fr 1fr;gap:clamp(10px,1.4vw,18px)}
+  .md-foot p{margin:0;padding:clamp(10px,1.5vh,14px) 16px;border-radius:var(--r2);background:var(--g-fill2);border-left:2px solid var(--g-accent);font-size:clamp(12.5px,1.65vh,15.5px);line-height:1.45;font-weight:300}
+  .md-foot .md-think{border-left-color:var(--g-amber)}
+  .md-foot b{font-weight:500;color:var(--g-accent)}
+  .md-foot .md-think b{color:var(--g-amber)}
+  .md-stamp{margin:-4px 0 0;font-size:11px;color:var(--g-dim);text-align:right}
+
   /* ---------- Responsive ---------- */
   @media (max-height:820px) and (min-width:821px){
     .hd h2{font-size:clamp(22px,2.6vw,34px)}
@@ -1080,6 +1387,24 @@
     #equipo .pcard,#equipo .pcard.rev{flex-direction:column}
     #equipo .pcard .vid{height:min(62svh,520px)}
     #q2 .grid.c2{grid-template-columns:1fr}
+    .md-cards,.md-foot{grid-template-columns:1fr}
+    .md-stamp{text-align:left}
+    .wf-apps{justify-content:center;margin-bottom:0}
+    .cfx-lay{grid-template-columns:1fr}
+    .cfx{height:min(52vh,420px)}
+    .cfx-info{min-height:0}
+    #q15v .vb-foot{flex-direction:column;align-items:center;text-align:center}
+    .ah-stage{height:auto}
+    .ah-view{position:relative;inset:auto;display:none}
+    .ah-view.on{display:flex}
+    .ah-x.on{display:grid}
+    .ah-x{grid-template-columns:1fr}
+    .ah-cards{grid-template-columns:1fr}
+    .ah-dia .n-app .ah-bot{display:none}
+    .mcp-dia{grid-template-columns:1fr;justify-items:center;gap:14px}
+    .mcp-dia .tools{grid-column:1}
+    .mcp-lines{display:none}
+    .rule-board{grid-template-columns:1fr 40px 1fr}
     .uses4{grid-template-columns:1fr}
     .sl-list{grid-template-columns:1fr}
     #q4b .pred,#q4b .pgame,#q4img .ig-top,#q4img .ig-game{grid-template-columns:1fr}
@@ -2236,7 +2561,7 @@
             <li><span>12</span>¿Qué son los chatbots y para qué sirven?</li>
             <li><span>13</span>¿Qué diferencias hay entre usar chats, agentes, plataformas de bajo código y apps integradas?</li>
             <li><span>14</span>¿Cómo automatizar tareas repetitivas? · Anatomía de un flujo de automatización</li>
-            <li><span>15</span>¿Cómo aprovechar funciones útiles, proyectos, conectores, acciones programadas y GPTs propios? · Caso: el ecosistema Gemini</li>
+            <li><span>15</span>¿Qué aplicaciones son hoy las más usadas y para qué? · ¿Qué modelo conviene? · ¿Y qué significa vibe coding?</li>
             <li><span>16</span>¿Cómo medir el impacto real en los tiempos y la calidad del trabajo?</li>
             <li><span>17</span>¿Cómo acompañar al equipo para superar la resistencia al cambio?</li>
           </ol>
@@ -2254,26 +2579,19 @@
         <p class="sub">Comparativa de productividad: el mismo día de trabajo, con y sin IA.</p>
       </header>
       <div class="bd">
-        <div class="grid c2">
-          <div class="g">
-            <p class="colhead no">Flujo de trabajo convencional</p>
-            <ul class="ls no">
-              <li>Responder reseñas una por una, "cuando haya un rato"; muchas quedan sin respuesta.</li>
-              <li>Redactar la carta, las promos y los posteos desde cero cada vez.</li>
-              <li>Las mismas consultas por WhatsApp, a toda hora, respondidas a mano.</li>
-              <li>Correos de confirmación, pre-estadía y post-estadía copiados y pegados.</li>
-              <li>Planillas de ocupación, costos y ventas revisadas a ojo.</li>
-            </ul>
+        <div class="wf-apps" id="wfApps" aria-label="Apps de ejemplo"></div>
+        <div class="grid c2 wf-grid">
+          <div class="wf wf-no" role="button" tabindex="0" aria-pressed="false" data-kind="no">
+            <img src="media/q11-convencional.jpg" alt="" draggable="false">
+            <span class="wf-title">Flujo de trabajo convencional</span>
+            <span class="wf-row" style="--i:0"><span class="wf-t"></span></span><span class="wf-row" style="--i:1"><span class="wf-t"></span></span><span class="wf-row" style="--i:2"><span class="wf-t"></span></span><span class="wf-row" style="--i:3"><span class="wf-t"></span></span><span class="wf-row" style="--i:4"><span class="wf-t"></span></span>
+            <span class="wf-hint">tocá para ver</span>
           </div>
-          <div class="g">
-            <p class="colhead ok">Flujo de trabajo potenciado por IA</p>
-            <ul class="ls">
-              <li>Borradores de respuesta en segundos, con nuestro tono, para aprobar y publicar.</li>
-              <li>Variantes de textos, nombres de platos y propuestas de carta en minutos.</li>
-              <li>Respuestas automáticas a preguntas frecuentes, con derivación a una persona.</li>
-              <li>Secuencias de correos personalizadas que salen solas en el momento justo.</li>
-              <li>Resúmenes e interpretación de datos: "¿qué pasó con las ventas los martes?"</li>
-            </ul>
+          <div class="wf wf-ok" role="button" tabindex="0" aria-pressed="false" data-kind="ok">
+            <img src="media/q11-ia.jpg" alt="" draggable="false">
+            <span class="wf-title">Flujo de trabajo potenciado por IA</span>
+            <span class="wf-row" style="--i:0"><span class="wf-t"></span></span><span class="wf-row" style="--i:1"><span class="wf-t"></span></span><span class="wf-row" style="--i:2"><span class="wf-t"></span></span><span class="wf-row" style="--i:3"><span class="wf-t"></span></span><span class="wf-row" style="--i:4"><span class="wf-t"></span></span>
+            <span class="wf-hint">tocá para ver</span>
           </div>
         </div>
         <div class="grid c4 tight">
@@ -2486,33 +2804,112 @@ Somos "La Marea", parrilla familiar frente al mar en Mar del Plata. Abrimos de 1
   </section>
 
   <!-- ============ Q14b ============ -->
-  <section id="q14b" class="screen" data-block="Bloque 4" data-point="14 · Anatomía de un flujo de automatización" aria-label="Pregunta 14 · continuación">
+  <section id="q14b" class="screen" data-block="Bloque 4" data-point="14 · API, webhook y MCP" aria-label="Pregunta 14 · continuación">
     <div class="wrap">
       <header class="hd">
         <span class="tag">Bloque 4 · Pregunta 14 · continuación</span>
-        <h2>Anatomía de un flujo de automatización</h2>
-        <p class="sub">Tiene que haber un activador (detonador) que dispare la tarea. Después, una lógica condicional: <strong>si sucede X, entonces hacé Y</strong>. Las APIs son los mensajeros que conectan software independiente para que eso ocurra.</p>
+        <h2>¿Es lo mismo? <span class="ah-h2s">API, webhook y MCP</span></h2>
       </header>
       <div class="bd">
-        <div class="g">
-          <p class="ft">Ejemplo completo · de la reseña a la promoción</p>
-          <div class="anat">
-            <div class="st"><div class="h">Detonador</div><div class="b"><b>Google Forms</b><p>El cliente deja una reseña de su experiencia en el restaurante.</p></div></div>
-            <div class="lnk"><span>→</span>Si sucede X…</div>
-            <div class="st"><div class="h">Lógica · API</div><div class="b"><b>Zapier + API de IA</b><p>Analiza el sentimiento de la reseña y redacta un correo acorde, con un prompt que limita la extensión para no gastar tokens.</p></div></div>
-            <div class="lnk"><span>→</span>…entonces hacé Y</div>
-            <div class="st"><div class="h">Acción</div><div class="b"><b>Brevo (correo)</b><p>Guarda el contacto en la lista y envía un correo personalizado; más adelante, promociones.</p></div></div>
+        <div class="ah" id="ahBox" data-v="home">
+          <div class="ah-bar" role="toolbar" aria-label="API, webhook y MCP">
+            <button class="ah-home" type="button" data-go="home" title="Volver al inicio" aria-label="Volver al inicio">↺</button>
+            <button class="ah-tab" type="button" data-go="api"><b>1</b>API</button>
+            <button class="ah-tab" type="button" data-go="hook"><b>2</b>Webhook</button>
+            <button class="ah-tab" type="button" data-go="mcp"><b>3</b>MCP</button>
+            <button class="ah-tab" type="button" data-go="rule"><b>?</b>La regla</button>
           </div>
-          <p class="cap">Todo esto tiene un costo (Zapier, Brevo, tokens de la API) y hay que evaluarlo contra el tiempo que ahorra. Y requiere consentimiento del cliente para usar su correo: Ley 25.326 de Protección de Datos Personales.</p>
-        </div>
-        <div class="g">
-          <p class="ft">Paso a paso en Zapier</p>
-          <div class="grid c5 tight">
-            <div class="tile"><span class="k">1 · Crear un Zap</span><p>Un Zap es un flujo: un disparador y una o más acciones.</p></div>
-            <div class="tile"><span class="k">2 · Elegir el trigger</span><p>"Nueva respuesta en Google Forms": cuando el cliente completa el formulario, arranca el flujo.</p></div>
-            <div class="tile"><span class="k">3 · Integración</span><p>Conectar la plataforma de correo (Brevo) y mapear los campos: nombre, correo, puntaje.</p></div>
-            <div class="tile"><span class="k">4 · Personalizar con IA</span><p>Un paso con la API de OpenAI, Claude o Gemini: el prompt lee la reseña y redacta el correo según lo que dijo el cliente.</p></div>
-            <div class="tile"><span class="k">5 · Probar y activar</span><p>Correr el flujo con 5 respuestas de prueba antes de encenderlo. Empezar poco a poco.</p></div>
+          <div class="ah-stage">
+
+            <div class="ah-view v-home on" data-view="home">
+              <div class="ah-cards">
+                <button class="ah-card" type="button" data-go="api" data-k="api"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4.5l-3 15"/></svg></span><b>API</b><small>tocá para ver</small></button>
+                <button class="ah-card" type="button" data-go="hook" data-k="hook"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3v9a6 6 0 0 1-12 0v-1"/><path d="M1.5 13.5 4 11l2.5 2.5"/></svg></span><b>Webhook</b><small>tocá para ver</small></button>
+                <button class="ah-card" type="button" data-go="mcp" data-k="mcp"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2v5M15 2v5"/><path d="M6 7h12v4a6 6 0 0 1-12 0z"/><path d="M12 17v5"/></svg></span><b>MCP</b><small>tocá para ver</small></button>
+              </div>
+              <div class="ah-warn"><span class="ah-bot" data-mood="think"></span><p><b class="a">Confundirlos</b> = <b class="r">elegir mal</b> al automatizar.</p></div>
+            </div>
+
+            <div class="ah-view ah-x v-api" data-view="api" data-k="api">
+              <div class="ah-txt">
+                <span class="ah-num">1</span>
+                <h3>API <em>= pedir</em></h3>
+                <p>Tu app le pregunta a otro sistema cuando necesita un dato, y el otro le responde.</p>
+                <p class="ah-ex"><b>Ej.:</b> tu web le consulta al sistema de reservas si hay lugar el sábado.</p>
+                <div class="ah-pills"><span class="pl" style="--pc:var(--g-amber)">Vos preguntás</span><span class="pl">Ellos responden</span></div>
+              </div>
+              <div class="ah-dia">
+                <div class="node n-sys"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span><span class="col"><b>Otro sistema</b><code>reservas</code></span></div>
+                <div class="wires">
+                  <div class="wire up"><i class="dot"></i><span class="wl">pregunta</span></div>
+                  <div class="wire down"><i class="dot"></i><span class="wl">respuesta</span></div>
+                </div>
+                <div class="node n-app"><span class="ah-bot" data-mood="think"></span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="8" width="13" height="10" rx="2"/><path d="M6.5 8V6a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-4"/></svg></span><span class="col"><b>Tu app</b><code>tu web</code></span><span class="ok">✓</span></div>
+              </div>
+            </div>
+
+            <div class="ah-view ah-x v-hook" data-view="hook" data-k="hook">
+              <div class="ah-txt">
+                <span class="ah-num">2</span>
+                <h3>Webhook <em>= te avisan</em></h3>
+                <p>El otro sistema te avisa solo, apenas pasa algo. Tu app no tiene que preguntar a cada rato.</p>
+                <p class="ah-ex"><b>Ej.:</b> el sistema de reservas avisa en el momento en que entra una reserva nueva.</p>
+                <div class="ah-pills"><span class="pl strike">Vos no preguntás</span><span class="pl">Te avisan al instante</span></div>
+              </div>
+              <div class="ah-dia">
+                <span class="evt">Reserva nueva</span>
+                <div class="node n-sys"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span><span class="col"><b>Otro sistema</b><code>reservas</code></span><span class="bell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span></div>
+                <div class="wires one">
+                  <div class="wire solo"><i class="env"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></i></div>
+                </div>
+                <div class="node n-app"><span class="ah-bot" data-mood="sleep"></span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="8" width="13" height="10" rx="2"/><path d="M6.5 8V6a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-4"/></svg></span><span class="col"><b>Tu app</b><code>tu-app.com/aviso</code></span><span class="rcv">Recibido ✓</span></div>
+              </div>
+            </div>
+
+            <div class="ah-view ah-x v-mcp" data-view="mcp" data-k="mcp">
+              <div class="ah-txt">
+                <span class="ah-num">3</span>
+                <h3>MCP <em>= la IA actúa</em></h3>
+                <p class="ah-sm">Model Context Protocol</p>
+                <p>La forma estándar de conectar una IA con tus herramientas: calendario, correo, planillas, sistemas.</p>
+                <p class="ah-ex"><b>Ej.:</b> «agendá la cata del viernes y avisale al equipo», y la IA lo hace sola.</p>
+                <div class="ah-pills"><span class="pl"><i class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="8" width="20" height="8" rx="4"/><path d="M7 12h10"/></svg></i>USB-C = MCP</span><span class="pl" style="--pc:var(--g-accent)">Por debajo: API</span></div>
+              </div>
+              <div class="ah-dia mcp-dia">
+                <svg class="mcp-lines" aria-hidden="true"></svg>
+                <div class="mcp-ai"><span class="ah-bot" data-mood="zap"></span><span class="plug"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2v5M15 2v5"/><path d="M6 7h12v4a6 6 0 0 1-12 0z"/><path d="M12 17v5"/></svg></span></div>
+                <div class="tools">
+                  <div class="tool"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="17" rx="2"/><path d="M16 2.5v4M8 2.5v4M3 10h18"/></svg></span><span class="col"><b>Calendario</b><code>crear_evento()</code></span><span class="ok">✓</span></div>
+                  <div class="tool"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><span class="col"><b>Correo</b><code>enviar_correo()</code></span><span class="ok">✓</span></div>
+                  <div class="tool"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span><span class="col"><b>Base de datos</b><code>buscar_datos()</code></span><span class="ok">✓</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ah-view v-rule" data-view="rule">
+              <div class="rule-head">
+                <h3>La regla <em>· ¿cuál va con cuál?</em></h3>
+                <span class="hint">Tocá una pregunta y después su respuesta.</span>
+                <button class="btn sm ghost" id="ahShuffle" type="button">↺ Mezclar</button>
+                <span class="ah-bot rule-bot" data-mood="think"></span>
+              </div>
+              <div class="rule-board">
+                <div class="rq-col">
+                  <button class="rq" type="button" data-k="api">¿Pedir un dato?</button>
+                  <button class="rq" type="button" data-k="hook">¿Que te avisen?</button>
+                  <button class="rq" type="button" data-k="mcp">¿Que una IA actúe?</button>
+                </div>
+                <svg class="rule-lines" aria-hidden="true"></svg>
+                <div class="ra-col"></div>
+              </div>
+              <div class="rule-combo" aria-live="polite">
+                <span class="cb-tag">Se combinan</span>
+                <span class="cb-bell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span><b class="cb-a">El webhook avisa</b>
+                <i class="cb-line"></i>
+                <span class="ah-bot" data-mood="happy"></span><b class="cb-b">la IA con MCP lo gestiona</b>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -2557,30 +2954,61 @@ Somos "La Marea", parrilla familiar frente al mar en Mar del Plata. Abrimos de 1
   </section>
 
   <!-- ============ Q15 ============ -->
-  <section id="q15" class="screen" data-block="Bloque 4" data-point="15 · Proyectos, conectores, acciones programadas y GPTs" aria-label="Pregunta 15">
+  <section id="q15" class="screen" data-block="Bloque 4" data-point="15 · ¿Qué aplicaciones son hoy las más usadas?" aria-label="Pregunta 15">
     <div class="wrap">
       <header class="hd">
         <span class="tag">Bloque 4 · Pregunta 15</span>
-        <h2>¿Cómo aprovechar funciones útiles, proyectos, conectores, acciones programadas y GPTs propios?</h2>
-        <p class="sub">Las herramientas de chat ya traen funciones que convierten una conversación suelta en un sistema de trabajo.</p>
+        <h2>¿Qué aplicaciones son hoy las más usadas y para qué?</h2>
+        <p class="sub">Casi todas hacen casi todo. La diferencia está en dónde viven tus datos, qué hacen mejor y con qué ya trabajás.</p>
       </header>
       <div class="bd">
-        <div class="grid c4 tight">
-          <div class="tile hl"><span class="k">Proyectos</span><h3>Carpetas con memoria</h3><p>Instrucciones fijas + archivos (carta, tarifas, políticas, tono). "Reseñas del restaurante", "Temporada 2027".</p></div>
-          <div class="tile hl"><span class="k">Conectores</span><h3>La IA lee tus datos</h3><p>Google Drive, Gmail, Calendar, Sheets y otras apps. Consulta la planilla de ocupación sin copiar y pegar.</p></div>
-          <div class="tile hl"><span class="k">Acciones programadas</span><h3>Tareas que se repiten solas</h3><p>"Todos los días a las 9, resumime las reseñas nuevas y proponé respuestas." Llega al correo, listo para aprobar.</p></div>
-          <div class="tile hl"><span class="k">Asistentes propios · GPTs, Gems</span><h3>Tu asistente con tu voz</h3><p>"El asistente del hotel": sabe tus políticas, tu tono y tus servicios. Lo usa todo el equipo de la misma manera.</p></div>
+        <div class="cfx-lay">
+          <div class="cfx apps" id="cfApps" tabindex="0" aria-label="Aplicaciones de IA: deslizá o usá las flechas"></div>
+          <div class="g cfx-info" id="cfAppsInfo"></div>
         </div>
-        <div class="g">
-          <p class="ft">Combinación mínima recomendada para empezar</p>
-          <div class="flow">
-            <div class="bx ink center">1 proyecto por área (reseñas · huéspedes · carta)</div>
-            <div class="plus">+</div>
-            <div class="bx solid center">1 conector a la planilla o el Drive del negocio</div>
-            <div class="plus">+</div>
-            <div class="bx amber center">1 acción programada diaria con revisión humana</div>
-          </div>
+        <div class="cfx-nav"><button class="btn round ghost" type="button" data-cf="prev" aria-label="Anterior">‹</button><span class="cfx-count" id="cfAppsCount">1 / 1</span><button class="btn round ghost" type="button" data-cf="next" aria-label="Siguiente">›</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q15 · modelos ============ -->
+  <section id="q15m" class="screen" data-block="Bloque 4" data-point="15 · ¿Qué modelo conviene?" aria-label="Pregunta 15 · modelos">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 4 · Pregunta 15 · continuación</span>
+        <h2>¿Qué modelo conviene?</h2>
+        <p class="sub">Cada aplicación tiene varios modelos: uno rápido, uno equilibrado y uno potente. Elegir bien ahorra tiempo y límite de uso.</p>
+      </header>
+      <div class="bd">
+        <div class="md-tabs" role="tablist" aria-label="Elegí la aplicación">
+          <button class="md-tab on" type="button" data-co="claude" role="tab" aria-selected="true"><img src="media/logos/apps/claude.svg" alt="" onerror="this.remove()"><span><b>Claude</b><small>de Anthropic</small></span></button>
+          <button class="md-tab" type="button" data-co="chatgpt" role="tab" aria-selected="false"><img src="media/logos/apps/chatgpt.svg" alt="" onerror="this.remove()"><span><b>ChatGPT</b><small>de OpenAI</small></span></button>
+          <button class="md-tab" type="button" data-co="gemini" role="tab" aria-selected="false"><img src="media/logos/apps/gemini.svg" alt="" onerror="this.remove()"><span><b>Gemini</b><small>de Google</small></span></button>
         </div>
+        <div class="md-cards" id="mdCards"></div>
+        <div class="md-foot">
+          <p class="md-rule"><b>La regla:</b> empezá por el del medio. Subí cuando la respuesta no alcanza; bajá cuando la tarea es simple y se repite.</p>
+          <p class="md-think"><b>«Pensar más»</b> (razonamiento): mejor respuesta, pero más lenta y gasta más del límite.</p>
+        </div>
+        <p class="md-stamp">Nombres a octubre de 2026: cambian cada pocos meses; la lógica rápido · equilibrado · potente se mantiene.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q15 · vibe coding ============ -->
+  <section id="q15v" class="screen" data-block="Bloque 4" data-point="15 · ¿Y qué significa vibe coding?" aria-label="Pregunta 15 · vibe coding">
+    <div class="wrap">
+      <header class="hd">
+        <span class="tag">Bloque 4 · Pregunta 15 · continuación</span>
+        <h2>¿Y qué significa <span class="vb-hl">vibe coding</span>?</h2>
+        <p class="sub">Describir con palabras lo que querés y dejar que la IA escriba el código. Vos dirigís, probás y corregís; la IA arma las piezas. Estas son las piezas, contadas como un restaurante.</p>
+      </header>
+      <div class="bd">
+        <div class="cfx-lay">
+          <div class="cfx vibe" id="cfVibe" data-big tabindex="0" aria-label="Las piezas de una app: deslizá o usá las flechas"></div>
+          <div class="g cfx-info" id="cfVibeInfo"></div>
+        </div>
+        <div class="row vb-foot"><div class="cfx-nav"><button class="btn round ghost" type="button" data-cf="prev" aria-label="Anterior">‹</button><span class="cfx-count" id="cfVibeCount">1 / 1</span><button class="btn round ghost" type="button" data-cf="next" aria-label="Siguiente">›</button></div><p class="vb-made"><b>Hecho así:</b> esta charla · la carta digital de un restaurante · un flyer · la web de un hotel.</p></div>
       </div>
     </div>
   </section>
@@ -3471,6 +3899,318 @@ window.Charla = (function(){
     document.getElementById('slAll').addEventListener('click',function(){ Slides.allOn(); paint(); });
     document.getElementById('slDef').addEventListener('click',function(){ Slides.reset(); paint(); });
   });
+})();
+
+/* ---------- 29 (#q14b): ¿Es lo mismo? API, webhook y MCP · pestañas animadas + juego "La regla" ---------- */
+(function(){
+  var sec=document.getElementById('q14b'), ah=document.getElementById('ahBox'); if(!sec||!ah) return;
+  var NS='http://www.w3.org/2000/svg';
+  var BOT='<svg viewBox="0 0 80 80" aria-hidden="true"><line class="b-ant" x1="40" y1="9" x2="40" y2="18"/><circle class="b-bulb" cx="40" cy="7" r="4.2"/>'+
+    '<rect class="b-ear" x="5" y="33" width="7" height="15" rx="3.5"/><rect class="b-ear" x="68" y="33" width="7" height="15" rx="3.5"/>'+
+    '<rect class="b-head" x="11" y="18" width="58" height="44" rx="18"/><rect class="b-face" x="19" y="27" width="42" height="26" rx="11"/>'+
+    '<g class="b-eyes"><ellipse cx="31" cy="38" rx="3.8" ry="4.6"/><ellipse cx="49" cy="38" rx="3.8" ry="4.6"/></g>'+
+    '<path class="b-mouth" d="M34 46 Q40 49 46 46"/><rect class="b-body" x="27" y="62" width="26" height="11" rx="5.5"/>'+
+    '<text class="b-q" x="68" y="16">?</text><text class="b-z" x="66" y="17">z</text></svg>';
+  [].forEach.call(sec.querySelectorAll('.ah-bot'),function(b){ b.innerHTML=BOT; });
+  var views={}; [].forEach.call(sec.querySelectorAll('.ah-view'),function(v){ views[v.getAttribute('data-view')]=v; });
+  var tabs=[].slice.call(sec.querySelectorAll('.ah-bar [data-go]'));
+  var cur='home', timers=[], rafs=[], visible=false;
+  function later(fn,ms){ timers.push(setTimeout(fn,ms)); }
+  function clear(){ timers.forEach(clearTimeout); timers=[]; rafs.forEach(cancelAnimationFrame); rafs=[]; }
+  function mood(v,m){ [].forEach.call(v.querySelectorAll('.ah-bot'),function(b){ b.setAttribute('data-mood',m); }); }
+  function reset(v){
+    v.classList.remove('s1');
+    [].forEach.call(v.querySelectorAll('.go,.lit,.on,.glow,.ring'),function(e){ e.classList.remove('go','lit','on','glow','ring'); });
+    [].forEach.call(v.querySelectorAll('.mcp-lines circle'),function(c){ c.style.opacity=0; });
+  }
+  function again(k){ if(cur!==k||!visible) return; reset(views[k]); later(function(){ if(cur===k&&visible) RUN[k](views[k]); },900); }
+
+  /* MCP: líneas desde el enchufe a cada herramienta */
+  function drawMcp(){
+    var v=views.mcp, dia=v.querySelector('.mcp-dia'), svg=v.querySelector('.mcp-lines'), plug=v.querySelector('.plug'), tools=v.querySelectorAll('.tool');
+    var R=dia.getBoundingClientRect(); if(!R.width) return;
+    var P=plug.getBoundingClientRect(), x0=P.right-R.left+2, y0=P.top+P.height/2-R.top;
+    svg.setAttribute('viewBox','0 0 '+R.width+' '+R.height); svg.innerHTML='';
+    [].forEach.call(tools,function(t){
+      var T=t.getBoundingClientRect(), x1=T.left-R.left-4, y1=T.top+T.height/2-R.top, dx=(x1-x0)*.5;
+      var p=document.createElementNS(NS,'path'); p.setAttribute('d','M'+x0+' '+y0+' C'+(x0+dx)+' '+y0+' '+(x1-dx)+' '+y1+' '+x1+' '+y1); svg.appendChild(p);
+      var c=document.createElementNS(NS,'circle'); c.setAttribute('r','6.5'); svg.appendChild(c);
+    });
+  }
+  function pulse(i,done){
+    var svg=views.mcp.querySelector('.mcp-lines'), p=svg.querySelectorAll('path')[i], c=svg.querySelectorAll('circle')[i]; if(!p||!c){ done(); return; }
+    var L=p.getTotalLength(), t0=null, D=750;
+    function step(ts){ if(t0===null) t0=ts; var f=Math.min(1,(ts-t0)/D), e=f<.5?2*f*f:1-Math.pow(-2*f+2,2)/2, pt=p.getPointAtLength(L*e);
+      c.setAttribute('cx',pt.x); c.setAttribute('cy',pt.y); c.style.opacity=f<1?1:0;
+      if(f<1) rafs.push(requestAnimationFrame(step)); else done(); }
+    rafs.push(requestAnimationFrame(step));
+  }
+
+  var RUN={
+    api:function(v){
+      mood(v,'think');
+      var up=v.querySelector('.wire.up'), dn=v.querySelector('.wire.down'), sys=v.querySelector('.n-sys'), app=v.querySelector('.n-app'), pl=v.querySelectorAll('.pl');
+      later(function(){ up.classList.add('go'); pl[0].classList.add('lit'); },350);
+      later(function(){ sys.classList.add('glow'); },1250);
+      later(function(){ dn.classList.add('go'); },1600);
+      later(function(){ app.classList.add('glow'); app.querySelector('.ok').classList.add('on'); mood(v,'happy'); pl[1].classList.add('lit'); },2600);
+      later(function(){ again('api'); },7200);
+    },
+    hook:function(v){
+      mood(v,'sleep');
+      var evt=v.querySelector('.evt'), bell=v.querySelector('.bell'), sys=v.querySelector('.n-sys'), w=v.querySelector('.wire.solo'), app=v.querySelector('.n-app'), pl=v.querySelectorAll('.pl');
+      pl[0].classList.add('go');
+      later(function(){ evt.classList.add('go'); },500);
+      later(function(){ bell.classList.add('ring'); sys.classList.add('glow'); },1100);
+      later(function(){ w.classList.add('go'); },1600);
+      later(function(){ app.classList.add('glow'); app.querySelector('.rcv').classList.add('on'); mood(v,'happy'); pl[1].classList.add('lit'); },2650);
+      later(function(){ again('hook'); },7600);
+    },
+    mcp:function(v){
+      mood(v,'zap'); drawMcp();
+      var tools=v.querySelectorAll('.tool'), pl=v.querySelectorAll('.pl');
+      later(function(){ v.classList.add('s1'); },250);
+      [0,1,2].forEach(function(i){ later(function(){ pulse(i,function(){ tools[i].classList.add('lit'); tools[i].querySelector('.ok').classList.add('on'); }); },950+i*1050); });
+      later(function(){ mood(v,'happy'); pl[0].classList.add('lit'); },4300);
+      later(function(){ pl[1].classList.add('lit'); },5000);
+      later(function(){ again('mcp'); },9800);
+    }
+  };
+
+  function go(k){
+    if(!views[k]) return;
+    if(k===cur){ if(RUN[k]){ clear(); reset(views[k]); later(function(){ RUN[k](views[k]); },500); } return; }
+    clear();
+    var from=views[cur], to=views[k], delay=0;
+    tabs.forEach(function(t){ t.classList.toggle('on', k!=='home' && t.getAttribute('data-go')===k); });
+    ah.setAttribute('data-v',k);
+    if(cur==='home' && RUN[k]){
+      from.classList.add('pick'); var ch=from.querySelector('.ah-card[data-go="'+k+'"]'); if(ch) ch.classList.add('chosen'); delay=450;
+    }
+    cur=k;
+    later(function(){
+      from.classList.remove('on');
+      setTimeout(function(){ from.classList.remove('pick'); [].forEach.call(from.querySelectorAll('.chosen'),function(c){ c.classList.remove('chosen'); }); reset(from); },600);
+      reset(to); to.classList.add('on');
+      if(k==='rule') setTimeout(function(){ relink(); if(Object.keys(done).length===3) combo.classList.add('on'); },650);
+      if(RUN[k]) later(function(){ if(cur===k) RUN[k](to); },380);
+    },delay);
+  }
+  ah.addEventListener('click',function(e){
+    var b=e.target.closest('[data-go]'); if(!b || !ah.contains(b)) return;
+    b.blur(); go(b.getAttribute('data-go'));
+  });
+
+  /* ---- juego: la regla ---- */
+  var R=views.rule, board=R.querySelector('.rule-board'), raCol=R.querySelector('.ra-col'), lines=R.querySelector('.rule-lines'), combo=R.querySelector('.rule-combo');
+  var rq=[].slice.call(R.querySelectorAll('.rq')), A=[['api','API'],['hook','Webhook'],['mcp','MCP']], selQ=null, selA=null, done={};
+  function shuffle(){
+    var a=A.slice();
+    do { for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)), t=a[i]; a[i]=a[j]; a[j]=t; } } while(a[0][0]==='api'&&a[1][0]==='hook');
+    raCol.innerHTML=a.map(function(x){ return '<button class="ra" type="button" data-k="'+x[0]+'">'+x[1]+'</button>'; }).join('');
+    done={}; selQ=selA=null; lines.innerHTML=''; combo.classList.remove('on');
+    rq.forEach(function(q){ q.classList.remove('done','sel','bad'); });
+    var rb=R.querySelector('.rule-bot'); if(rb) rb.setAttribute('data-mood','think');
+  }
+  function link(q,a){
+    var br=board.getBoundingClientRect(); if(!br.width) return;
+    var r1=q.getBoundingClientRect(), r2=a.getBoundingClientRect();
+    var x1=r1.right-br.left+4, y1=r1.top+r1.height/2-br.top, x2=r2.left-br.left-4, y2=r2.top+r2.height/2-br.top, dx=(x2-x1)/2;
+    lines.setAttribute('viewBox','0 0 '+br.width+' '+br.height);
+    var p=document.createElementNS(NS,'path'); p.setAttribute('d','M'+x1+' '+y1+' C'+(x1+dx)+' '+y1+' '+(x2-dx)+' '+y2+' '+x2+' '+y2);
+    p.setAttribute('data-k',q.getAttribute('data-k')); lines.appendChild(p); p.style.setProperty('--len',p.getTotalLength());
+  }
+  function relink(){ lines.innerHTML=''; Object.keys(done).forEach(function(k){ link(R.querySelector('.rq[data-k="'+k+'"]'),raCol.querySelector('.ra[data-k="'+k+'"]')); }); }
+  function pair(){
+    if(!selQ||!selA) return;
+    var q=selQ, a=selA, rb=R.querySelector('.rule-bot'); selQ=selA=null; q.classList.remove('sel'); a.classList.remove('sel');
+    if(q.getAttribute('data-k')===a.getAttribute('data-k')){
+      q.classList.add('done'); a.classList.add('done'); done[q.getAttribute('data-k')]=1; link(q,a);
+      if(rb){ rb.setAttribute('data-mood','think'); void rb.offsetWidth; rb.setAttribute('data-mood','happy'); }
+      if(Object.keys(done).length===3) setTimeout(function(){ combo.classList.add('on'); },450);
+    } else {
+      [q,a].forEach(function(e){ e.classList.remove('bad'); void e.offsetWidth; e.classList.add('bad'); });
+      if(rb) rb.setAttribute('data-mood','think');
+    }
+  }
+  board.addEventListener('click',function(e){
+    var b=e.target.closest('.rq,.ra'); if(!b) return; b.blur(); if(b.classList.contains('done')) return;
+    if(b.classList.contains('rq')){ if(selQ) selQ.classList.remove('sel'); selQ=(selQ===b)?null:b; if(selQ) selQ.classList.add('sel'); }
+    else { if(selA) selA.classList.remove('sel'); selA=(selA===b)?null:b; if(selA) selA.classList.add('sel'); }
+    pair();
+  });
+  board.addEventListener('animationend',function(e){ if(e.target.classList) e.target.classList.remove('bad'); });
+  var sh=document.getElementById('ahShuffle'); if(sh) sh.addEventListener('click',function(){ sh.blur(); shuffle(); });
+  shuffle();
+
+  window.addEventListener('resize',function(){ if(cur==='mcp') drawMcp(); if(cur==='rule') relink(); });
+
+  /* solo anima con la pantalla a la vista */
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){ es.forEach(function(e){
+      var was=visible; visible=e.isIntersecting;
+      if(visible && !was && RUN[cur]){ clear(); reset(views[cur]); later(function(){ RUN[cur](views[cur]); },400); }
+      if(!visible && was){ clear(); }
+    }); },{threshold:.4}).observe(sec);
+  } else { visible=true; }
+})();
+
+/* ---------- 23 (#q11): flujos · ilustraciones con texto por idioma; tocar = enfocar y animar ---------- */
+(function(){
+  var sec=document.getElementById('q11'); if(!sec) return;
+  var T={
+    es:{no:['Flujo de trabajo convencional','Responder reseñas una por una, cuando hay un rato.','Redactar la carta, las promos y los posteos desde cero.','Las mismas consultas de WhatsApp, a toda hora, a mano.','Correos de confirmación, pre y post-estadía copiados y pegados.','Planillas de ocupación, costos y ventas revisadas a ojo.'],
+        ok:['Flujo de trabajo potenciado por IA','Borradores de respuesta en segundos, con nuestro tono, para aprobar.','Variantes de textos, platos y propuestas de carta en minutos.','Respuestas automáticas a lo frecuente, con derivación a una persona.','Secuencias de correos personalizadas que salen solas.','Resúmenes e interpretación de datos: «¿qué pasó los martes?»']},
+    en:{no:['Conventional workflow','Answering reviews one by one, whenever there is time.','Writing the menu, promos and posts from scratch.','The same WhatsApp questions, at all hours, by hand.','Confirmation, pre- and post-stay emails copied and pasted.','Occupancy, cost and sales spreadsheets checked by eye.'],
+        ok:['AI-powered workflow','Reply drafts in seconds, in our tone, ready to approve.','Text variants, dishes and menu proposals in minutes.','Automatic answers to frequent questions, handing off to a person.','Personalized email sequences that go out on their own.','Data summaries and interpretation: “what happened on Tuesdays?”']},
+    pt:{no:['Fluxo de trabalho convencional','Responder avaliações uma a uma, quando dá tempo.','Redigir o cardápio, as promoções e os posts do zero.','As mesmas perguntas no WhatsApp, a toda hora, à mão.','E-mails de confirmação, pré e pós-estadia copiados e colados.','Planilhas de ocupação, custos e vendas conferidas no olho.'],
+        ok:['Fluxo de trabalho potencializado por IA','Rascunhos de resposta em segundos, no nosso tom, para aprovar.','Variantes de textos, pratos e propostas de cardápio em minutos.','Respostas automáticas ao frequente, com encaminhamento a uma pessoa.','Sequências de e-mails personalizados que saem sozinhas.','Resumos e interpretação de dados: “o que houve nas terças?”']}
+  };
+  var panels=[].slice.call(sec.querySelectorAll('.wf'));
+  function paint(){
+    var l=document.documentElement.getAttribute('data-lang')||'es', d=T[l]||T.es;
+    panels.forEach(function(p){
+      var k=p.getAttribute('data-kind'), tx=d[k]; if(!tx) return;
+      p.querySelector('.wf-title').textContent=tx[0];
+      [].forEach.call(p.querySelectorAll('.wf-t'),function(e,i){ e.textContent=tx[i+1]||''; });
+      p.setAttribute('aria-label',tx[0]);
+    });
+  }
+  function toggle(p){ var on=!p.classList.contains('on'); p.classList.toggle('on',on); p.setAttribute('aria-pressed',on?'true':'false'); }
+  panels.forEach(function(p){
+    p.addEventListener('click',function(){ p.blur(); toggle(p); });
+    p.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(p); } });
+  });
+  try{ new MutationObserver(paint).observe(document.documentElement,{attributes:true,attributeFilter:['data-lang']}); }catch(e){}
+  /* al salir de la pantalla vuelven a quedar borrosas, listas para la próxima vez */
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ es.forEach(function(e){ if(!e.isIntersecting) panels.forEach(function(p){ p.classList.remove('on'); p.setAttribute('aria-pressed','false'); }); }); },{threshold:.05}).observe(sec); }
+  paint();
+})();
+
+/* ---------- 31 y 32 (#q15, #q15v): cover flow genérico + fichas · textos por idioma ---------- */
+(function(){
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function coverflow(el, info, count, items, card, ficha, sec){
+    if(!el||!items.length) return null;
+    var cards=[], cur=0, n=items.length;
+    var moved=false;
+    items.forEach(function(it,i){ var c=document.createElement('div'); c.className='cfi'; c.innerHTML=card(it); el.appendChild(c); cards.push(c); c.addEventListener('click',function(){ if(moved) return; if(i===cur && it.url){ window.open(it.url,'_blank','noopener'); return; } go(i); }); });
+    function layout(){
+      var w=el.clientWidth, step=Math.min(170, w*0.17);
+      /* la tarjeta del frente puede agrandarse (data-big): hasta llenar el alto disponible */
+      var big=el.hasAttribute('data-big'), S=1, cw=cards[0].offsetWidth, ch=cards[0].offsetHeight;
+      if(big && ch) S=Math.max(1, Math.min(2, (el.clientHeight-8)/ch));
+      var push=cw*(S-1)/2+70;
+      cards.forEach(function(c,i){
+        var d=i-cur, a=Math.abs(d);
+        var x=d*step+(d>0?push:d<0?-push:0), z=d===0?0:-(200+a*40), ry=d>0?-50:d<0?50:0;
+        c.style.transform= d===0 ? 'translateX(0) translateZ(0) scale('+S.toFixed(3)+')' : 'translateX('+x+'px) translateZ('+z+'px) rotateY('+ry+'deg)';
+        c.style.zIndex=String(20-a); c.style.opacity=String(a>3?0:Math.max(.3,1-a*.18)); c.style.pointerEvents=a>3?'none':''; c.style.filter=d===0?'none':'blur('+Math.min(2,a*.6)+'px)';
+        c.classList.toggle('on',d===0);
+      });
+      if(count) count.textContent=(cur+1)+' / '+n;
+    }
+    function paint(){ if(info){ info.innerHTML=ficha(items[cur]); var ac=items[cur].color; info.style.setProperty('--ac',ac||'var(--g-accent)'); } }
+    function go(i){ var k=Math.max(0,Math.min(n-1,i)); if(k===cur){ layout(); return; } cur=k; layout(); paint(); }
+    var sx=null; el.addEventListener('pointerdown',function(e){ sx=e.clientX; moved=false; }); el.addEventListener('pointerup',function(e){ if(sx===null) return; var dx=e.clientX-sx; sx=null; moved=Math.abs(dx)>6; if(dx<-40) go(cur+1); else if(dx>40) go(cur-1); });
+    el.addEventListener('wheel',function(e){ if(Math.abs(e.deltaX)>Math.abs(e.deltaY)){ e.preventDefault(); if(e.deltaX>20) go(cur+1); else if(e.deltaX<-20) go(cur-1); } },{passive:false});
+    if(sec){ [].forEach.call(sec.querySelectorAll('[data-cf="prev"]'),function(b){ b.addEventListener('click',function(){ b.blur(); go(cur-1); }); });
+             [].forEach.call(sec.querySelectorAll('[data-cf="next"]'),function(b){ b.addEventListener('click',function(){ b.blur(); go(cur+1); }); });
+             /* flechas: recorren las tarjetas; en la última, la flecha pasa a la pantalla siguiente (y en la primera, a la anterior) */
+             document.addEventListener('keydown',function(e){ if(!sec.matches(':hover')) return; if(e.key==='ArrowRight' && cur<n-1){ e.preventDefault(); e.stopImmediatePropagation(); go(cur+1); } else if(e.key==='ArrowLeft' && cur>0){ e.preventDefault(); e.stopImmediatePropagation(); go(cur-1); } },true); }
+    window.addEventListener('resize',layout);
+    layout(); paint();
+    return { go:go, layout:layout, repaint:function(nv){ items=nv; cards.forEach(function(c,i){ c.innerHTML=card(items[i]); }); paint(); } };
+  }
+
+  /* ---- 31 · programas (lista provisoria: se edita acá; logo opcional en media/logos/apps/<id>.png) ---- */
+  var APPS={es:[
+    {id:'chatgpt',name:'ChatGPT',by:'OpenAI',url:'https://chatgpt.com',dom:'chatgpt.com',color:'#10a37f',k:'El más usado',what:'El chat de uso general: escribir, responder, resumir, traducir, imágenes y voz. Es por donde empieza la mayoría.',ex:'Redactar la respuesta a una reseña, armar la descripción de un plato, traducir la carta.',tags:['texto','imágenes','voz']},
+    {id:'claude',name:'Claude',by:'Anthropic',url:'https://claude.ai',dom:'claude.ai',color:'#d97757',k:'Textos largos y código',what:'Muy bueno con documentos largos, análisis y programación. Con <b>vibe coding</b> arma webs, cartas digitales y apps desde una descripción.',ex:'Esta charla está hecha con Claude. También la carta digital y el CRM de un negocio.',tags:['documentos','código','apps']},
+    {id:'gemini',name:'Gemini',by:'Google',url:'https://gemini.google.com',dom:'gemini.google.com',color:'#4285f4',k:'Integrado con Google',what:'Vive dentro de Gmail, Drive, Calendar y Docs: lee tus correos y planillas sin copiar y pegar. Genera imágenes y video.',ex:'«Resumime los correos de reservas de esta semana y armá la planilla.»',tags:['gmail','drive','imágenes','video']},
+    {id:'notebooklm',name:'NotebookLM',by:'Google',url:'https://notebooklm.google',dom:'notebooklm.google',color:'#f4b400',k:'Dialogar con tus documentos',what:'Le cargás tus PDF, manuales y videos y <b>solo responde con eso</b>. Hace resúmenes, mapas mentales y hasta un podcast.',ex:'Cargar el manual de procedimientos del hotel y que el equipo le pregunte.',tags:['fuentes propias','resúmenes','podcast']},
+    {id:'antigravity',name:'Antigravity',by:'Google',url:'https://antigravity.google',dom:'antigravity.google',color:'#5b8def',k:'Agentes que programan',what:'El editor de Google donde agentes de IA programan por vos: le pedís una app, la arman, la prueban en el navegador y la corrigen. Vibe coding puro.',ex:'La web del hotel o un sistema de reservas, describiéndolo en castellano.',tags:['vibe coding','agentes','apps']},
+    {id:'copilot',name:'Copilot',by:'Microsoft',url:'https://copilot.microsoft.com',dom:'copilot.microsoft.com',color:'#7b61ff',k:'Dentro de Office',what:'La IA adentro de Word, Excel, Outlook y Teams. Útil si el negocio ya trabaja con Microsoft 365.',ex:'«Explicame qué pasó con las ventas de septiembre» sobre el Excel de siempre.',tags:['word','excel','outlook']},
+    {id:'perplexity',name:'Perplexity',by:'Perplexity AI',url:'https://www.perplexity.ai',dom:'perplexity.ai',color:'#20b8cd',k:'Buscar con fuentes',what:'Un buscador con IA: responde con datos actuales y cita de dónde los sacó. Para averiguar, no para crear.',ex:'Precios de la competencia, eventos del fin de semana, feriados, qué dicen de tu zona.',tags:['búsqueda','fuentes','actualidad']},
+    {id:'canva',name:'Canva',by:'Canva',url:'https://www.canva.com',dom:'canva.com',color:'#00c4cc',k:'Diseño con IA',what:'Diseño fácil para redes, flyers, cartas y presentaciones, con IA para generar textos e imágenes adentro de la pieza.',ex:'El flyer de la promo del viernes, el posteo del plato nuevo, la carta impresa.',tags:['flyers','redes','carta']},
+    {id:'higgsfield',name:'Higgsfield',by:'Higgsfield AI',url:'https://higgsfield.ai',dom:'higgsfield.ai',color:'#e4b43a',k:'Imagen y video para redes',what:'Imágenes y videos con IA pensados para redes y publicidad: movimientos de cámara, efectos, modelos y avatares que presentan tu producto.',ex:'Un video de 10 segundos del plato nuevo o del lobby del hotel para Instagram.',tags:['video','imágenes','publicidad']},
+    {id:'elevenlabs',name:'ElevenLabs',by:'ElevenLabs',url:'https://elevenlabs.io',dom:'elevenlabs.io',color:'#111111',k:'Voces con IA',what:'Voces que suenan humanas: locuciones, doblaje a otros idiomas con tu propia voz y agentes de voz que atienden el teléfono.',ex:'La bienvenida del hotel en tres idiomas; un asistente que atiende llamadas y toma reservas.',tags:['voz','doblaje','teléfono']}
+  ]};
+  var secA=document.getElementById('q15');
+  function appCard(a){ return '<div class="lg" style="--ac:'+a.color+'"><span class="ini">'+esc(a.name.charAt(0))+'</span><img alt="" data-dom="'+esc(a.dom||'')+'" data-id="'+a.id+'" src="media/logos/apps/'+a.id+'.svg"></div><b>'+esc(a.name)+'</b><small>de '+esc(a.by)+'</small><div class="refl" aria-hidden="true"></div>'; }
+  /* logo: media/logos/apps/<id>.svg, si no .png, si no el ícono del sitio (con internet), si no la inicial */
+  function logos(root){ [].forEach.call(root.querySelectorAll('.lg img'),function(img){ var step=0; img.addEventListener('error',function(){ step++; var d=img.getAttribute('data-dom'), id=img.getAttribute('data-id'); if(step===1) img.src='media/logos/apps/'+id+'.png'; else if(step===2 && d) img.src='https://www.google.com/s2/favicons?domain='+d+'&sz=256'; else img.remove(); }); img.addEventListener('load',function(){ img.classList.add('ok'); }); if(img.complete && img.naturalWidth) img.classList.add('ok'); }); }
+  function appInfo(a){ return '<span class="k">'+esc(a.k)+'</span><h3>'+esc(a.name)+'<em>de '+esc(a.by)+'</em></h3><p>'+a.what+'</p><p class="ex"><b>En tu negocio:</b> '+esc(a.ex)+'</p><div class="row cfx-row"><div class="tags">'+a.tags.map(function(t){ return '<span>'+esc(t)+'</span>'; }).join('')+'</div>'+(a.url?'<a class="btn sm cfx-go" href="'+esc(a.url)+'" target="_blank" rel="noopener">Abrir '+esc(a.name)+' ↗</a>':'')+'</div>'; }
+  if(secA){ [].forEach.call(APPS.es,function(a){ a.color=a.color; }); coverflow(document.getElementById('cfApps'),document.getElementById('cfAppsInfo'),document.getElementById('cfAppsCount'),APPS.es,function(a){ var c=appCard(a); return c; },appInfo,secA);
+    [].forEach.call(secA.querySelectorAll('.cfi'),function(c,i){ c.style.setProperty('--ac',APPS.es[i].color); }); logos(secA); }
+
+  /* ---- 32 · vibe coding: las piezas de una app contadas como un restaurante ---- */
+  var PIEZAS={es:[
+    {img:'frontend',name:'Frontend',sub:'La experiencia visible',k:'Pieza 1',rest:'El salón: la mesa puesta, la luz, el mozo que atiende. Todo lo que el cliente ve y toca.',app:'Lo que la gente ve en pantalla: botones, textos, colores, la carta, el formulario de reserva.',ia:'Es lo primero que la IA te arma cuando le describís «quiero una web así».',tags:['pantalla','botones','diseño']},
+    {img:'backend',name:'Backend',sub:'La cocina del sistema',k:'Pieza 2',rest:'La cocina: donde se prepara lo que el cliente pidió. No se ve desde el salón, pero sin ella no hay plato.',app:'La lógica que no se ve: calcula precios, guarda la reserva, manda el correo de confirmación.',ia:'La IA lo escribe también, pero acá conviene probar más: es donde se cometen los errores caros.',tags:['lógica','cálculos','procesos']},
+    {img:'api',name:'API',sub:'Conecta salón y cocina',k:'Pieza 3',rest:'El mozo que lleva el pedido a la cocina y vuelve con el plato. Un mensajero con reglas claras.',app:'El canal por el que el frontend le pide datos al backend, o a otros sistemas: pagos, mapas, la IA misma.',ia:'Cuando una herramienta «se conecta» con otra, casi siempre es por una API.',tags:['conexión','pedir y responder']},
+    {img:'base-de-datos',name:'Base de datos',sub:'Donde vive la información',k:'Pieza 4',rest:'La despensa y la bodega: todo guardado, ordenado y con inventario. Lo que entra y lo que sale.',app:'Donde quedan guardados clientes, reservas, platos, precios, mensajes. Google Sheets puede ser una.',ia:'Si se pierde, se pierde el negocio: acá van copias de seguridad y permisos.',tags:['datos','registros','respaldo']},
+    {img:'autenticacion',name:'Autenticación',sub:'Control de acceso',k:'Pieza 5',rest:'El que pide el documento en la puerta y mira la lista de invitados. Entra quien tiene que entrar.',app:'Usuario y contraseña, inicio con Google, roles: quién entra y qué puede ver o cambiar.',ia:'Nunca la improvises: usá servicios hechos para eso (Google, Firebase, Auth0).',tags:['usuarios','contraseñas','permisos']},
+    {img:'gestor',name:'Gestor de proyectos',sub:'Orquesta al equipo',k:'Pieza 6',rest:'El encargado: coordina salón y cocina, decide qué sale primero y controla que todo salga bien.',app:'Define qué se hace primero, prueba cada parte, aprueba o pide cambios. Lleva el orden.',ia:'<b>Con vibe coding, ese rol es tuyo.</b> Vos no escribís el código: dirigís, probás y decidís.',tags:['prioridades','pruebas','decisión']},
+    {img:'full-stack',name:'Full-stack',sub:'Todo en uno',k:'Pieza 7',rest:'El food truck: una sola persona cocina, cobra y atiende. Pequeño, completo y funciona.',app:'Una herramienta, o una IA, que arma frontend, backend y base de datos juntos, en un solo lugar.',ia:'Es lo que permite que alguien sin saber programar tenga una app funcionando en una tarde.',tags:['completo','rápido','una sola herramienta']}
+  ]};
+  var secV=document.getElementById('q15v');
+  function pzCard(p){ return '<img src="media/vibe/vibe-'+p.img+'.jpg" alt="'+esc(p.name)+'" draggable="false"><div class="refl" aria-hidden="true"><img src="media/vibe/vibe-'+p.img+'.jpg" alt="" draggable="false"></div>'; }
+  function pzInfo(p){ return '<span class="k">'+esc(p.k)+'</span><h3>'+esc(p.name)+'<em>'+esc(p.sub)+'</em></h3><p><b>En el restaurante:</b> '+esc(p.rest)+'</p><p><b>En tu app:</b> '+esc(p.app)+'</p><p class="ex">'+p.ia+'</p><div class="tags">'+p.tags.map(function(t){ return '<span>'+esc(t)+'</span>'; }).join('')+'</div>'; }
+  if(secV) coverflow(document.getElementById('cfVibe'),document.getElementById('cfVibeInfo'),document.getElementById('cfVibeCount'),PIEZAS.es,pzCard,pzInfo,secV);
+})();
+
+/* ---------- 23 (#q11): cuadraditos con las apps de Pablo (completar name, url e img; vacío = cuadradito en espera) ---------- */
+(function(){
+  var box=document.getElementById('wfApps'); if(!box) return;
+  var APPS=[
+    {name:'',url:'',img:''},
+    {name:'',url:'',img:''},
+    {name:'',url:'',img:''},
+    {name:'',url:'',img:''}
+  ];
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  box.innerHTML=APPS.map(function(a){
+    if(!a.url && !a.name && !a.img) return '<span class="wf-app" title="App (pendiente)" aria-hidden="true">+</span>';
+    var inner=a.img? '<img src="'+esc(a.img)+'" alt="'+esc(a.name)+'">' : esc((a.name||'?').slice(0,3));
+    return a.url? '<a class="wf-app has" href="'+esc(a.url)+'" target="_blank" rel="noopener" title="'+esc(a.name)+'">'+inner+'</a>' : '<span class="wf-app has" title="'+esc(a.name)+'">'+inner+'</span>';
+  }).join('');
+})();
+
+/* ---------- pantalla 32 (#q15m): ¿qué modelo conviene? (datos a octubre de 2026; se editan acá) ---------- */
+(function(){
+  var sec=document.getElementById('q15m'), box=document.getElementById('mdCards'); if(!sec||!box) return;
+  /* v: velocidad, p: potencia, c: consumo (1 a 3) */
+  var M={
+    claude:[
+      {lvl:'Rápido',name:'Haiku',ver:'5.5',tg:'Rápido y económico',what:'Respuestas cortas, clasificar mensajes, resúmenes simples, chatbots con mucho volumen.',ex:'Ordenar por tema los mensajes de WhatsApp del día.',v:3,p:1,c:1},
+      {lvl:'Equilibrado',name:'Sonnet',ver:'5.5',tg:'El del día a día',what:'Escribir, analizar y programar con muy buena calidad, sin esperar.',ex:'Responder reseñas con tu tono, armar la carta, una web con vibe coding.',v:2,p:2,c:2,mid:1},
+      {lvl:'Potente',name:'Opus',ver:'5.5',tg:'El más potente',what:'Lo difícil y largo: documentos enormes, análisis profundos, proyectos completos.',ex:'Analizar el año de ventas y proponer un plan; un sistema completo.',v:1,p:3,c:3}
+    ],
+    chatgpt:[
+      {lvl:'Rápido',name:'Instant',ver:'GPT-6',tg:'Responde al instante',what:'Preguntas y tareas de todos los días. Está en todos los planes, también en el gratis.',ex:'Un correo, una traducción, una idea para un posteo.',v:3,p:1,c:1},
+      {lvl:'Equilibrado',name:'Thinking',ver:'GPT-6',tg:'Piensa antes de responder',what:'Problemas con varios pasos, cálculos y comparaciones. Niveles medio y alto (planes pagos; en el gratis, «Think»).',ex:'Calcular el costo de un plato con todos sus insumos.',v:2,p:2,c:2,mid:1},
+      {lvl:'Potente',name:'Pro',ver:'GPT-6',tg:'Para lo más difícil',what:'Tareas largas y complejas que necesitan mucho razonamiento. Planes Pro y de empresa.',ex:'Investigación de mercado de la zona o un plan de negocio.',v:1,p:3,c:3}
+    ],
+    gemini:[
+      {lvl:'Rápido',name:'Flash-Lite',ver:'',tg:'Rápido y liviano',what:'Preguntas simples y respuestas rápidas. Es el que trae la cuenta gratis de Google.',ex:'¿Qué feriados hay este mes? Una idea de nombre para un trago.',v:3,p:1,c:1},
+      {lvl:'Equilibrado',name:'Flash',ver:'',tg:'El del día a día',what:'Tareas cotidianas conectadas con Gmail, Drive y Calendar. Desde el plan AI Plus.',ex:'Resumir los correos de reservas de la semana.',v:2,p:2,c:2,mid:1},
+      {lvl:'Potente',name:'Pro',ver:'+ Deep Think',tg:'El más potente',what:'Razonar a fondo, planillas grandes e investigaciones. Planes AI Pro y Ultra.',ex:'Analizar la planilla de ocupación de todo el año.',v:1,p:3,c:3}
+    ]
+  };
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function dots(n){ var h=''; for(var i=1;i<=3;i++) h+='<i'+(i<=n?' class="on"':'')+'></i>'; return h; }
+  function paint(co){
+    box.innerHTML=M[co].map(function(m){
+      return '<div class="md-card'+(m.mid?' mid':'')+'"><span class="md-lv">'+esc(m.lvl)+(m.mid?'<span class="start">Empezá por acá</span>':'')+'</span>'+
+        '<h3>'+esc(m.name)+(m.ver?'<small>'+esc(m.ver)+'</small>':'')+'</h3><p class="tg">'+esc(m.tg)+'</p>'+
+        '<div class="md-meters"><div class="m"><span>Velocidad</span><span class="d">'+dots(m.v)+'</span></div><div class="m"><span>Potencia</span><span class="d">'+dots(m.p)+'</span></div><div class="m c"><span>Consumo</span><span class="d">'+dots(m.c)+'</span></div></div>'+
+        '<p>'+esc(m.what)+'</p><p class="ex"><b>Ej.:</b> '+esc(m.ex)+'</p></div>';
+    }).join('');
+  }
+  var tabs=[].slice.call(sec.querySelectorAll('.md-tab'));
+  tabs.forEach(function(t){ t.addEventListener('click',function(){ t.blur(); tabs.forEach(function(x){ var on=x===t; x.classList.toggle('on',on); x.setAttribute('aria-selected',on?'true':'false'); }); paint(t.getAttribute('data-co')); }); });
+  paint('claude');
 })();
 
 /* ---------- Herramientas compartidas: copiar, abrir Gemini/ChatGPT, pegar imagen ---------- */
