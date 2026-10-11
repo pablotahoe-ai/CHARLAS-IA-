@@ -42,7 +42,7 @@
 
   const txt = (sel) => hero.querySelector(sel)?.textContent?.trim() || '';
   const euge = makePresenter('euge', txt('.speaker:not(.alt) .name') || 'María Eugenia Dicándilo', 'Abogada. Comunicadora. Cofundadora de Modo Comunicación y de KrovaLab Consultora.', 'Euge se mueve.mp4');
-  const peli = makePresenter('peli', txt('.speaker.alt .name') || 'Pablo Pellizzoni', 'Diseñador industrial. Cofundador de Outcomy, KrovaLab y Kexen. Docente investigador de la Universidad Nacional de Mar del Plata.', 'Peli saludando.mp4');
+  const peli = makePresenter('peli', txt('.speaker.alt .name') || 'Pablo Pellizzoni', 'Diseñador industrial. CAIO de Grupo Developer. Cofundador de Outcomy, KrovaLab, Kexen y Kearte. Docente investigador de la Universidad Nacional de Mar del Plata.', 'Peli saludando.mp4');
   hero.insertBefore(euge.figure, inner);
   hero.insertBefore(peli.figure, inner);
   hero.classList.add('hero-with-presenters');
@@ -119,10 +119,10 @@
     },
     peli: {
       name: pick('#hero .speaker.alt .name', 'Pablo Pellizzoni'),
-      role: pick('#hero .speaker.alt .role', 'Diseñador industrial · Docente e investigador UNMdP · Cofundador de Outcomy, KrovaLab y Kexen'),
+      role: pick('#hero .speaker.alt .role', 'Diseñador industrial · CAIO de Grupo Developer · Docente investigador UNMdP · Cofundador de Outcomy, KrovaLab, Kexen y Kearte'),
       text: pick('#equipo .pcard.rev .cap', ''),
       focus: pick('#hero .speaker.alt .focus', ''),
-      logos: [['media/logos/outcomy.png', 'Outcomy'], ['media/logos/krovalab.png', 'KrovaLab Consultora'], ['media/logos/kexen.png', 'Kexen']]
+      logos: [['media/logos/outcomy.png', 'Outcomy'], ['media/logos/krovalab.png', 'KrovaLab Consultora']]
     }
   };
   function makeBio(side) {

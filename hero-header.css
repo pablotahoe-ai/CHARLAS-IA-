@@ -338,3 +338,7 @@
 @media (prefers-reduced-motion: reduce) {
   .hero-presenter, .hero-bio, .hero-bio > * { transition: opacity .3s ease !important; }
 }
+
+/* la barra fija de arriba (idiomas, hora, controles) no pisa el encabezado de la portada */
+#hero.hero-with-presenters .inner > .topbar { margin-top: 20px; }
+@media (max-width: 900px) { #hero.hero-with-presenters .inner > .topbar { margin-top: 0; } }
