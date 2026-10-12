@@ -185,7 +185,7 @@
   const skip = document.getElementById('introSkip');
   if (!cta || !intro || !iv) return;
 
-  const SRC = { es: 'media/intro-es.mp4', en: 'media/intro-en.mp4', pt: 'media/intro-pt.mp4' };
+  const SRC = { es: 'media/intro-es.mp4', en: 'media/intro-es.mp4', pt: 'media/intro-es.mp4' };   /* el video de la intro es siempre el de español */
   const PEOPLE_OUT_AT = 1.0;   /* segundo del video en que Pablo y Euge empiezan a desvanecerse (tardan ~1,2 s) */
   const html = document.documentElement;
   let open = false, closing = null, fadeTimer = null, peopleOut = false;
