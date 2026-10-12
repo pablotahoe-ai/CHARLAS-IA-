@@ -2923,6 +2923,46 @@
   #mvRot p{margin:0;font-size:14px;color:rgba(255,255,255,.75);line-height:1.45}
   #mvRot button{margin-top:4px;font:inherit;font-size:14px;padding:10px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.12);color:#fff}
   @media (orientation:landscape){html.mv #q2 .q1-uses{grid-template-columns:repeat(4,1fr)!important}html.mv .hd h2{font-size:24px!important}}
+  /* fondo plano (los blobs fijos "se arrastran" al scrollear y parecen sombras raras) */
+  html.mv #bgfx i,html.mv .divider::before,html.mv .divider::after{display:none!important}
+  html.mv .screen::before,html.mv .screen::after{display:none!important}
+  /* banda separadora entre pantallas: número · pregunta · quién presenta */
+  html.mv .screen{scroll-margin-top:50px}
+  html.mv .mv-sep{display:flex;align-items:center;gap:10px;margin:-18px -14px 14px;padding:12px 14px;background:color-mix(in srgb,var(--g-accent) 14%,var(--g-bg0));border-top:3px solid var(--g-accent);border-bottom:1px solid var(--g-stroke)}
+  html.mv .mv-sep .no{flex:none;min-width:34px;height:34px;padding:0 8px;border-radius:999px;display:grid;place-items:center;background:var(--g-accent);color:#fff;font-weight:600;font-size:13px}
+  html.mv .mv-sep .tt{flex:1 1 auto;min-width:0;font-size:12px;line-height:1.25;color:var(--g-text)}
+  html.mv .mv-sep .tt b{display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--g-accent);font-weight:600}
+  html.mv .mv-sep .who{flex:none;display:flex;align-items:center;gap:6px;padding:4px 10px 4px 4px;border-radius:999px;background:var(--g-fill2);border:1px solid var(--g-stroke);font-size:11px;color:var(--g-text);white-space:nowrap}
+  html.mv .mv-sep .who img{width:26px;height:26px;border-radius:50%;object-fit:cover;object-position:top;background:#fff}
+  html.mv .mv-sep .who.e{border-color:#d96fb8}html.mv .mv-sep .who.p{border-color:var(--g-accent)}
+  html.mv .divider .mv-sep{display:none}
+  /* ilustraciones que en la PC "flotan" afuera de su tarjeta: en el móvil adentro, centradas */
+  html.mv #q3 .evo-c2,html.mv #q3 .evo-c3{display:flex!important;flex-direction:column!important}
+  html.mv #q3 .evo-art{position:static!important;width:100%!important;height:auto!important;min-height:0!important;display:flex;flex-direction:column;align-items:center;gap:8px}
+  html.mv #q3 .evo-art img{position:static!important;height:150px!important;width:auto!important;max-width:100%!important;display:block!important;filter:none!important}
+  html.mv #q3 .evo-chat{position:static!important;width:100%!important;max-width:none!important}
+  html.mv #q3 .evo-ico,html.mv #q3 .evo-badges{position:static!important}
+  html.mv #q8 .tk-art{position:static!important;height:auto!important;margin-top:8px!important;display:flex;flex-direction:column;align-items:center;gap:8px}
+  html.mv #q8 .tk-art img{position:static!important;height:150px!important;width:auto!important;max-width:100%!important;object-position:center!important;filter:none!important}
+  html.mv #q8 .tk-shoes .tk-pill{position:static!important;width:100%!important;display:block}
+  html.mv #q8 .tk-art.tk-chips{display:grid!important}
+  html.mv #q10 .pr-art{position:static!important;height:auto!important;display:flex;justify-content:center}
+  html.mv #q10 .pr-art img{height:150px!important;width:auto!important;max-width:100%!important;filter:none!important}
+  html.mv #q13 .nv-art{position:static!important;min-height:0!important;height:auto!important;display:flex;justify-content:center}
+  html.mv #q13 .nv-art img{position:static!important;height:150px!important;width:auto!important;max-width:100%!important;filter:none!important}
+  html.mv #q14 .au-c{display:flex!important;flex-direction:column!important;min-height:0!important}
+  html.mv #q14 .au-ct{width:100%!important}
+  html.mv #q14 .au-img{position:static!important;height:130px!important;max-width:100%!important;align-self:center;filter:none!important;margin-top:6px}
+  html.mv #presentacion .ob-art{height:auto!important;margin:0!important;display:flex;flex-direction:column;align-items:center}
+  html.mv #presentacion .ob-art img{height:150px!important;width:auto!important;max-width:100%!important;filter:none!important}
+  html.mv #presentacion .ob-c[data-ex="valor"] .ob-art img{object-position:center!important}
+  html.mv img{filter:none!important}
+  /* la rueda "human in the loop" y la escena de alucinaciones: estáticas, sin sombras */
+  html.mv #tesis .hitl-body > .g:not(.hitl-cycle){display:none!important}
+  html.mv #q6b .g6-flow{grid-template-columns:1fr!important}
+  html.mv #q6b .g6-ar{display:none!important}
+  html.mv #q6b .g6-ben{grid-template-columns:1fr!important}
+  html.mv .g,html.mv .tile{box-shadow:none!important}
 </style>
 <link rel="stylesheet" href="hero-header.css">
 </head>
@@ -7524,6 +7564,23 @@ window.Live = (function(){
   var rot=document.getElementById('mvRot'), ok=document.getElementById('mvRotOk');
   function hide(){ if(rot) rot.hidden=true; }
   if(ok) ok.addEventListener('click',hide);
+  /* banda entre pantallas: número · pregunta · quién presenta (misma configuración que la PC) */
+  function sepAll(){
+    var secs=document.querySelectorAll('main > section.screen');
+    [].forEach.call(secs,function(s){
+      if(s.classList.contains('divider') || s.id==='hero' || s.id==='cierre') return;
+      var old=s.querySelector(':scope > .mv-sep'); if(old) old.remove();
+      if(window.Slides && Slides.isOff && Slides.isOff(s.id)) return;
+      var n=(window.Slides && Slides.number)?Slides.number(s):'', blk=s.getAttribute('data-block')||'', pt=s.getAttribute('data-point')||s.getAttribute('aria-label')||'';
+      var who=(window.Quien && Quien.get)?Quien.get(s.id):'';
+      var d=document.createElement('div'); d.className='mv-sep';
+      d.innerHTML='<span class="no">'+(n||'·')+'</span><span class="tt"><b></b><span></span></span>'+(who?'<span class="who '+who+'"><img src="media/avatars/'+(who==='e'?'euge':'pablo')+'.png" alt=""><span></span></span>':'');
+      d.querySelector('.tt b').textContent=blk; d.querySelector('.tt > span').textContent=pt;
+      if(who) d.querySelector('.who > span').textContent=(who==='e'?'Euge':'Pablo');
+      s.insertBefore(d,s.firstChild);
+    });
+  }
+  setTimeout(sepAll,600); setTimeout(sepAll,2500);
   /* ejercicios en vivo: no disponibles en el móvil */
   var OFF={ argentina:null, q4img:null, q11b:'La carta en vivo se genera con la IA desde la PC durante la charla.', q12b:'El chatbot de WhatsApp en vivo funciona solo desde la PC de la charla.' };
   Object.keys(OFF).forEach(function(id){ var s=document.getElementById(id); if(!s) return;
